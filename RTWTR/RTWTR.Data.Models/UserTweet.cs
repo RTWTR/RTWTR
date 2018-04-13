@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RTWTR.Data.Models
+﻿namespace RTWTR.Data.Models
 {
     public class UserTweet
     {
+        public int UserId { get; set; }
 
+        public User User { get; set; }
+
+        public int TweetId { get; set; }
+
+        public Tweet Tweet { get; set; }
     }
 }

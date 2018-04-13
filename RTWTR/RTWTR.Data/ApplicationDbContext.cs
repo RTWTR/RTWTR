@@ -11,8 +11,9 @@ namespace RTWTR.Data
             : base(options)
         {
         }
-
-        public DbSet<User> Users { get; set; }
+        
+        // hiding WAS intended
+        public new DbSet<User> Users { get; set; }
 
         public DbSet<Tweet> Tweets { get; set; }
 
@@ -22,10 +23,21 @@ namespace RTWTR.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            // Add composite key
+            builder.Entity<UserTweet>()
+                .HasKey(x => new { x.UserId, x.TweetId });
+
+            builder.Entity<UserTweet>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.UserTweets)
+                .HasForeignKey(x => x.UserId);
+
+            builder.Entity<UserTweet>()
+                .HasOne(x => x.Tweet)
+                .WithMany(x => x.UserTweets)
+                .HasForeignKey(x => x.TweetId);
+
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
         }
     }
 }

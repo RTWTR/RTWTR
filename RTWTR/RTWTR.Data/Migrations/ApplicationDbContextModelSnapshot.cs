@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using RTWTR.Data;
 
 namespace RTWTR.MVC.Data.Migrations
 {
@@ -125,7 +126,7 @@ namespace RTWTR.MVC.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("RTWTR.MVC.Models.ApplicationUser", b =>
+            modelBuilder.Entity("RTWTR.MVC.Models.User", b =>
                 {
                     b.Property<string>("Id");
 
@@ -184,7 +185,7 @@ namespace RTWTR.MVC.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("RTWTR.MVC.Models.ApplicationUser")
+                    b.HasOne("RTWTR.MVC.Models.User")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -192,7 +193,7 @@ namespace RTWTR.MVC.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("RTWTR.MVC.Models.ApplicationUser")
+                    b.HasOne("RTWTR.MVC.Models.User")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -205,7 +206,7 @@ namespace RTWTR.MVC.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("RTWTR.MVC.Models.ApplicationUser")
+                    b.HasOne("RTWTR.MVC.Models.User")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
