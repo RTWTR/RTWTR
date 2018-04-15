@@ -11,7 +11,7 @@ namespace RTWTR.Data.Models
 
         public string Text { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public User User { get; set; }
 
@@ -22,5 +22,7 @@ namespace RTWTR.Data.Models
         public ICollection<Tweet> Retweets { get; set; }
 
         public ICollection<UserTweet> UserTweets { get; set; }
+        
+         public ICollection<TweetCollection> TweetCollections { get; set; }
     }
 }
