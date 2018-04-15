@@ -1,7 +1,5 @@
 ﻿using RTWTR.Data.Models.Abstractions;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace RTWTR.Data.Models
 {
@@ -15,9 +13,11 @@ namespace RTWTR.Data.Models
 
         public User User { get; set; }
 
+        // Comes from the Twitter JSON
+        // NOT the same as CreatedOn from DataModel
         public string CreatedAt { get; set; }
 
-        public string InReplyToScreenName { get; set; }
+        public string InReplyToScreenName { get; set; } 
 
         public ICollection<Tweet> Retweets { get; set; }
 
