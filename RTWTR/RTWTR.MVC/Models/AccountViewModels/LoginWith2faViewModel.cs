@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RTWTR.MVC.Models.AccountViewModels
+namespace RTWTR.MVC.ViewModels.AccountViewViewModels
 {
     public class LoginWith2faViewModel
     {

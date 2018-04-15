@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RTWTR.Data.Models
 {
-    public class TwitterUser
+    class TwitterUser
     {
     }
 }

@@ -1,10 +1,13 @@
-﻿using System;
+﻿using RTWTR.Data.Models.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace RTWTR.Data.Models.Contracts
+namespace RTWTR.Data.Models.Abstractions
 {
     public abstract class DataModel : IDeletable, IAuditable
     {
-        public int Id { get; set; } 
+        public string Id { get; set; }
 
         public bool IsDeleted { get; set; }
 

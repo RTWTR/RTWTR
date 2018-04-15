@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using RTWTR.Data.Models.Contracts;
 
@@ -7,7 +10,9 @@ namespace RTWTR.Data.Models
 {
     public class User : IdentityUser, IDeletable, IAuditable
     {
-        public ulong? TwitterId { get; set; }
+        public new string Id { get; set; }
+
+        public string TwitterId { get; set; }
 
         public ICollection<UserTweet> UserTweets { get; set; }
 

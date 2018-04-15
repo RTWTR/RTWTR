@@ -1,11 +1,13 @@
-﻿using RTWTR.Data.Models.Contracts;
+﻿using RTWTR.Data.Models.Abstractions;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace RTWTR.Data.Models
 {
     public class Tweet : DataModel
     {
-        public ulong TwitterId { get; set; }
+        public string TwitterId { get; set; }
 
         public string Text { get; set; }
 

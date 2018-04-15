@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace RTWTR.MVC.Models.ManageViewModels
+namespace RTWTR.MVC.ViewModels.ManageViewViewModels
 {
     public class EnableAuthenticatorViewModel
     {

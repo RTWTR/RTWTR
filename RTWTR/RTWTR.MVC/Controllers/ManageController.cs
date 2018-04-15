@@ -10,9 +10,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RTWTR.MVC.ViewModels;
+using RTWTR.MVC.ViewModels.ManageViewViewModels;
+using RTWTR.MVC.Services;
 using RTWTR.Data.Models;
-using RTWTR.MVC.Models;
-using RTWTR.MVC.Models.ManageViewModels;
+using RTWTR.Service.External;
 
 namespace RTWTR.MVC.Controllers
 {
@@ -22,7 +24,7 @@ namespace RTWTR.MVC.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        //private readonly IEmailSender _emailSender;
+        private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
 
@@ -32,13 +34,13 @@ namespace RTWTR.MVC.Controllers
         public ManageController(
           UserManager<User> userManager,
           SignInManager<User> signInManager,
-          //IEmailSender emailSender,
+          IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            //_emailSender = emailSender;
+            _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
         }
@@ -122,9 +124,9 @@ namespace RTWTR.MVC.Controllers
             }
 
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+            var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
             var email = user.Email;
-            //await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
+            await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToAction(nameof(Index));

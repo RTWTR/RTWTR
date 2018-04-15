@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <UserSecretsId>aspnet-RTWTR.MVC-8C95F10C-8D0E-4417-B877-E61DF1705974</UserSecretsId>
+    <UserSecretsId>aspnet-RTWTR.MVC-A10607DE-F23A-40CC-8C25-405C04734F71</UserSecretsId>
   </PropertyGroup>
 
 
@@ -19,7 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RTWTR.Data.Models\RTWTR.Data.Models.csproj" />
+    <ProjectReference Include="..\RTWTR.Data\RTWTR.Data.csproj" />
+    <ProjectReference Include="..\RTWTR.Service.External\RTWTR.Service.External.csproj" />
   </ItemGroup>
 
 </Project>

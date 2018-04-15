@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RTWTR.Data;
+using RTWTR.Service.External;
 using RTWTR.Data.Models;
 
 namespace RTWTR.MVC
@@ -25,15 +22,22 @@ namespace RTWTR.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            #region Development Only
+            services.AddDbContext<RTWTRDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("Development")));
+            #endregion
+
+            #region Production
+            //services.AddDbContext<RTWTRDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("Production")));
+            #endregion
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<RTWTRDbContext>()
                 .AddDefaultTokenProviders();
 
             // Add application services.
-            //services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
         }
