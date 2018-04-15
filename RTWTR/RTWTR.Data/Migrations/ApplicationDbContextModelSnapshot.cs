@@ -151,15 +151,13 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<DateTime?>("UpdatedOn");
 
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("UserId1");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TweetId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tweets");
                 });
@@ -291,7 +289,7 @@ namespace RTWTR.Data.Migrations
 
                     b.HasOne("RTWTR.Data.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.UserTweet", b =>

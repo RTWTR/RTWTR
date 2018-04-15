@@ -11,7 +11,7 @@ using System;
 namespace RTWTR.Data.Migrations
 {
     [DbContext(typeof(RTWTRDbContext))]
-    [Migration("20180415091937_Initial")]
+    [Migration("20180415094547_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,15 +152,13 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<DateTime?>("UpdatedOn");
 
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("UserId1");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TweetId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tweets");
                 });
@@ -292,7 +290,7 @@ namespace RTWTR.Data.Migrations
 
                     b.HasOne("RTWTR.Data.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.UserTweet", b =>
