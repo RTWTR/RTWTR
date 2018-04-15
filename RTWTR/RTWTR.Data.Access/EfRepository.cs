@@ -3,18 +3,23 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using RTWTR.Data.Access.Contracts;
+using RTWTR.Data.Models.Abstractions;
 using RTWTR.Data.Models.Contracts;
 
 namespace RTWTR.Data.Access
 {
-    public class EfRepository<T> : IRepository<T> where T : class, IDeletable
+    public class EfRepository<T> : IRepository<T> where T : DataModel, IDeletable
     {
         private readonly RTWTRDbContext dbContext;
 
         public EfRepository(RTWTRDbContext dbContext)
         {
-            this.dbContext = dbContext ??
-                throw new ArgumentNullException(nameof(dbContext));
+            this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        }
+
+        public T GetById(string id)
+        {
+            return this.dbContext.Set<T>().FirstOrDefault(x => x.Id == id);
         }
 
         public IQueryable<T> All => this.dbContext.Set<T>().Where(x => !x.IsDeleted);
@@ -40,6 +45,13 @@ namespace RTWTR.Data.Access
             }
         }
 
+        public void Delete(string id)
+        {
+            T entity = this.GetById(id);
+
+            this.Delete(entity);
+        }
+
         public void Delete(T entity)
         {
             if (entity == null)
@@ -54,19 +66,16 @@ namespace RTWTR.Data.Access
             entityEntry.State = EntityState.Modified;
         }
 
-        public void Delete(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public T GetById(string id)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Update(T entity)
         {
-            throw new NotImplementedException();
+            EntityEntry entityEntry = this.dbContext.Entry(entity);
+
+            if (entityEntry.State == EntityState.Detached)
+            {
+                this.dbContext.Set<T>().Attach(entity);
+            }
+
+            entityEntry.State = EntityState.Modified;
         }
     }
 }
