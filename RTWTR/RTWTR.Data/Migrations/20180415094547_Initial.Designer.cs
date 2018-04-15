@@ -224,7 +224,7 @@ namespace RTWTR.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("RTWTR.Data.Models.UserTweet", b =>
+            modelBuilder.Entity("RTWTR.Data.Models.TwitterUserTweet", b =>
                 {
                     b.Property<string>("UserId");
 
@@ -293,7 +293,7 @@ namespace RTWTR.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("RTWTR.Data.Models.UserTweet", b =>
+            modelBuilder.Entity("RTWTR.Data.Models.TwitterUserTweet", b =>
                 {
                     b.HasOne("RTWTR.Data.Models.Tweet", "Tweet")
                         .WithMany("UserTweets")

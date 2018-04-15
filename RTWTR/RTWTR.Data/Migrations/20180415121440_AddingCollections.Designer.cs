@@ -11,9 +11,10 @@ using System;
 namespace RTWTR.Data.Migrations
 {
     [DbContext(typeof(RTWTRDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180415121440_AddingCollections")]
+    partial class AddingCollections
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,20 +150,7 @@ namespace RTWTR.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Collections");
-                });
-
-            modelBuilder.Entity("RTWTR.Data.Models.CollectionTweet", b =>
-                {
-                    b.Property<string>("TweetId");
-
-                    b.Property<string>("CollectionId");
-
-                    b.HasKey("TweetId", "CollectionId");
-
-                    b.HasIndex("CollectionId");
-
-                    b.ToTable("CollectionTweets");
+                    b.ToTable("Collection");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.Tweet", b =>
@@ -186,17 +174,30 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<string>("TwitterId");
 
-                    b.Property<string>("TwitterUserId");
-
                     b.Property<DateTime?>("UpdatedOn");
+
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TweetId");
 
-                    b.HasIndex("TwitterUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tweets");
+                });
+
+            modelBuilder.Entity("RTWTR.Data.Models.CollectionTweet", b =>
+                {
+                    b.Property<string>("TweetId");
+
+                    b.Property<string>("CollectionId");
+
+                    b.HasKey("TweetId", "CollectionId");
+
+                    b.HasIndex("CollectionId");
+
+                    b.ToTable("CollectionTweet");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.TwitterUser", b =>
@@ -233,7 +234,7 @@ namespace RTWTR.Data.Migrations
 
                     b.HasIndex("TweetId");
 
-                    b.ToTable("TwitterUserTweets");
+                    b.ToTable("UserTweets");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.User", b =>
@@ -349,6 +350,17 @@ namespace RTWTR.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("RTWTR.Data.Models.Tweet", b =>
+                {
+                    b.HasOne("RTWTR.Data.Models.Tweet")
+                        .WithMany("Retweets")
+                        .HasForeignKey("TweetId");
+
+                    b.HasOne("RTWTR.Data.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("RTWTR.Data.Models.CollectionTweet", b =>
                 {
                     b.HasOne("RTWTR.Data.Models.Collection", "Collection")
@@ -360,17 +372,6 @@ namespace RTWTR.Data.Migrations
                         .WithMany("CollectionTweets")
                         .HasForeignKey("TweetId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("RTWTR.Data.Models.Tweet", b =>
-                {
-                    b.HasOne("RTWTR.Data.Models.Tweet")
-                        .WithMany("Retweets")
-                        .HasForeignKey("TweetId");
-
-                    b.HasOne("RTWTR.Data.Models.TwitterUser", "User")
-                        .WithMany()
-                        .HasForeignKey("TwitterUserId");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.TwitterUserTweet", b =>

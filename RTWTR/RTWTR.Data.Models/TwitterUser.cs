@@ -5,7 +5,15 @@ using RTWTR.Data.Models.Abstractions;
 
 namespace RTWTR.Data.Models
 {
-    class TwitterUser : DataModel
-    {        
+    public class TwitterUser : DataModel
+    {
+        public string ScreenName  { get; set; }
+
+        public string Description { get; set; }
+
+        public string ProfileImageUrl { get; set; }
+
+        public ICollection<TwitterUserTweet> TwitterUserTweets { get; set; }
+
     }
 }

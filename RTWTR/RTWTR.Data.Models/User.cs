@@ -14,8 +14,6 @@ namespace RTWTR.Data.Models
 
         public string TwitterId { get; set; }
 
-        public ICollection<UserTweet> UserTweets { get; set; }
-
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
