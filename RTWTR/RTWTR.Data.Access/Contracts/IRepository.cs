@@ -20,6 +20,5 @@ namespace RTWTR.Data.Access.Contracts
         void Delete(string id);
 
         void Update(T entity);
-
     }
 }
