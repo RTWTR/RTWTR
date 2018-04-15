@@ -4,11 +4,11 @@ using System.Text;
 
 namespace RTWTR.Data.Models
 {
-    public class UserTweet
+    public class TwitterUserTweet
     {
-        public string UserId { get; set; }
+        public string TwitterUserId { get; set; }
 
-        public User User { get; set; }
+        public TwitterUser TwitterUser { get; set; }
 
         public string TweetId { get; set; }
 

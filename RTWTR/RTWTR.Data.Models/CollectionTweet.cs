@@ -2,7 +2,7 @@ using System;
 
 namespace RTWTR.Data.Models
 {
-    public class TweetCollection
+    public class CollectionTweet
     {
         public string TweetId { get; set; }
 
