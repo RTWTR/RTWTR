@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RTWTR.Data;
 using RTWTR.Service.External;
 using RTWTR.Data.Models;
+using System;
 
 namespace RTWTR.MVC
 {
@@ -22,15 +23,10 @@ namespace RTWTR.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            #region Development Only
-            services.AddDbContext<RTWTRDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("Development")));
-            #endregion
+            string connectionString = this.GetConnectionString();
 
-            #region Production
-            //services.AddDbContext<RTWTRDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("Production")));
-            #endregion
+            services.AddDbContext<RTWTRDbContext>(options =>
+                options.UseSqlServer(connectionString));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<RTWTRDbContext>()
@@ -66,6 +62,17 @@ namespace RTWTR.MVC
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        // This method assumes you have an environment variable named "ASPNETCORE_ENVIRONMENT"
+        private string GetConnectionString()
+        {
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
+            {
+                return Environment.GetEnvironmentVariable("rtwtr_dev").Replace(@"\\", @"\");                
+            }
+
+            return Environment.GetEnvironmentVariable("rtwtr").Replace(@"\\", @"\");
         }
     }
 }
