@@ -1,7 +1,5 @@
-﻿using System;
+﻿using RTWTR.Data.Models.Abstractions;
 using System.Collections.Generic;
-using System.Text;
-using RTWTR.Data.Models.Abstractions;
 
 namespace RTWTR.Data.Models
 {
