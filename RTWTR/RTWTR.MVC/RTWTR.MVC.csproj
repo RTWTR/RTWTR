@@ -24,4 +24,8 @@
     <ProjectReference Include="..\RTWTR.Service.External\RTWTR.Service.External.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Administration\Models\" />
+  </ItemGroup>
+
 </Project>
