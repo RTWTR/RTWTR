@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RTWTR.Data;
 using RTWTR.Service.External;
 using RTWTR.Data.Models;
+using RTWTR.Infrastructure.Mapping.Provider;
 
 namespace RTWTR.MVC
 {
@@ -36,9 +37,17 @@ namespace RTWTR.MVC
                 .AddEntityFrameworkStores<RTWTRDbContext>()
                 .AddDefaultTokenProviders();
 
+            this.RegisterInfrastructure(services);
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddMvc();
+        }
+
+        private void RegisterInfrastructure(IServiceCollection services)
+        {
+            services.AddSingleton<IMappingProvider, MappingProvider>();
             services.AddMvc();
         }
 
