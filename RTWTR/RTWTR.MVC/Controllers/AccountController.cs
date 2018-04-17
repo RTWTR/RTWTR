@@ -24,20 +24,17 @@ namespace RTWTR.MVC.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly RoleManager<User> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
 
         public AccountController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            RoleManager<User> roleManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _emailSender = emailSender;
             _logger = logger;
         }
@@ -69,6 +66,10 @@ namespace RTWTR.MVC.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    if (User.IsInRole("Admin"))
+                    {
+                        _logger.LogInformation("Admin");
+                    }
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
