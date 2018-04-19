@@ -13,6 +13,8 @@ namespace RTWTR.Data.Models
         public new string Id { get; set; }
 
         public string TwitterId { get; set; }
+  
+        public ICollection<TwitterUserTweet> TwitterUserTweets { get; set; }
 
         public bool IsDeleted { get; set; }
 
