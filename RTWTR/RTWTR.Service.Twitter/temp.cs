@@ -27,6 +27,8 @@ namespace Pesho
         }
         public string GetTwitterData(string resourceurl)
         {
+            resourceurl = "https://api.twitter.com/1.1/users/search.json?q=eminem";
+            
             List<string> parameterlist;
             if (resourceurl.Contains("?"))
             {
