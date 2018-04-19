@@ -8,6 +8,10 @@ using RTWTR.Data;
 using RTWTR.Service.External;
 using RTWTR.Data.Models;
 using System;
+using RTWTR.Infrastructure.Contracts;
+using RTWTR.Infrastructure;
+using RTWTR.Service.Twitter.Contracts;
+using RTWTR.Service.Twitter;
 
 namespace RTWTR.MVC
 {
@@ -34,6 +38,10 @@ namespace RTWTR.MVC
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddScoped<IVariableProvider, EnvironmentVariableProvider>();
+            services.AddScoped<IHeaderGenerator, HeaderGenerator>();
+            services.AddScoped<IApiProvider, TwitterApiProvider>();
 
             services.AddMvc();
         }

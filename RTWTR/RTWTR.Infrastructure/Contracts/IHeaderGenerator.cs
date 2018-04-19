@@ -6,6 +6,6 @@ namespace RTWTR.Infrastructure.Contracts
 {
     public interface IHeaderGenerator
     {
-        Task<string> GenerateHeader(string url, List<string> parameters);
+        string GenerateHeader(string url, List<string> parameters);
     }
 }

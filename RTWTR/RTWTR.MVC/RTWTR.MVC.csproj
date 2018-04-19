@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RTWTR.Data\RTWTR.Data.csproj" />
     <ProjectReference Include="..\RTWTR.Service.External\RTWTR.Service.External.csproj" />
+    <ProjectReference Include="..\RTWTR.Service.Twitter\RTWTR.Service.Twitter.csproj" />
   </ItemGroup>
 
   <ItemGroup>

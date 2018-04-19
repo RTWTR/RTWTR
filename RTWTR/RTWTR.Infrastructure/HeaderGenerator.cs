@@ -19,57 +19,62 @@ namespace RTWTR.Infrastructure
 
         public HeaderGenerator(IVariableProvider variableProvider)
         {
-            this.variableProvider = variableProvider ?? throw new ArgumentNullException(nameof(variableProvider));
+            this.variableProvider = variableProvider
+                ??
+                throw new ArgumentNullException(nameof(variableProvider));
 
             this.consumerKey = this.variableProvider.GetValue("rtwtr_consumerKey");
             this.consumerSecret = this.variableProvider.GetValue("rtwtr_consumerSecret");
             this.accessToken = this.variableProvider.GetValue("rtwtr_accessToken");
             this.accessSecret = this.variableProvider.GetValue("rtwtr_accessSecret");
         }
-        public async Task<string> GenerateHeader(string url, List<string> parameters)
+
+        public string GenerateHeader(string url, List<string> parameters)
         {
-            Task<string> nonce = GetNonce();
-            Task<string> timeStamp = GetTimeStamp();
-            Task<string> baseString = GetBaseString(url, await nonce, await timeStamp, parameters);
-            Task<string> signature = GetSignature(await baseString, url);
+            string nonce = GetNonce();
+            string timeStamp = GetTimeStamp();
+            string baseString = GetBaseString(url, nonce, timeStamp, parameters);
+            string signature = GetSignature(baseString, url);
+
+            string escapedConsumerKey = Uri.EscapeDataString(this.variableProvider.GetValue("rtwtr_consumerKey"));
+            string escapedNonce = Uri.EscapeDataString(nonce);
+            string escapedSignature = Uri.EscapeDataString(signature);
+            string escapedSignatureMethod = Uri.EscapeDataString(this.signatureMethod);
+            string escapedTimeStamp = Uri.EscapeDataString(timeStamp);
+            string escapedAccessToken = Uri.EscapeDataString(this.variableProvider.GetValue("rtwtr_accessToken"));
+            string escapedVersion = Uri.EscapeDataString(this.version);
 
             string header = string.Concat(
                 "OAuth ",
-                $"oauth_consumer_key=\"{this.variableProvider.GetValue("rtwtr_consumerKey")}\"",
-                $"oauth_nonce=\"{nonce}\"",
-                $"oauth_signature=\"{signature}\"",
-                $"oauth_signature_method=\"{this.signatureMethod}\"",
-                $"oauth_timestamp=\"{timeStamp}\"",
-                $"oauth_token=\"{this.accessToken}\"",
-                $"oauth_version=\"{this.version}\""
+                $"oauth_consumer_key=\"{escapedConsumerKey}\", ",
+                $"oauth_nonce=\"{escapedNonce}\", ",
+                $"oauth_signature=\"{escapedSignature}\", ",
+                $"oauth_signature_method=\"{escapedSignatureMethod}\", ",
+                $"oauth_timestamp=\"{escapedTimeStamp}\", ",
+                $"oauth_token=\"{escapedAccessToken}\", ",
+                $"oauth_version=\"{escapedVersion}\""
             );
 
             return header;
         }
 
-        private Task<string> GetNonce()
+        private string GetNonce()
         {
-            return new Task<string>(
-                () => Convert.ToBase64String(
-                    new ASCIIEncoding().GetBytes(
-                        DateTime.Now.Ticks.ToString()
-                    )
+            return Convert.ToBase64String(
+                new ASCIIEncoding().GetBytes(
+                    DateTime.Now.Ticks.ToString()
                 )
             );
         }
 
-        private Task<string> GetTimeStamp()
+        private string GetTimeStamp()
         {
-            return new Task<string>(
-                () => {
-                    TimeSpan timeSpan = DateTime.Now - default(DateTime);
+            TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
-                    return Convert.ToInt64(timeSpan.TotalSeconds).ToString();
-                }
-            );
+            return Convert.ToInt64(timeSpan.TotalSeconds).ToString();
         }
 
-        private Task<string> GetBaseString(string url, string nonce, string timeStamp, List<string> parameters)
+        private string GetBaseString(string url, string nonce, string timeStamp, List<string> parameters)
         {
             List<string> result = new List<string>();
 
@@ -89,17 +94,15 @@ namespace RTWTR.Infrastructure
 
             string baseString = string.Join("&", result);
 
-            return new Task<string>(
-                () => string.Concat(
-                    "GET&",
-                    Uri.EscapeDataString(url),
-                    "&",
-                    Uri.EscapeDataString(baseString)
-                )
+            return string.Concat(
+                "GET&",
+                Uri.EscapeDataString(url),
+                "&",
+                Uri.EscapeDataString(baseString)
             );
         }
 
-        private Task<string> GetSignature(string baseString, string url)
+        private string GetSignature(string baseString, string url)
         {
             string signInKey = string.Concat(
                 Uri.EscapeDataString(this.consumerSecret),
@@ -109,11 +112,9 @@ namespace RTWTR.Infrastructure
 
             HMACSHA1 hasher = new HMACSHA1(ASCIIEncoding.ASCII.GetBytes(signInKey));
 
-            return new Task<string>(            
-                () => Convert.ToBase64String(
-                    hasher.ComputeHash(
-                        ASCIIEncoding.ASCII.GetBytes(baseString)
-                    )
+            return Convert.ToBase64String(
+                hasher.ComputeHash(
+                    ASCIIEncoding.ASCII.GetBytes(baseString)
                 )
             );
         }
