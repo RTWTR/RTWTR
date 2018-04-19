@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RTWTR.Data;
 using RTWTR.Service.External;
 using RTWTR.Data.Models;
+using RTWTR.Infrastructure.Mapping.Provider;
 using System;
 
 namespace RTWTR.MVC
@@ -32,9 +33,17 @@ namespace RTWTR.MVC
                 .AddEntityFrameworkStores<RTWTRDbContext>()
                 .AddDefaultTokenProviders();
 
+            this.RegisterInfrastructure(services);
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddMvc();
+        }
+
+        private void RegisterInfrastructure(IServiceCollection services)
+        {
+            services.AddSingleton<IMappingProvider, MappingProvider>();
             services.AddMvc();
         }
 
@@ -72,6 +81,7 @@ namespace RTWTR.MVC
         // This method assumes you have an environment variable named "ASPNETCORE_ENVIRONMENT"
         private string GetConnectionString()
         {
+            string a = Environment.GetEnvironmentVariable("rtwtr");
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
             {
                 return Environment.GetEnvironmentVariable("rtwtr_dev").Replace(@"\\", @"\");                

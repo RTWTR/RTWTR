@@ -8,4 +8,9 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RTWTR.Data.Models\RTWTR.Data.Models.csproj" />
+    <ProjectReference Include="..\RTWTR.Infrastructure\RTWTR.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
