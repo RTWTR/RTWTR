@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
@@ -29,10 +29,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RTWTR.Service.External", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTWTR.Data.Access", "RTWTR.Data.Access\RTWTR.Data.Access.csproj", "{7C8AC972-5033-4235-BDCC-EDE933FD1FA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTWTR.Tests", "RTWTR.Tests\RTWTR.Tests.csproj", "{13E1EA04-893C-41DF-9F04-A6FBD64EB73F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{86F70943-B71D-43E1-BDCF-BD514D7817FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -71,11 +77,24 @@ Global
 		{7C8AC972-5033-4235-BDCC-EDE933FD1FA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C8AC972-5033-4235-BDCC-EDE933FD1FA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C8AC972-5033-4235-BDCC-EDE933FD1FA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13E1EA04-893C-41DF-9F04-A6FBD64EB73F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13E1EA04-893C-41DF-9F04-A6FBD64EB73F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13E1EA04-893C-41DF-9F04-A6FBD64EB73F}.Debug|x64.ActiveCfg = Debug|x64
+		{13E1EA04-893C-41DF-9F04-A6FBD64EB73F}.Debug|x64.Build.0 = Debug|x64
+		{13E1EA04-893C-41DF-9F04-A6FBD64EB73F}.Debug|x86.ActiveCfg = Debug|x86
+		{13E1EA04-893C-41DF-9F04-A6FBD64EB73F}.Debug|x86.Build.0 = Debug|x86
+		{13E1EA04-893C-41DF-9F04-A6FBD64EB73F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13E1EA04-893C-41DF-9F04-A6FBD64EB73F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13E1EA04-893C-41DF-9F04-A6FBD64EB73F}.Release|x64.ActiveCfg = Release|x64
+		{13E1EA04-893C-41DF-9F04-A6FBD64EB73F}.Release|x64.Build.0 = Release|x64
+		{13E1EA04-893C-41DF-9F04-A6FBD64EB73F}.Release|x86.ActiveCfg = Release|x86
+		{13E1EA04-893C-41DF-9F04-A6FBD64EB73F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{13E1EA04-893C-41DF-9F04-A6FBD64EB73F} = {EC8653B9-1B75-4C85-9B96-65CEE4889ED4}
 		{86F70943-B71D-43E1-BDCF-BD514D7817FF} = {B0E02411-CCDE-4EB4-AA43-7080283C1D6C}
 		{99FDB809-5C21-4C1F-8848-4551409FE6FE} = {3872EFB0-D718-4C6C-9204-54D722144F28}
 		{BF915313-CFB7-40AB-A4B3-96695A5A7730} = {3872EFB0-D718-4C6C-9204-54D722144F28}
