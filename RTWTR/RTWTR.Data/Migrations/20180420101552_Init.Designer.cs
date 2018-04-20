@@ -11,8 +11,8 @@ using System;
 namespace RTWTR.Data.Migrations
 {
     [DbContext(typeof(RTWTRDbContext))]
-    [Migration("20180415121440_AddingCollections")]
-    partial class AddingCollections
+    [Migration("20180420101552_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -150,7 +150,20 @@ namespace RTWTR.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Collection");
+                    b.ToTable("Collections");
+                });
+
+            modelBuilder.Entity("RTWTR.Data.Models.CollectionTweet", b =>
+                {
+                    b.Property<string>("TweetId");
+
+                    b.Property<string>("CollectionId");
+
+                    b.HasKey("TweetId", "CollectionId");
+
+                    b.HasIndex("CollectionId");
+
+                    b.ToTable("CollectionTweets");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.Tweet", b =>
@@ -174,30 +187,17 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<string>("TwitterId");
 
-                    b.Property<DateTime?>("UpdatedOn");
+                    b.Property<string>("TwitterUserId");
 
-                    b.Property<string>("UserId");
+                    b.Property<DateTime?>("UpdatedOn");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TweetId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("TwitterUserId");
 
                     b.ToTable("Tweets");
-                });
-
-            modelBuilder.Entity("RTWTR.Data.Models.CollectionTweet", b =>
-                {
-                    b.Property<string>("TweetId");
-
-                    b.Property<string>("CollectionId");
-
-                    b.HasKey("TweetId", "CollectionId");
-
-                    b.HasIndex("CollectionId");
-
-                    b.ToTable("CollectionTweet");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.TwitterUser", b =>
@@ -212,6 +212,8 @@ namespace RTWTR.Data.Migrations
                     b.Property<string>("Description");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<string>("Name");
 
                     b.Property<string>("ProfileImageUrl");
 
@@ -234,7 +236,7 @@ namespace RTWTR.Data.Migrations
 
                     b.HasIndex("TweetId");
 
-                    b.ToTable("UserTweets");
+                    b.ToTable("TwitterUserTweets");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.User", b =>
@@ -298,6 +300,19 @@ namespace RTWTR.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("RTWTR.Data.Models.UserTwitterUser", b =>
+                {
+                    b.Property<string>("TwitterUserId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("TwitterUserId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserTwitterUsers");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -350,17 +365,6 @@ namespace RTWTR.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("RTWTR.Data.Models.Tweet", b =>
-                {
-                    b.HasOne("RTWTR.Data.Models.Tweet")
-                        .WithMany("Retweets")
-                        .HasForeignKey("TweetId");
-
-                    b.HasOne("RTWTR.Data.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("RTWTR.Data.Models.CollectionTweet", b =>
                 {
                     b.HasOne("RTWTR.Data.Models.Collection", "Collection")
@@ -374,6 +378,17 @@ namespace RTWTR.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("RTWTR.Data.Models.Tweet", b =>
+                {
+                    b.HasOne("RTWTR.Data.Models.Tweet")
+                        .WithMany("Retweets")
+                        .HasForeignKey("TweetId");
+
+                    b.HasOne("RTWTR.Data.Models.TwitterUser", "TwitterUser")
+                        .WithMany()
+                        .HasForeignKey("TwitterUserId");
+                });
+
             modelBuilder.Entity("RTWTR.Data.Models.TwitterUserTweet", b =>
                 {
                     b.HasOne("RTWTR.Data.Models.Tweet", "Tweet")
@@ -384,6 +399,19 @@ namespace RTWTR.Data.Migrations
                     b.HasOne("RTWTR.Data.Models.TwitterUser", "TwitterUser")
                         .WithMany("TwitterUserTweets")
                         .HasForeignKey("TwitterUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("RTWTR.Data.Models.UserTwitterUser", b =>
+                {
+                    b.HasOne("RTWTR.Data.Models.TwitterUser", "TwitterUser")
+                        .WithMany("UserTwitterUsers")
+                        .HasForeignKey("TwitterUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RTWTR.Data.Models.User", "User")
+                        .WithMany("UserTwitterUsers")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

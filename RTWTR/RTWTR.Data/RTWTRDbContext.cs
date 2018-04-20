@@ -26,6 +26,8 @@ namespace RTWTR.Data
 
         public DbSet<CollectionTweet> CollectionTweets { get; set; }
 
+        public DbSet<UserTwitterUser> UserTwitterUsers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -58,6 +60,21 @@ namespace RTWTR.Data
                 .HasOne(x => x.Collection)
                 .WithMany(x => x.CollectionTweets)
                 .HasForeignKey(x => x.CollectionId);
+
+            builder.Entity<UserTwitterUser>()
+                .HasKey(x => new { x.TwitterUserId, x.UserId });
+
+            builder.Entity<UserTwitterUser>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.UserTwitterUsers)
+                .HasForeignKey(x => x.UserId);
+
+            builder.Entity<UserTwitterUser>()
+                .HasOne(x => x.TwitterUser)
+                .WithMany(x => x.UserTwitterUsers)
+                .HasForeignKey(x => x.TwitterUserId);
+
+
         }
     }
 }

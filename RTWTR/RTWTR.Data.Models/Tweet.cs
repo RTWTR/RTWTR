@@ -13,7 +13,7 @@ namespace RTWTR.Data.Models
 
         public string TwitterUserId { get; set; }
 
-        public TwitterUser User { get; set; }
+        public TwitterUser TwitterUser { get; set; }
 
         public string CreatedAt { get; set; }
 

@@ -11,10 +11,9 @@ using System;
 namespace RTWTR.Data.Migrations
 {
     [DbContext(typeof(RTWTRDbContext))]
-    [Migration("20180415124008_Done4Now")]
-    partial class Done4Now
+    partial class RTWTRDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,6 +212,8 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
+                    b.Property<string>("Name");
+
                     b.Property<string>("ProfileImageUrl");
 
                     b.Property<string>("ScreenName");
@@ -298,6 +299,19 @@ namespace RTWTR.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("RTWTR.Data.Models.UserTwitterUser", b =>
+                {
+                    b.Property<string>("TwitterUserId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("TwitterUserId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserTwitterUsers");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -369,7 +383,7 @@ namespace RTWTR.Data.Migrations
                         .WithMany("Retweets")
                         .HasForeignKey("TweetId");
 
-                    b.HasOne("RTWTR.Data.Models.TwitterUser", "User")
+                    b.HasOne("RTWTR.Data.Models.TwitterUser", "TwitterUser")
                         .WithMany()
                         .HasForeignKey("TwitterUserId");
                 });
@@ -384,6 +398,19 @@ namespace RTWTR.Data.Migrations
                     b.HasOne("RTWTR.Data.Models.TwitterUser", "TwitterUser")
                         .WithMany("TwitterUserTweets")
                         .HasForeignKey("TwitterUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("RTWTR.Data.Models.UserTwitterUser", b =>
+                {
+                    b.HasOne("RTWTR.Data.Models.TwitterUser", "TwitterUser")
+                        .WithMany("UserTwitterUsers")
+                        .HasForeignKey("TwitterUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RTWTR.Data.Models.User", "User")
+                        .WithMany("UserTwitterUsers")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
