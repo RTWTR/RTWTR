@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using RTWTR.Data.Models.Contracts;
+using System;
+using System.Collections.Generic;
 
 namespace RTWTR.Data.Models
 {
