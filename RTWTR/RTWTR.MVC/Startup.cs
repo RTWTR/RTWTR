@@ -42,6 +42,7 @@ namespace RTWTR.MVC
             services.AddScoped<IVariableProvider, EnvironmentVariableProvider>();
             services.AddScoped<IHeaderGenerator, HeaderGenerator>();
             services.AddScoped<IApiProvider, TwitterApiProvider>();
+            services.AddScoped<ITwitterService, TwitterService>();
 
             services.AddMvc();
         }
@@ -80,7 +81,6 @@ namespace RTWTR.MVC
         // This method assumes you have an environment variable named "ASPNETCORE_ENVIRONMENT"
         private string GetConnectionString()
         {
-            string a = Environment.GetEnvironmentVariable("rtwtr");
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
             {
                 return Environment.GetEnvironmentVariable("rtwtr_dev").Replace(@"\\", @"\");                

@@ -7,16 +7,16 @@ namespace RTWTR.MVC.Controllers
 {
     public class ApiController : Controller
     {
-        private readonly IApiProvider apiProvider;
-        
-        public ApiController(IApiProvider apiProvider)
+        private readonly ITwitterService service;
+
+        public ApiController(ITwitterService service)
         {
-            this.apiProvider = apiProvider ?? throw new ArgumentNullException(nameof(apiProvider));
+            this.service = service ?? throw new ArgumentNullException(nameof(service));
         }
 
         public string Search(string name)
         {
-            return this.apiProvider.SearchUserJSON(name);
+            return this.service.SearchUserJSON(name);
         }
     }
 }
