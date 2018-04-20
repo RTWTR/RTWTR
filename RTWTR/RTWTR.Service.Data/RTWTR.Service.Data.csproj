@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RTWTR.Data.Access\RTWTR.Data.Access.csproj" />
     <ProjectReference Include="..\RTWTR.DTO\RTWTR.DTO.csproj" />
   </ItemGroup>
 

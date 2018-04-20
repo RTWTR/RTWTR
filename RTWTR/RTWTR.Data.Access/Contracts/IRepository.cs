@@ -4,7 +4,6 @@ namespace RTWTR.Data.Access.Contracts
 {
     public interface IRepository<T> 
     {
-        T GetById(string id);
 
         IQueryable<T> All { get; }
 

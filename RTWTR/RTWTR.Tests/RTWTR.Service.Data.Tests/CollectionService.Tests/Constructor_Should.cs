@@ -1,10 +1,9 @@
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace RTWTR.Tests
+namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
 {
     [TestClass]
-    public class Lol
+    public class Constructor_Should
     {
         [TestMethod]
         public void VeryComplexTest()
