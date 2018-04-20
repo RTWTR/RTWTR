@@ -1,0 +1,18 @@
+using System;
+using System.Threading.Tasks;
+
+namespace RTWTR.Service.Twitter.Contracts
+{
+    public interface ITwitterService
+    {
+        Task<string> GetSingleUserJSON(string id);
+
+        Task<string> GetSingleTweetJSON(string id);
+
+        Task<string> GetUserTimelineJSON(string id);
+
+        string SearchUserJSON(string handle);
+
+        Task<string> SearchTweetJSON(string id);
+    }
+}
