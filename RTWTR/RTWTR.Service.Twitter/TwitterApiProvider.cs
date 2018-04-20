@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using RTWTR.Infrastructure.Contracts;
 using RTWTR.Service.Twitter.Contracts;
@@ -13,44 +11,14 @@ namespace RTWTR.Service.Twitter
 {
     public class TwitterApiProvider : IApiProvider
     {
-        private readonly string baseUrl;
-
         private readonly IHeaderGenerator headerGenerator;
 
         public TwitterApiProvider(IHeaderGenerator headerGenerator)
         {
             this.headerGenerator = headerGenerator ?? throw new ArgumentNullException(nameof(headerGenerator));
-            this.baseUrl = "https://api.twitter.com/1.1/";
         }
 
-        public Task<string> GetSingleTweetJSON(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> GetSingleUserJSON(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> GetUserTimelineJSON(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> SearchTweetJSON(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string SearchUserJSON(string handle)
-        {
-            string additional = $"users/search.json?q={handle}";
-
-            return this.GetJSON(this.baseUrl + additional);
-        }
-
-        private string GetJSON(string url)
+        public string GetJSON(string url)
         {
             List<string> parameters;
             if (url.Contains("?"))
