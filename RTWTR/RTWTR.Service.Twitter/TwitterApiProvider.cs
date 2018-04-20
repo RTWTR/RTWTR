@@ -13,11 +13,14 @@ namespace RTWTR.Service.Twitter
 {
     public class TwitterApiProvider : IApiProvider
     {
+        private readonly string baseUrl;
+
         private readonly IHeaderGenerator headerGenerator;
 
         public TwitterApiProvider(IHeaderGenerator headerGenerator)
         {
             this.headerGenerator = headerGenerator ?? throw new ArgumentNullException(nameof(headerGenerator));
+            this.baseUrl = "https://api.twitter.com/1.1/";
         }
 
         public Task<string> GetSingleTweetJSON(string id)
@@ -40,12 +43,14 @@ namespace RTWTR.Service.Twitter
             throw new NotImplementedException();
         }
 
-        public Task<string> SearchUserJSON(string handle)
+        public string SearchUserJSON(string handle)
         {
-            throw new NotImplementedException();
+            string additional = $"users/search.json?q={handle}";
+
+            return this.GetJSON(this.baseUrl + additional);
         }
 
-        private async Task<string> GetJSON(string url)
+        private string GetJSON(string url)
         {
             List<string> parameters;
             if (url.Contains("?"))
@@ -58,7 +63,7 @@ namespace RTWTR.Service.Twitter
                 parameters = null;
             }
 
-            string header = await this.headerGenerator.GenerateHeader(url, parameters);
+            string header = this.headerGenerator.GenerateHeader(url, parameters);
 
             WebResponse response = SendRequest(url, header, parameters);
 
@@ -66,7 +71,7 @@ namespace RTWTR.Service.Twitter
 
             using (StreamReader stream = new StreamReader(response.GetResponseStream()))
             {
-                responseData = await stream.ReadToEndAsync();
+                responseData = stream.ReadToEnd();
             }
 
             return responseData;
@@ -100,6 +105,7 @@ namespace RTWTR.Service.Twitter
 
         private WebResponse SendRequest(string url, string header, List<string> parameters)
         {
+            ServicePointManager.Expect100Continue = false;
             string requestBody = string.Empty;
 
             if (parameters != null)
@@ -115,11 +121,11 @@ namespace RTWTR.Service.Twitter
                 )
             );
 
-            // Set the request method
-            request.Method = "GET";
-
             // Add the generated OAuth header
             request.Headers.Add("Authorization", header);
+
+            // Set the request method
+            request.Method = "GET";
 
             // Set the content type
             request.ContentType = "application/x-www-form-urlencoded";
