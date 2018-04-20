@@ -23,5 +23,7 @@ namespace RTWTR.Data.Models
         public DateTime? CreatedOn { get; set; }
 
         public DateTime? UpdatedOn { get; set; }
+
+        public ICollection<UserTwitterUser> UserTwitterUsers { get; set; }
     }
 }
