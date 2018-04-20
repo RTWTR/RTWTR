@@ -3,7 +3,7 @@ using RTWTR.Infrastructure.Mapping;
 
 namespace RTWTR.DTO
 {
-    class TweetDto : IMapFrom<Tweet>
+    public class TweetDto : IMapFrom<Tweet>
     {
         public string Text { get; set; }
 
