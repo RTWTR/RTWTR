@@ -3,15 +3,15 @@ using Moq;
 using RTWTR.Data.Access.Contracts;
 using RTWTR.Data.Models;
 using RTWTR.Infrastructure.Mapping.Provider;
-using RTWTR.Service.Data;
+
 
 namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
 {
     [TestClass]
-    public class Constructor_Should
+    public class RemoveCollection_Should
     {
         [TestMethod]
-        public void NotReturnNull_When_Invoked()
+        public void ReturnMinusOne_When_InvokedWithIncorrectId()
         {
             //Arrange
             var saverMock = new Mock<ISaver>();
@@ -19,14 +19,12 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
             var tweetRepositoryMock = new Mock<IRepository<Tweet>>();
             var collectionRepositoryMock = new Mock<IRepository<Collection>>();
             var collectionTweetsRepositoryMock = new Mock<IRepository<CollectionTweet>>();
-
-
-            //Action
             var collectionService = new global::RTWTR.Service.Data.CollectionService(saverMock.Object, mapperMock.Object,
                 collectionRepositoryMock.Object, tweetRepositoryMock.Object, collectionTweetsRepositoryMock.Object);
 
-            //Assert
-            Assert.IsNotNull(collectionService);
+            var expected = -1;
+            //Action & Assert
+            Assert.AreEqual(expected, collectionService.RemoveCollection(null));
         }
     }
 }

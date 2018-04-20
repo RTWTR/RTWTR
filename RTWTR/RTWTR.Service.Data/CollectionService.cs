@@ -28,6 +28,11 @@ namespace RTWTR.Service.Data
         }
         public IEnumerable<CollectionDTO> GetUserCollections(string userId)
         {
+            if (userId == null)
+            {
+                return null;
+            }
+
             var collections = this.collections.All.Where(x => x.UserId == userId)
                 .OrderBy(x => x);
 
@@ -36,6 +41,11 @@ namespace RTWTR.Service.Data
 
         public int AddTweetToCollection(string collectionId, string tweetId)
         {
+            if (tweetId == null || collectionId == null)
+            {
+                return -1;
+            }
+
             var tweetToAdd = GetTweetById(tweetId);
 
             var collection = GetCollectionById(collectionId);
@@ -55,6 +65,11 @@ namespace RTWTR.Service.Data
 
         public int RemoveTweetFromCollection(string collectionId, string tweetId)
         {
+            if (tweetId == null || collectionId == null)
+            {
+                return -1;
+            }
+
             var tweetToDelete = GetTweetById(tweetId);
 
             var collection = GetCollectionById(collectionId);
@@ -76,6 +91,10 @@ namespace RTWTR.Service.Data
 
         public int RemoveCollection(string collectionId)
         {
+            if (collectionId == null)
+            {
+                return -1;
+            }
             var collectionToDelete = GetCollectionById(collectionId);
 
             collections.Delete(collectionToDelete);

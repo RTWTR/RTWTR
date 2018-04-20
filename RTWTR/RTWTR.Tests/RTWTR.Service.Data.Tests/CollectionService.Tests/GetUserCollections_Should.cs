@@ -1,17 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using RTWTR.Data.Access.Contracts;
 using RTWTR.Data.Models;
 using RTWTR.Infrastructure.Mapping.Provider;
-using RTWTR.Service.Data;
+
 
 namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
 {
     [TestClass]
-    public class Constructor_Should
+    public class GetUserCollections_Should
     {
         [TestMethod]
-        public void NotReturnNull_When_Invoked()
+        public void ReturnNull_When_InvokedWithIncorrectCollectionId()
         {
             //Arrange
             var saverMock = new Mock<ISaver>();
@@ -19,14 +22,11 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
             var tweetRepositoryMock = new Mock<IRepository<Tweet>>();
             var collectionRepositoryMock = new Mock<IRepository<Collection>>();
             var collectionTweetsRepositoryMock = new Mock<IRepository<CollectionTweet>>();
-
-
-            //Action
             var collectionService = new global::RTWTR.Service.Data.CollectionService(saverMock.Object, mapperMock.Object,
                 collectionRepositoryMock.Object, tweetRepositoryMock.Object, collectionTweetsRepositoryMock.Object);
-
-            //Assert
-            Assert.IsNotNull(collectionService);
+            
+            //Action & Assert
+            Assert.IsNull(collectionService.GetUserCollections(null));
         }
     }
 }
