@@ -1,16 +1,15 @@
-﻿using System;
+﻿using RTWTR.DTO;
 using System.Collections.Generic;
-using System.Text;
 
 namespace RTWTR.Service.Data.Contracts
 {
     public interface IFavouriteUserService
     {
-        void AddTwitterUserToFavorites(string userId, string twitterUserId);
-
-        void RemoveTwitterUserFromFavourites(string userId, string twitterUserId);
-
-        void GetUserFavourites(string userId);
+        int AddTwitterUserToFavorites(string userId, string twitterUserId);
+        
+        int RemoveTwitterUserFromFavourites(string userId, string twitterUserId);
+       
+        IEnumerable<TwitterUserDto> GetUserFavourites(string userId);
 
     }
 }
