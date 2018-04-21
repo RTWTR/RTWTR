@@ -11,6 +11,8 @@ using RTWTR.Infrastructure.Mapping.Provider;
 using System;
 using RTWTR.Infrastructure.Contracts;
 using RTWTR.Infrastructure;
+using RTWTR.Service.Data;
+using RTWTR.Service.Data.Contracts;
 using RTWTR.Service.Twitter.Contracts;
 using RTWTR.Service.Twitter;
 
@@ -38,6 +40,7 @@ namespace RTWTR.MVC
                 .AddDefaultTokenProviders();
 
             this.RegisterInfrastructure(services);
+            this.RegisterServices(services);
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
@@ -52,8 +55,15 @@ namespace RTWTR.MVC
 
         private void RegisterInfrastructure(IServiceCollection services)
         {
-            services.AddSingleton<IMappingProvider, MappingProvider>();
+            services.AddScoped<IMappingProvider, MappingProvider>();
             services.AddMvc();
+        }
+        private void RegisterServices(IServiceCollection services)
+        {
+            services.AddTransient<ITwitterService,TwitterService>();
+            services.AddTransient<ITwitterUserService, TwitterUserService>();
+            services.AddTransient<ITweetService, TweetService>();
+            services.AddTransient<ICollectionService, CollectionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
