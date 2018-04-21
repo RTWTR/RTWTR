@@ -5,8 +5,9 @@ dotnet clean
 # restore dependencies,
 dotnet restore
 
-# build and then
+# build the solution,
 dotnet build
 
-# run the project
-dotnet run -p ./RTWTR.MVC
+cd ./RTWTR.Tests
+# run tests
+dotnet test

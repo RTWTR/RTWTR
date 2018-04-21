@@ -20,11 +20,11 @@ namespace RTWTR.Service.Data
 
         public CollectionService(ISaver saver, IMappingProvider mapper, IRepository<Collection> collections, IRepository<Tweet> tweets, IRepository<CollectionTweet> collectionTweets)
         {
-            this.mapper = mapper;
-            this.saver = saver;
-            this.collections = collections;
-            this.tweets = tweets;
-            this.collectionTweets = collectionTweets;
+            this.saver = saver ?? throw new ArgumentNullException(nameof(saver));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.collections = collections ?? throw new ArgumentNullException(nameof(collections));
+            this.tweets = tweets ?? throw new ArgumentNullException(nameof(tweets));
+            this.collectionTweets = collectionTweets ?? throw new ArgumentNullException(nameof(collectionTweets));
         }
         public IEnumerable<CollectionDTO> GetUserCollections(string userId)
         {
@@ -33,7 +33,8 @@ namespace RTWTR.Service.Data
                 return null;
             }
 
-            var collections = this.collections.All.Where(x => x.UserId == userId)
+            var collections = this.collections.All
+                .Where(x => x.UserId == userId)
                 .OrderBy(x => x);
 
             return mapper.ProjectTo<CollectionDTO>(collections);
