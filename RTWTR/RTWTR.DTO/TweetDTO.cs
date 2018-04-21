@@ -9,6 +9,5 @@ namespace RTWTR.DTO
         public TwitterUser User { get; set; }
 
         public string CreatedAt { get; set; }
-
     }
 }
