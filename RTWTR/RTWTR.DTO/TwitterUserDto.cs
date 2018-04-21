@@ -1,9 +1,6 @@
-﻿using RTWTR.Data.Models;
-using RTWTR.Infrastructure.Mapping;
-
-namespace RTWTR.DTO
+﻿namespace RTWTR.DTO
 {
-    class TwitterUserDto : IMapFrom<TwitterUser>
+    public class TwitterUserDto
     {
         public string ScreenName { get; set; }
 

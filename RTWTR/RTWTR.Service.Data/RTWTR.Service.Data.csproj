@@ -8,4 +8,9 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RTWTR.Data.Access\RTWTR.Data.Access.csproj" />
+    <ProjectReference Include="..\RTWTR.DTO\RTWTR.DTO.csproj" />
+  </ItemGroup>
+
 </Project>

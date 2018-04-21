@@ -1,9 +1,8 @@
 ﻿using RTWTR.Data.Models;
-using RTWTR.Infrastructure.Mapping;
 
 namespace RTWTR.DTO
 {
-    class TweetDto : IMapFrom<Tweet>
+    public class TweetDto 
     {
         public string Text { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using System.Linq;
 
@@ -8,9 +9,9 @@ namespace RTWTR.Infrastructure.Mapping.Provider
     {
         private IMapper mapper;
 
-        public MappingProvider()
+        public MappingProvider(IMapper mapper)
         {
-            this.mapper = AutoMapperConfig.Instance;
+            this.mapper = mapper;
         }
 
         public TDestination MapTo<TDestination>(object source)
@@ -22,5 +23,11 @@ namespace RTWTR.Infrastructure.Mapping.Provider
         {
             return source.ProjectTo<TDestination>();
         }
+
+        public IEnumerable<TDestination> ProjectTo<TDestination>(IEnumerable<object> source)
+        {
+            return source.AsQueryable().ProjectTo<TDestination>();
+        }
+
     }
 }
