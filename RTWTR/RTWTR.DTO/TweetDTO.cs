@@ -6,7 +6,7 @@ namespace RTWTR.DTO
     {
         public string Text { get; set; }
 
-        public TwitterUser User { get; set; }
+        public TwitterUserDto User { get; set; }
 
         public string CreatedAt { get; set; }
     }
