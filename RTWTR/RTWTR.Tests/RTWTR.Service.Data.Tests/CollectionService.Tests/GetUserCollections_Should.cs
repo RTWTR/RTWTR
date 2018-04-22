@@ -75,8 +75,8 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
 
             // Act & Assert
             Assert.AreEqual(
-                collectionService.GetUserCollections("1234567890").Count(),
-                0
+                0,
+                collectionService.GetUserCollections("1234567890").Count()
             );
         }
 
@@ -113,8 +113,8 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
 
             // Act & Assert
             Assert.AreEqual(
-                collectionService.GetUserCollections("1234567890").Count(),
-                2
+                2,
+                collectionService.GetUserCollections("1234567890").Count()
             );
         }
     }

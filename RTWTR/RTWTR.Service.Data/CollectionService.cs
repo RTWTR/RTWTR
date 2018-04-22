@@ -18,7 +18,13 @@ namespace RTWTR.Service.Data
         private readonly IRepository<Tweet> tweets;
         private readonly IRepository<CollectionTweet> collectionTweets;
 
-        public CollectionService(ISaver saver, IMappingProvider mapper, IRepository<Collection> collections, IRepository<Tweet> tweets, IRepository<CollectionTweet> collectionTweets)
+        public CollectionService(
+            ISaver saver, 
+            IMappingProvider mapper, 
+            IRepository<Collection> collections, 
+            IRepository<Tweet> tweets, 
+            IRepository<CollectionTweet> collectionTweets
+        )
         {
             this.saver = saver ?? throw new ArgumentNullException(nameof(saver));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -49,8 +55,16 @@ namespace RTWTR.Service.Data
             }
 
             var tweetToAdd = GetTweetById(tweetId);
+            if (tweetToAdd == null)
+            {
+                return -1;
+            }
 
             var collection = GetCollectionById(collectionId);
+            if (collection == null)
+            {
+                return -1;
+            }
 
             CollectionTweet collectionTweetToAdd = new CollectionTweet()
             {
@@ -87,9 +101,7 @@ namespace RTWTR.Service.Data
             collectionTweets.Delete(collectionTweetToRemove);
 
             return this.saver.SaveChanges();
-
         }
-
 
         public int RemoveCollection(string collectionId)
         {
@@ -102,21 +114,16 @@ namespace RTWTR.Service.Data
             collections.Delete(collectionToDelete);
 
             return saver.SaveChanges();
-
         }
 
         private Tweet GetTweetById(string tweetId)
         {
-            Tweet tweetToReturn = tweets.All.SingleOrDefault(x => x.Id == tweetId);
-
-            return tweetToReturn;
+            return tweets.All.SingleOrDefault(x => x.Id == tweetId);
         }
 
         private Collection GetCollectionById(string collectionId)
         {
-            Collection collectionToReturn = collections.All.SingleOrDefault(x => x.Id == collectionId);
-
-            return collectionToReturn;
+            return collections.All.SingleOrDefault(x => x.Id == collectionId);
         }
     }
 }
