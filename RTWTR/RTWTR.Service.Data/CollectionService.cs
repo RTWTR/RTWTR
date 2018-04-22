@@ -33,7 +33,8 @@ namespace RTWTR.Service.Data
                 return null;
             }
 
-            var collections = this.collections.All
+            var collections = this.collections
+                .All
                 .Where(x => x.UserId == userId)
                 .OrderBy(x => x);
 
