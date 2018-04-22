@@ -18,7 +18,6 @@ namespace RTWTR.Data.Access
             this.dbSet = dbSet ?? throw new ArgumentNullException(nameof(dbSet));
         }
 
-      
         public IQueryable<T> All => this.dbContext.Set<T>().Where(x => !x.IsDeleted);
 
         public IQueryable<T> AllAndDeleted => this.dbContext.Set<T>();

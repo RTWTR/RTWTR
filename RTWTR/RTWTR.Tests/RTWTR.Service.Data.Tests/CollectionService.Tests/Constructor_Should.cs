@@ -1,3 +1,4 @@
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using RTWTR.Data.Access.Contracts;
@@ -10,23 +11,117 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
     [TestClass]
     public class Constructor_Should
     {
+        private Mock<ISaver> saverStub;
+        private Mock<IMappingProvider> mapperStub;
+        private Mock<IRepository<Tweet>> tweetRepositoryStub;
+        private Mock<IRepository<Collection>> collectionRepositoryStub;
+        private Mock<IRepository<CollectionTweet>> collectionTweetsRepositoryStub;
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            // Arrange
+            this.saverStub = new Mock<ISaver>();
+            this.mapperStub = new Mock<IMappingProvider>();
+            this.tweetRepositoryStub = new Mock<IRepository<Tweet>>();
+            this.collectionRepositoryStub = new Mock<IRepository<Collection>>();
+            this.collectionTweetsRepositoryStub = new Mock<IRepository<CollectionTweet>>();
+        }
+
         [TestMethod]
         public void NotReturnNull_When_Invoked()
         {
-            //Arrange
-            var saverMock = new Mock<ISaver>();
-            var mapperMock = new Mock<IMappingProvider>();
-            var tweetRepositoryMock = new Mock<IRepository<Tweet>>();
-            var collectionRepositoryMock = new Mock<IRepository<Collection>>();
-            var collectionTweetsRepositoryMock = new Mock<IRepository<CollectionTweet>>();
+            // Act
+            var collectionServiceMock = new global::RTWTR.Service.Data.CollectionService(
+                this.saverStub.Object,
+                this.mapperStub.Object,
+                this.collectionRepositoryStub.Object,
+                this.tweetRepositoryStub.Object,
+                this.collectionTweetsRepositoryStub.Object
+            );
 
+            // Assert
+            Assert.IsNotNull(collectionServiceMock);
+        }
 
-            //Action
-            var collectionService = new global::RTWTR.Service.Data.CollectionService(saverMock.Object, mapperMock.Object,
-                collectionRepositoryMock.Object, tweetRepositoryMock.Object, collectionTweetsRepositoryMock.Object);
+        [TestMethod]
+        public void Throw_ArgumentNullException_When_Saver_IsNull()
+        {
+            // Act && Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                new global::RTWTR.Service.Data.CollectionService(
+                    null,
+                    this.mapperStub.Object,
+                    this.collectionRepositoryStub.Object,
+                    this.tweetRepositoryStub.Object,
+                    this.collectionTweetsRepositoryStub.Object
+                );
+            });
+        }
 
-            //Assert
-            Assert.IsNotNull(collectionService);
+        [TestMethod]
+        public void Throw_ArgumentNullException_When_Mapper_IsNull()
+        {
+            // Act && Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                new global::RTWTR.Service.Data.CollectionService(
+                    this.saverStub.Object,
+                    null,
+                    this.collectionRepositoryStub.Object,
+                    this.tweetRepositoryStub.Object,
+                    this.collectionTweetsRepositoryStub.Object
+                );
+            });
+        }
+
+        [TestMethod]
+        public void Throw_ArgumentNullException_When_Collections_IsNull()
+        {
+            // Act && Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                new global::RTWTR.Service.Data.CollectionService(
+                    this.saverStub.Object,
+                    this.mapperStub.Object,
+                    null,
+                    this.tweetRepositoryStub.Object,
+                    this.collectionTweetsRepositoryStub.Object
+                );
+            });
+        }
+
+        [TestMethod]
+        public void Throw_ArgumentNullException_When_Tweets_IsNull()
+        {
+            // Act && Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                new global::RTWTR.Service.Data.CollectionService(
+                    this.saverStub.Object,
+                    this.mapperStub.Object,
+                    this.collectionRepositoryStub.Object,
+                    null,
+                    this.collectionTweetsRepositoryStub.Object
+                );
+            });
+        }
+
+        [TestMethod]
+        public void Throw_ArgumentNullException_When_CollectionTweets_IsNull()
+        {
+            // Act && Assert
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                new global::RTWTR.Service.Data.CollectionService(
+                    this.saverStub.Object,
+                    this.mapperStub.Object,
+                    this.collectionRepositoryStub.Object,
+                    this.tweetRepositoryStub.Object,
+                    null
+                );
+            });
         }
     }
 }

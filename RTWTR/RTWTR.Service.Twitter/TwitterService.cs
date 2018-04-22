@@ -41,8 +41,14 @@ namespace RTWTR.Service.Twitter
         public string SearchUserJSON(string handle)
         {
             string additional = $"users/search.json?q={handle}";
+            string url = string.Concat(
+                this.baseUrl,
+                "users/search.json?q=",
+                handle,
+                "&include_entities=false"
+            );
 
-            return this.apiProvider.GetJSON(this.baseUrl + additional);
+            return this.apiProvider.GetJSON(url);
         }
     }
 }

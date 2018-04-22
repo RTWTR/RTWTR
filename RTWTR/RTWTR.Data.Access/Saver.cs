@@ -13,7 +13,6 @@ namespace RTWTR.Data.Access
         public Saver(RTWTRDbContext context)
         {
             this.context = context;
-           
         }
 
         public int SaveChanges()

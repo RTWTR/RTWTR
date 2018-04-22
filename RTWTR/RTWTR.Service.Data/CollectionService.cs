@@ -18,13 +18,19 @@ namespace RTWTR.Service.Data
         private readonly IRepository<Tweet> tweets;
         private readonly IRepository<CollectionTweet> collectionTweets;
 
-        public CollectionService(ISaver saver, IMappingProvider mapper, IRepository<Collection> collections, IRepository<Tweet> tweets, IRepository<CollectionTweet> collectionTweets)
+        public CollectionService(
+            ISaver saver, 
+            IMappingProvider mapper, 
+            IRepository<Collection> collections, 
+            IRepository<Tweet> tweets, 
+            IRepository<CollectionTweet> collectionTweets
+        )
         {
-            this.mapper = mapper;
-            this.saver = saver;
-            this.collections = collections;
-            this.tweets = tweets;
-            this.collectionTweets = collectionTweets;
+            this.saver = saver ?? throw new ArgumentNullException(nameof(saver));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.collections = collections ?? throw new ArgumentNullException(nameof(collections));
+            this.tweets = tweets ?? throw new ArgumentNullException(nameof(tweets));
+            this.collectionTweets = collectionTweets ?? throw new ArgumentNullException(nameof(collectionTweets));
         }
         public IEnumerable<CollectionDTO> GetUserCollections(string userId)
         {
@@ -33,7 +39,9 @@ namespace RTWTR.Service.Data
                 return null;
             }
 
-            var collections = this.collections.All.Where(x => x.UserId == userId)
+            var collections = this.collections
+                .All
+                .Where(x => x.UserId == userId)
                 .OrderBy(x => x);
 
             return mapper.ProjectTo<CollectionDTO>(collections);
@@ -47,8 +55,16 @@ namespace RTWTR.Service.Data
             }
 
             var tweetToAdd = GetTweetById(tweetId);
+            if (tweetToAdd == null)
+            {
+                return -1;
+            }
 
             var collection = GetCollectionById(collectionId);
+            if (collection == null)
+            {
+                return -1;
+            }
 
             CollectionTweet collectionTweetToAdd = new CollectionTweet()
             {
@@ -72,7 +88,17 @@ namespace RTWTR.Service.Data
 
             var tweetToDelete = GetTweetById(tweetId);
 
+            if (tweetToDelete == null)
+            {
+                return -1;
+            }
+
             var collection = GetCollectionById(collectionId);
+
+            if (collection == null)
+            {
+                return -1;
+            }
 
             CollectionTweet collectionTweetToRemove = new CollectionTweet()
             {
@@ -85,9 +111,7 @@ namespace RTWTR.Service.Data
             collectionTweets.Delete(collectionTweetToRemove);
 
             return this.saver.SaveChanges();
-
         }
-
 
         public int RemoveCollection(string collectionId)
         {
@@ -95,26 +119,27 @@ namespace RTWTR.Service.Data
             {
                 return -1;
             }
+
             var collectionToDelete = GetCollectionById(collectionId);
+
+            if (collectionToDelete == null)
+            {
+                return -1;
+            }
 
             collections.Delete(collectionToDelete);
 
             return saver.SaveChanges();
-
         }
 
         private Tweet GetTweetById(string tweetId)
         {
-            Tweet tweetToReturn = tweets.All.SingleOrDefault(x => x.Id == tweetId);
-
-            return tweetToReturn;
+            return tweets.All.SingleOrDefault(x => x.Id == tweetId);
         }
 
         private Collection GetCollectionById(string collectionId)
         {
-            Collection collectionToReturn = collections.All.SingleOrDefault(x => x.Id == collectionId);
-
-            return collectionToReturn;
+            return collections.All.SingleOrDefault(x => x.Id == collectionId);
         }
     }
 }

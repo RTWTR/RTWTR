@@ -4,7 +4,6 @@ namespace RTWTR.Data.Access.Contracts
 {
     public interface IRepository<T> 
     {
-
         IQueryable<T> All { get; }
 
         IQueryable<T> AllAndDeleted { get; }
