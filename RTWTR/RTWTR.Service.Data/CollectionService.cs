@@ -109,7 +109,13 @@ namespace RTWTR.Service.Data
             {
                 return -1;
             }
+
             var collectionToDelete = GetCollectionById(collectionId);
+
+            if (collectionToDelete == null)
+            {
+                return -1;
+            }
 
             collections.Delete(collectionToDelete);
 
