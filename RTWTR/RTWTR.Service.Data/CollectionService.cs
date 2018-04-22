@@ -88,7 +88,17 @@ namespace RTWTR.Service.Data
 
             var tweetToDelete = GetTweetById(tweetId);
 
+            if (tweetToDelete == null)
+            {
+                return -1;
+            }
+
             var collection = GetCollectionById(collectionId);
+
+            if (collection == null)
+            {
+                return -1;
+            }
 
             CollectionTweet collectionTweetToRemove = new CollectionTweet()
             {

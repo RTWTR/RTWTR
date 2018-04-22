@@ -125,7 +125,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
         public void ReturnOne_When_TweetSuccessfullyAddedToCollection()
         {
             //Arrange
-             this.tweetRepositoryStub
+            this.tweetRepositoryStub
                 .Setup(x => x.All)
                 .Returns(
                     new List<Tweet>()
