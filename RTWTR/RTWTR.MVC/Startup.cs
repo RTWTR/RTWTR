@@ -45,7 +45,7 @@ namespace RTWTR.MVC
             services.AddScoped<IVariableProvider, EnvironmentVariableProvider>();
             services.AddScoped<IHeaderGenerator, HeaderGenerator>();
             services.AddScoped<IEncoder, TokenEncoder>();
-            services.AddScoped<IApiProvider, TwitterApiProvider_Deprecated>();
+            services.AddScoped<IApiProvider, TwitterApiProvider>();
             services.AddScoped<ITwitterService, TwitterService>();
 
             services.AddMvc();
