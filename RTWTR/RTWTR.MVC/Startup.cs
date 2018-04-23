@@ -9,36 +9,75 @@ using RTWTR.Service.External;
 using RTWTR.Data.Models;
 using RTWTR.Infrastructure.Mapping.Provider;
 using System;
+using RTWTR.Data.Access;
+using RTWTR.Data.Access.Contracts;
 
 namespace RTWTR.MVC
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
+            this.Environment = environment;
         }
 
         public IConfiguration Configuration { get; }
 
+        public IHostingEnvironment Environment {get;}
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = this.GetConnectionString();
+            this.RegisterData(services);
+
+            this.RegisterIdentity(services);
+
+            this.RegisterServices(services);
+
+            this.RegisterInfrastructure(services);
+        }
+
+        private void RegisterData(IServiceCollection services)
+        {
+            string connectionString = this.GetDbConnectionString();
 
             services.AddDbContext<RTWTRDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            
+            services.AddScoped<ISaver, Saver>();
+        }
+
+        private void RegisterIdentity(IServiceCollection services)
+        {
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<RTWTRDbContext>()
                 .AddDefaultTokenProviders();
 
-            this.RegisterInfrastructure(services);
+            if (this.Environment.IsDevelopment())
+            {
+                services.Configure<IdentityOptions>(options =>
+                {
+                    // Password settings
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 3;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequiredUniqueChars = 0;
 
-            // Add application services.
+                    // Lockout settings
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(1);
+                    options.Lockout.MaxFailedAccessAttempts = 999;
+                });
+            }       
+        }
+
+        private void RegisterServices(IServiceCollection services)
+        {
             services.AddTransient<IEmailSender, EmailSender>();
-
-            services.AddMvc();
         }
 
         private void RegisterInfrastructure(IServiceCollection services)
@@ -48,9 +87,9 @@ namespace RTWTR.MVC
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (this.Environment.IsDevelopment())
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
@@ -79,15 +118,14 @@ namespace RTWTR.MVC
         }
 
         // This method assumes you have an environment variable named "ASPNETCORE_ENVIRONMENT"
-        private string GetConnectionString()
+        private string GetDbConnectionString()
         {
-            string a = Environment.GetEnvironmentVariable("rtwtr");
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
+            if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
             {
-                return Environment.GetEnvironmentVariable("rtwtr_dev").Replace(@"\\", @"\");                
+                return System.Environment.GetEnvironmentVariable("rtwtr_dev").Replace(@"\\", @"\");                
             }
 
-            return Environment.GetEnvironmentVariable("rtwtr").Replace(@"\\", @"\");
+            return System.Environment.GetEnvironmentVariable("rtwtr").Replace(@"\\", @"\");
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RTWTR.Data.Access.Contracts
 {
-    interface IRepository<T> 
+    public interface IRepository<T> 
     {
         T GetById(string id);
 

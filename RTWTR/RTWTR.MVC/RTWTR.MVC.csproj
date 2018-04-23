@@ -22,6 +22,7 @@
     <ProjectReference Include="..\RTWTR.Data\RTWTR.Data.csproj" />
     <ProjectReference Include="..\RTWTR.Infrastructure\RTWTR.Infrastructure.csproj" />
     <ProjectReference Include="..\RTWTR.Service.External\RTWTR.Service.External.csproj" />
+    <ProjectReference Include="..\RTWTR.Data.Access\RTWTR.Data.Access.csproj" />
   </ItemGroup>
 
   <ItemGroup>
