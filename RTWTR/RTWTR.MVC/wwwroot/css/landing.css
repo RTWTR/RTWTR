@@ -28,12 +28,12 @@ body {
     .info {
         height: 50vh;
         grid-column: 1/3;
-        grid-row: 1/2;
+        grid-row: 2/3;
     }
 
     .login {
         height: 50vh;
         grid-column: 1/3;
-        grid-row: 2/3;
+        grid-row: 1/2;
     }
 }
