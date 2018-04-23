@@ -23,9 +23,16 @@ namespace RTWTR.Service.Twitter
             throw new NotImplementedException();
         }
 
-        public Task<string> GetSingleUserJSON(string id)
+        public async Task<string> GetSingleUserJSON(string screenName)
         {
-            throw new NotImplementedException();
+            string url = string.Concat(
+                this.baseUrl,
+                "users/show.json?screen_name=",
+                screenName,
+                "&include_entities=false"
+            );
+
+            return await this.apiProvider.GetJSON(url);
         }
 
         public Task<string> GetUserTimelineJSON(string id)
@@ -38,9 +45,9 @@ namespace RTWTR.Service.Twitter
             throw new NotImplementedException();
         }
 
-        public string SearchUserJSON(string handle)
+        public async Task<string> SearchUserJSON(string handle)
         {
-            string additional = $"users/search.json?q={handle}";
+            // Does NOT work with Apllication-Only authentication
             string url = string.Concat(
                 this.baseUrl,
                 "users/search.json?q=",
@@ -48,7 +55,7 @@ namespace RTWTR.Service.Twitter
                 "&include_entities=false"
             );
 
-            return this.apiProvider.GetJSON(url);
+            return await this.apiProvider.GetJSON(url);
         }
     }
 }

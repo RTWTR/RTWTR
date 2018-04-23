@@ -11,7 +11,7 @@ namespace RTWTR.Service.Twitter.Contracts
 
         Task<string> GetUserTimelineJSON(string id);
 
-        string SearchUserJSON(string handle);
+        Task<string> SearchUserJSON(string handle);
 
         Task<string> SearchTweetJSON(string id);
     }
