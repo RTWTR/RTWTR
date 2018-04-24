@@ -141,6 +141,82 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         }
 
         [TestMethod]
+        public void Call_UserRepository_All_Once()
+        {
+            this.userRepositoryStub
+                .Setup(x => x.All)
+                .Returns(
+                    new List<User>()
+                    {
+                        new User() { Id = "userId" }
+                    }.AsQueryable()
+                )
+                .Verifiable();
+            
+            this.twitterUserRepositoryStub
+                .Setup(x => x.All)
+                .Returns(
+                    new List<TwitterUser>()
+                    {
+                        new TwitterUser() { Id = "twitterUserId" }
+                    }.AsQueryable()
+                );
+
+            var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
+                this.saverStub.Object,
+                this.mapperStub.Object,
+                this.userRepositoryStub.Object,
+                this.twitterUserRepositoryStub.Object,
+                this.userTwitterUserRepositoryStub.Object
+            );
+
+            favouriteUserService.AddTwitterUserToFavourites("userId", "twitterUserId");
+
+            this.userRepositoryStub.Verify(
+                x => x.All, 
+                Times.Once
+            );
+        }
+
+        [TestMethod]
+        public void Call_TwitterUserRepository_All_Once()
+        {
+            this.userRepositoryStub
+                .Setup(x => x.All)
+                .Returns(
+                    new List<User>()
+                    {
+                        new User() { Id = "userId" }
+                    }.AsQueryable()
+                );
+            
+            this.twitterUserRepositoryStub
+                .Setup(x => x.All)
+                .Returns(
+                    new List<TwitterUser>()
+                    {
+                        new TwitterUser() { Id = "twitterUserId" }
+                    }.AsQueryable()
+                )
+                .Verifiable();
+
+            var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
+                this.saverStub.Object,
+                this.mapperStub.Object,
+                this.userRepositoryStub.Object,
+                this.twitterUserRepositoryStub.Object,
+                this.userTwitterUserRepositoryStub.Object
+            );
+
+            favouriteUserService.AddTwitterUserToFavourites("userId", "twitterUserId");
+
+            this.twitterUserRepositoryStub.Verify(
+                x => x.All, 
+                Times.Once
+            );
+        }
+
+        [TestMethod]
         public void Call_UserTwitterUserRepository_Delete_Once()
         {
             this.userTwitterUserRepositoryStub
@@ -224,7 +300,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         }
 
         [TestMethod]
-        public void Return_One_When_SuccessfullyAddedUserToFavourites()
+        public void Return_One_When_SuccessfullyRemovedUserFromFavourites()
         {
             this.saverStub
                 .Setup(x => x.SaveChanges())
