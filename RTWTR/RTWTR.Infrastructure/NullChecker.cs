@@ -9,14 +9,9 @@ namespace RTWTR.Infrastructure
             return obj == null;
         }
 
-        public static bool IsNullOrEmpty(this string str)
+        public static bool IsNullOrWhitespace(this string str)
         {
-            return string.IsNullOrEmpty(str);
-        }
-
-        public static bool IsNullEmptyOrWhitespace(this string str)
-        {
-            return str.IsNullOrEmpty() || string.IsNullOrWhiteSpace(str);
+            return string.IsNullOrWhiteSpace(str);
         }
     }
 }

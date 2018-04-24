@@ -37,12 +37,12 @@ namespace RTWTR.Service.Data
 
         public int AddTwitterUserToFavourites(string userId, string twitterUserId)
         {
-            if (userId.IsNullEmptyOrWhitespace())
+            if (userId.IsNullOrWhitespace())
             {
                 throw new InvalidUserIdException(nameof(userId));
             }
 
-            if (twitterUserId.IsNullEmptyOrWhitespace())
+            if (twitterUserId.IsNullOrWhitespace())
             {
                 throw new InvalidTwitterUserIdException(nameof(twitterUserId));
             }
@@ -65,12 +65,12 @@ namespace RTWTR.Service.Data
 
         public int RemoveTwitterUserFromFavourites(string userId, string twitterUserId)
         {
-            if (userId.IsNullEmptyOrWhitespace())
+            if (userId.IsNullOrWhitespace())
             {
                 throw new InvalidUserIdException(nameof(userId));
             }
 
-            if (twitterUserId.IsNullEmptyOrWhitespace())
+            if (twitterUserId.IsNullOrWhitespace())
             {
                 throw new InvalidTwitterUserIdException(nameof(twitterUserId));
             }
@@ -93,7 +93,7 @@ namespace RTWTR.Service.Data
 
         public IEnumerable<TwitterUserDto> GetUserFavourites(string userId)
         {
-            if (userId.IsNullEmptyOrWhitespace())
+            if (userId.IsNullOrWhitespace())
             {
                 throw new InvalidUserIdException(nameof(userId));
             }
