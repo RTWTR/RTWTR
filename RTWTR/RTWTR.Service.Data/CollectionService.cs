@@ -47,8 +47,8 @@ namespace RTWTR.Service.Data
                 throw new InvalidTweetIdException(nameof(tweetId));
             }
 
-            var tweetToAdd = GetTweetById(tweetId);
             var collection = GetCollectionById(collectionId);
+            var tweetToAdd = GetTweetById(tweetId);
 
             CollectionTweet collectionTweetToAdd = new CollectionTweet()
             {
