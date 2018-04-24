@@ -29,6 +29,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         [TestMethod]
         public void NotReturnNull_When_InvokedWithCorrectParameters()
         {
+            // Arrange
             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
                 this.saverStub.Object,
                 this.mapperStub.Object,
@@ -37,6 +38,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
                 this.userTwitterUserRepositoryStub.Object
             );
 
+            // Act & Assert
             Assert.IsNotNull(favouriteUserService);
         }
 
@@ -58,6 +60,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         [TestMethod]
         public void Throw_ArgumentNullExceptio_When_MapperIsNull()
         {
+            // Arrange & Act & Assert
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
                 new global::RTWTR.Service.Data.FavouriteUserService(
@@ -73,6 +76,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         [TestMethod]
         public void Throw_ArgumentNullExceptio_When_UserIsNull()
         {
+            // Arrange & Act & Assert
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
                 new global::RTWTR.Service.Data.FavouriteUserService(
@@ -88,6 +92,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         [TestMethod]
         public void Throw_ArgumentNullExceptio_When_TwitterUsersIsNull()
         {
+            // Arrange & Act & Assert
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
                 new global::RTWTR.Service.Data.FavouriteUserService(
@@ -103,6 +108,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         [TestMethod]
         public void Throw_ArgumentNullExceptio_When_UserTwitterUsersIsNull()
         {
+            // Arrange & Act & Assert
             Assert.ThrowsException<ArgumentNullException>(() =>
             {
                 new global::RTWTR.Service.Data.FavouriteUserService(

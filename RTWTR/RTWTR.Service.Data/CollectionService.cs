@@ -75,8 +75,8 @@ namespace RTWTR.Service.Data
                 throw new InvalidTweetIdException(nameof(tweetId));
             }
 
-            var tweetToDelete = GetTweetById(tweetId);
             var collection = GetCollectionById(collectionId);
+            var tweetToDelete = GetTweetById(tweetId);
 
             CollectionTweet collectionTweetToRemove = new CollectionTweet()
             {

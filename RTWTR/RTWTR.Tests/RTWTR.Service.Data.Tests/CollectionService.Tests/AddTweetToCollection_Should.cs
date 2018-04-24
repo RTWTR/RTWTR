@@ -22,6 +22,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
         [TestInitialize]
         public void TestInitialize()
         {
+            // Arrange
             this.saverStub = new Mock<ISaver>();
             this.mapperStub = new Mock<IMappingProvider>();
             this.collectionsRepositoryStub = new Mock<IRepository<Collection>>();
@@ -32,6 +33,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
         [TestMethod]
         public void Throw_InvalidCollectionIdException_When_CollectionIdIsNull()
         {
+            // Arrange
             var collectionServie = new global::RTWTR.Service.Data.CollectionService(
                 this.saverStub.Object,
                 this.mapperStub.Object,
@@ -40,6 +42,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
                 this.collectionTweetsRepositoryStub.Object
             );
 
+            // Act & Assert
             Assert.ThrowsException<InvalidCollectionIdException>(() =>
             {
                 collectionServie.AddTweetToCollection(null, "tweetId");
@@ -47,8 +50,9 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
         }
 
         [TestMethod]
-        public void Throw_InvalidUserIdException_When_CollectionIdIsEmpty()
+        public void Throw_InvalidCollectionIdException_When_CollectionIdIsEmpty()
         {
+            // Arrange
             var collectionServie = new global::RTWTR.Service.Data.CollectionService(
                 this.saverStub.Object,
                 this.mapperStub.Object,
@@ -57,7 +61,8 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
                 this.collectionTweetsRepositoryStub.Object
             );
 
-            Assert.ThrowsException<InvalidUserIdException>(() =>
+            // Act & Assert
+            Assert.ThrowsException<InvalidCollectionIdException>(() =>
             {
                 collectionServie.AddTweetToCollection(" ", "tweetId");
             });
@@ -66,6 +71,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
         [TestMethod]
         public void Throw_InvalidTweetIdException_When_TweetIdIsNull()
         {
+            // Arrange
             var collectionServie = new global::RTWTR.Service.Data.CollectionService(
                 this.saverStub.Object,
                 this.mapperStub.Object,
@@ -74,6 +80,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
                 this.collectionTweetsRepositoryStub.Object
             );
 
+            // Act & Assert
             Assert.ThrowsException<InvalidTweetIdException>(() =>
             {
                 collectionServie.AddTweetToCollection("collectionId", null);
@@ -83,6 +90,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
         [TestMethod]
         public void Throw_InvalidTweetIdException_When_TweetIdIsEmpty()
         {
+            // Arrange
             var collectionServie = new global::RTWTR.Service.Data.CollectionService(
                 this.saverStub.Object,
                 this.mapperStub.Object,
@@ -91,6 +99,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
                 this.collectionTweetsRepositoryStub.Object
             );
 
+            // Act & Assert
             Assert.ThrowsException<InvalidTweetIdException>(() =>
             {
                 collectionServie.AddTweetToCollection("collectionId", " ");
@@ -100,6 +109,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
         [TestMethod]
         public void Throw_NullCollectionException_When_CollectionIsNotFound()
         {
+            // Arrange
             var collectionServie = new global::RTWTR.Service.Data.CollectionService(
                 this.saverStub.Object,
                 this.mapperStub.Object,
@@ -108,6 +118,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
                 this.collectionTweetsRepositoryStub.Object
             );
 
+            // Act & Assert
             Assert.ThrowsException<NullCollectionException>(() =>
             {
                 collectionServie.AddTweetToCollection("collectionId", "tweetId");
@@ -117,6 +128,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
         [TestMethod]
         public void Throw_NullTweetException_When_TweetIsNotFound()
         {
+            // Arrange
             this.collectionsRepositoryStub
                 .Setup(x => x.All)
                 .Returns(
@@ -134,6 +146,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
                 this.collectionTweetsRepositoryStub.Object
             );
 
+            // Act & Assert
             Assert.ThrowsException<NullTweetException>(() =>
             {
                 collectionServie.AddTweetToCollection("collectionId", "tweetId");
@@ -143,6 +156,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
         [TestMethod]
         public void Call_CollectionRepository_All_Once()
         {
+            // Arrange
             this.collectionsRepositoryStub
                 .Setup(x => x.All)
                 .Returns(
@@ -170,8 +184,10 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
                 this.collectionTweetsRepositoryStub.Object
             );
 
+            // Act
             collectionServie.AddTweetToCollection("collectionId", "tweetId");
 
+            // Assert
             this.collectionsRepositoryStub.Verify(
                 x => x.All, 
                 Times.Once
@@ -181,6 +197,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
         [TestMethod]
         public void Call_TweetRepository_All_Once()
         {
+            // Arrange
             this.collectionsRepositoryStub
                 .Setup(x => x.All)
                 .Returns(
@@ -208,8 +225,10 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
                 this.collectionTweetsRepositoryStub.Object
             );
 
+            // Act
             collectionServie.AddTweetToCollection("collectionId", "tweetId");
 
+            // Assert
             this.tweetsRepositoryStub.Verify(
                 x => x.All, 
                 Times.Once
@@ -219,6 +238,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
         [TestMethod]
         public void Call_CollectionTweetRepository_Add_Once()
         {
+            // Arrange
             this.collectionTweetsRepositoryStub
                 .Setup(x => x.Add(It.IsAny<CollectionTweet>()))
                 .Verifiable();
@@ -249,8 +269,10 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
                 this.collectionTweetsRepositoryStub.Object
             );
 
+            // Act
             collectionServie.AddTweetToCollection("collectionId", "tweetId");
 
+            // Assert
             this.collectionTweetsRepositoryStub.Verify(
                 x => x.Add(It.IsAny<CollectionTweet>()), 
                 Times.Once
@@ -260,6 +282,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
         [TestMethod]
         public void Call_Saver_SaveChanges_Once()
         {
+            // Arrange
             this.saverStub
                 .Setup(x => x.SaveChanges())
                 .Returns(1)
@@ -291,8 +314,10 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
                 this.collectionTweetsRepositoryStub.Object
             );
 
+            // Act
             collectionServie.AddTweetToCollection("collectionId", "tweetId");
 
+            // Assert
             this.saverStub.Verify(
                 x => x.SaveChanges(), 
                 Times.Once
@@ -302,6 +327,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
         [TestMethod]
         public void Return_One_When_SuccessfullyAddedUserToFavourites()
         {
+            // Arrange
             this.saverStub
                 .Setup(x => x.SaveChanges())
                 .Returns(1);
@@ -332,6 +358,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.CollectionService.Tests
                 this.collectionTweetsRepositoryStub.Object
             );
 
+            // Act & Assert
             Assert.AreEqual(
                 1,
                 collectionServie.AddTweetToCollection("collectionId", "tweetId")

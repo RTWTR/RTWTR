@@ -23,6 +23,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         [TestInitialize]
         public void TestInitialize()
         {
+            // Arrange
             this.saverStub = new Mock<ISaver>();
             this.mapperStub = new Mock<IMappingProvider>();
             this.userRepositoryStub = new Mock<IRepository<User>>();
@@ -33,6 +34,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         [TestMethod]
         public void Throw_InvalidUserIdException_When_UserIdIsNull()
         {
+            // Arrange
             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
                 this.saverStub.Object,
                 this.mapperStub.Object,
@@ -41,6 +43,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
                 this.userTwitterUserRepositoryStub.Object
             );
 
+            // Act & Assert
             Assert.ThrowsException<InvalidUserIdException>(() =>
             {
                 favouriteUserService.GetUserFavourites(null);
@@ -50,6 +53,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         [TestMethod]
         public void Throw_InvalidUserIdException_When_UserIdIsEmpty()
         {
+            // Arrange
             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
                 this.saverStub.Object,
                 this.mapperStub.Object,
@@ -58,6 +62,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
                 this.userTwitterUserRepositoryStub.Object
             );
 
+            // Act & Assert
             Assert.ThrowsException<InvalidUserIdException>(() =>
             {
                 favouriteUserService.GetUserFavourites(" ");
@@ -67,6 +72,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         [TestMethod]
         public void Return_NoFavourites_When_UserHasNoFavourites()
         {
+            // Arrange
             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
                 this.saverStub.Object,
                 this.mapperStub.Object,
@@ -75,10 +81,12 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
                 this.userTwitterUserRepositoryStub.Object
             );
 
+            // Act
             var favourites = favouriteUserService
                 .GetUserFavourites("userId")
                 .ToList();
 
+            // Assert
             Assert.AreEqual(
                 0,
                 favourites.Count
@@ -88,6 +96,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         [TestMethod]
         public void Call_UserTwitterUserRepository_All_Once()
         {
+            // Arrange
             this.userTwitterUserRepositoryStub
                 .Setup(x => x.All)
                 .Returns(
@@ -106,8 +115,10 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
                 this.userTwitterUserRepositoryStub.Object
             );
 
+            // Act
             favouriteUserService.GetUserFavourites("userId");
 
+            // Assert
             this.userTwitterUserRepositoryStub.Verify(
                 x => x.All, 
                 Times.Once
@@ -117,6 +128,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         [TestMethod]
         public void Call_Mapper_ProjectTo_Once()
         {
+            // Arrange
             this.userTwitterUserRepositoryStub
                 .Setup(x => x.All)
                 .Returns(
@@ -144,8 +156,10 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
                 this.userTwitterUserRepositoryStub.Object
             );
 
+            // Act
             favouriteUserService.GetUserFavourites("userId");
 
+            // Assert
             this.mapperStub.Verify(
                 x => x.ProjectTo<TwitterUserDto>(It.IsAny<IQueryable<UserTwitterUser>>()), 
                 Times.Once
@@ -155,6 +169,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         [TestMethod]
         public void Return_UserFavourites_When_UserIdIsValid()
         {
+            // Arrange
             this.userTwitterUserRepositoryStub
                 .Setup(x => x.All)
                 .Returns(
@@ -181,10 +196,12 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
                 this.userTwitterUserRepositoryStub.Object
             );
 
+            // Act
             var favourites = favouriteUserService
                 .GetUserFavourites("userId")
                 .ToList();
 
+            // Assert
             Assert.AreEqual(
                 1,
                 favourites.Count()
