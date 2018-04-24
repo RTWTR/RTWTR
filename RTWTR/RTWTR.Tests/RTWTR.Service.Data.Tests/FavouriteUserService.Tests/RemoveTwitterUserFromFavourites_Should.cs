@@ -11,7 +11,7 @@ using RTWTR.Infrastructure.Mapping.Provider;
 namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
 {
     [TestClass]
-    public class AddTwitterUserToFavourites_Should
+    public class RemoveTwitterUserFromFavourites_Should
     {
         private Mock<ISaver> saverStub;
         private Mock<IMappingProvider> mapperStub;
@@ -42,7 +42,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
 
             Assert.ThrowsException<InvalidUserIdException>(() =>
             {
-                favouriteUserService.AddTwitterUserToFavourites(null, "twitterUserId");
+                favouriteUserService.RemoveTwitterUserFromFavourites(null, "twitterUserId");
             });
         }
 
@@ -59,7 +59,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
 
             Assert.ThrowsException<InvalidUserIdException>(() =>
             {
-                favouriteUserService.AddTwitterUserToFavourites(" ", "twitterUserId");
+                favouriteUserService.RemoveTwitterUserFromFavourites(" ", "twitterUserId");
             });
         }
 
@@ -76,7 +76,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
 
             Assert.ThrowsException<InvalidTwitterUserIdException>(() =>
             {
-                favouriteUserService.AddTwitterUserToFavourites("userId", null);
+                favouriteUserService.RemoveTwitterUserFromFavourites("userId", null);
             });
         }
 
@@ -93,7 +93,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
 
             Assert.ThrowsException<InvalidTwitterUserIdException>(() =>
             {
-                favouriteUserService.AddTwitterUserToFavourites("userId", " ");
+                favouriteUserService.RemoveTwitterUserFromFavourites("userId", " ");
             });
         }
 
@@ -110,7 +110,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
 
             Assert.ThrowsException<NullUserException>(() =>
             {
-                favouriteUserService.AddTwitterUserToFavourites("userId", "twitterId");
+                favouriteUserService.RemoveTwitterUserFromFavourites("userId", "twitterId");
             });
         }
 
@@ -136,15 +136,15 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
 
             Assert.ThrowsException<NullTwitterUserException>(() =>
             {
-                favouriteUserService.AddTwitterUserToFavourites("userId", "twitterId");
+                favouriteUserService.RemoveTwitterUserFromFavourites("userId", "twitterId");
             });
         }
 
         [TestMethod]
-        public void Call_UserTwitterUserRepository_Add_Once()
+        public void Call_UserTwitterUserRepository_Delete_Once()
         {
             this.userTwitterUserRepositoryStub
-                .Setup(x => x.Add(It.IsAny<UserTwitterUser>()))
+                .Setup(x => x.Delete(It.IsAny<UserTwitterUser>()))
                 .Verifiable();
 
             this.userRepositoryStub
@@ -173,10 +173,10 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
                 this.userTwitterUserRepositoryStub.Object
             );
 
-            favouriteUserService.AddTwitterUserToFavourites("userId", "twitterUserId");
+            favouriteUserService.RemoveTwitterUserFromFavourites("userId", "twitterUserId");
 
             this.userTwitterUserRepositoryStub.Verify(
-                x => x.Add(It.IsAny<UserTwitterUser>()), 
+                x => x.Delete(It.IsAny<UserTwitterUser>()), 
                 Times.Once
             );
         }
@@ -215,7 +215,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
                 this.userTwitterUserRepositoryStub.Object
             );
 
-            favouriteUserService.AddTwitterUserToFavourites("userId", "twitterUserId");
+            favouriteUserService.RemoveTwitterUserFromFavourites("userId", "twitterUserId");
 
             this.saverStub.Verify(
                 x => x.SaveChanges(), 
@@ -258,7 +258,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
 
             Assert.AreEqual(
                 1,
-                favouriteUserService.AddTwitterUserToFavourites("userId", "twitterUserId")
+                favouriteUserService.RemoveTwitterUserFromFavourites("userId", "twitterUserId")
             );
         }
     }

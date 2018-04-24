@@ -35,7 +35,7 @@ namespace RTWTR.Service.Data
             this.userTwitterUsers = userTwitterUsers ?? throw new ArgumentNullException(nameof(userTwitterUsers));
         }
 
-        public int AddTwitterUserToFavorites(string userId, string twitterUserId)
+        public int AddTwitterUserToFavourites(string userId, string twitterUserId)
         {
             if (userId.IsNullEmptyOrWhitespace())
             {
