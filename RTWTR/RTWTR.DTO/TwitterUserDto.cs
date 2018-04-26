@@ -3,7 +3,7 @@
     public class TwitterUserDto
     {
         public string Id { get; set; }
-        
+
         public string ScreenName { get; set; }
 
         public string Name { get; set; }

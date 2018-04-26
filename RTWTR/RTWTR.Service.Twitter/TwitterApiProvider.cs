@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
 using RTWTR.Infrastructure.Contracts;
@@ -26,11 +27,11 @@ namespace RTWTR.Service.Twitter
                 throw new ArgumentNullException(nameof(encoder));
         }
 
-        public string GetJSON(string url)
+        public async Task<string> GetJSON(string url)
         {
             if (this.bearerToken == null)
             {
-                SetBearerToken();
+                await SetBearerToken();
             }
 
             WebRequest request = GetRequest(
@@ -40,10 +41,10 @@ namespace RTWTR.Service.Twitter
                 "application/x-www-form-urlencoded;charset=UTF-8"
             );
 
-            return this.GetResponse(request);
+            return await this.GetResponse(request);
         }
 
-        private void SetBearerToken()
+        private async Task SetBearerToken()
         {
             string consumerKey = this.variableProvider.GetValue("rtwtr_consumerKey");
             string consumerSecret = this.variableProvider.GetValue("rtwtr_consumerSecret");
@@ -58,7 +59,7 @@ namespace RTWTR.Service.Twitter
                 "grant_type=client_credentials"
             );
 
-            string jsonResponse = GetResponse(request);
+            string jsonResponse = await GetResponse(request);
 
             JObject parsedResponse = JObject.Parse(jsonResponse);
 
@@ -85,9 +86,9 @@ namespace RTWTR.Service.Twitter
             return request;
         }
 
-        private string GetResponse(WebRequest request)
+        private async Task<string> GetResponse(WebRequest request)
         {
-            HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+            HttpWebResponse response = (HttpWebResponse) await request.GetResponseAsync();
 
             string jsonResponse = string.Empty;
 

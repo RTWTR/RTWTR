@@ -14,9 +14,14 @@ namespace RTWTR.MVC.Controllers
             this.service = service ?? throw new ArgumentNullException(nameof(service));
         }
 
-        public string Search(string name)
+        public async Task<string> Search(string handle)
         {
-            return this.service.SearchUserJSON(name);
+            return await this.service.SearchUserJSON(handle);
+        }
+
+        public async Task<string> ShowUser(string screen_name)
+        {
+            return await this.service.GetSingleUserJSON(screen_name);
         }
     }
 }
