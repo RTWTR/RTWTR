@@ -12,6 +12,10 @@ namespace RTWTR.MVC.Controllers
     {
         public IActionResult Index()
         {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return View("NotLoggedInIndex");
+            }
             return View();
         }
 
