@@ -68,11 +68,17 @@ body {
 }
 
 @media screen and (max-width: 990px) {
-  .login {
-    height: 50vh;
+  .top {
+    top: 0;    
   }
 
-  .info {
+  .bottom {
+    bottom:0;
+  }
+
+  .responsive {
+    width: 100%;
+    position: absolute;
     height: 50vh;
   }
 }

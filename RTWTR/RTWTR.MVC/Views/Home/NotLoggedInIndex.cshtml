@@ -26,9 +26,9 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6 info"></div>
+            <div class="col-md-6 info responsive bottom"></div>
 
-            <div class="col-md-6 login">
+            <div class="col-md-6 login responsive top">
                 <div class="form">
                     <form class="form-signin text-danger"
                         asp-controller="Account"
@@ -58,7 +58,7 @@
                             type="submit">Log in</button>
                     </form>
                 </div>
-            </div>        
+            </div>
         </div>
     </div>
 
@@ -82,6 +82,14 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+
+    <script>
+        $("li").on("click", function() {
+            e.preventDefault();
+
+            $(this).tab("show");
+        });
+    </script>
 
     @section Scripts {
         @await Html.PartialAsync("_ValidationScriptsPartial")
