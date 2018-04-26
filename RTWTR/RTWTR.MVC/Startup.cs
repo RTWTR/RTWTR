@@ -62,8 +62,7 @@ namespace RTWTR.MVC
                 .AddEntityFrameworkStores<RTWTRDbContext>()
                 .AddDefaultTokenProviders();
 
-            this.RegisterInfrastructure(services);
-            
+            this.RegisterInfrastructure(services);            
 
             if (this.Environment.IsDevelopment())
             {

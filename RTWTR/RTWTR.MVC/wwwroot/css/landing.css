@@ -4,6 +4,8 @@ body {
   margin: 0;
 }
 
+/* General */
+
 ol, ul {
   margin-left: -40px;
   margin-bottom: 20px;
@@ -18,7 +20,7 @@ ol, ul {
   color: #ffffff;
   background: #1da1f2;
   height: 100vh;
-  font-family: "Helvetica Heue", Helvetica, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .login {
@@ -36,6 +38,24 @@ ol, ul {
   transform:  translateY(-55%);
 }
 
+h1 .title {
+  background-color: #ffffff;
+}
+
+.field-validation-error {
+  margin-top: 10px;
+}
+
+.text-danger {
+  color: #f02926;
+}
+
+.indent {
+  padding-left: 10px;
+}
+
+/* Form customizations */
+
 .form-signin {
   max-width: 330px;
   padding: 15px;
@@ -49,6 +69,10 @@ ol, ul {
 
 .css-label {
   color: #ffffff;
+}
+
+.indent {
+  padding-left: 7px;
 }
 
 .form-signin .checkbox {
@@ -79,6 +103,8 @@ ol, ul {
   border-radius: 0;
 }
 
+/* Button customizations */
+
 .btn {
   background-color: #ffffff;
   border-radius: 100px;
@@ -97,9 +123,7 @@ ol, ul {
   text-align: center;
 }
 
-h1 .title {
-  background-color: #ffffff;
-}
+/* Media queries */
 
 @media screen and (max-width: 990px) {
   .top {

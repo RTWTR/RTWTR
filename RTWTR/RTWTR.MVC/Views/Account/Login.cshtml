@@ -43,7 +43,7 @@
                             asp-action="Login"
                             asp-route-returnurl="@ViewData["ReturnUrl"]" 
                             asp-validation-summary="All" method="POST">
-                            <h2 class="form-signin-heading css-label">Please sign in</h2>
+                            <h2 class="form-signin-heading css-label indent">Please sign in</h2>
 
                             <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -57,10 +57,10 @@
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
 
-                            <div class="checkbox">
-                            <label class="css-label" asp-for="RememberMe">
-                                <input asp-for="RememberMe"> Remember me
-                            </label>
+                            <div class="checkbox indent">
+                                <label class="css-label" asp-for="RememberMe">
+                                    <input asp-for="RememberMe"> Remember me
+                                </label>
                             </div>
                             <button class="btn btn-lg btn-block btn-login" 
                                 type="submit">Log in</button>
