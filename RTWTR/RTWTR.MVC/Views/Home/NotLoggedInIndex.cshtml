@@ -37,14 +37,14 @@
                         asp-validation-summary="All" method="POST">
                         <h2 class="form-signin-heading css-label">Please sign in</h2>
 
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
                         <div class="email">
-                            <!-- <label asp-for="Email" class="sr-only">Email Address</label> -->
                             <input asp-for="Email" class="form-control" placeholder="Email Address">
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
 
                         <div class="password">
-                            <!-- <label asp-for="Password" class="sr-only">Password</label> -->
                             <input asp-for="Password" class="form-control" placeholder="Password">
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
