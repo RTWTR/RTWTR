@@ -6,7 +6,7 @@ using RTWTR.Data.Models;
 
 namespace RTWTR.Data.Access
 {
-    class Saver : ISaver
+    public class Saver : ISaver
     {
         private RTWTRDbContext context;
 
