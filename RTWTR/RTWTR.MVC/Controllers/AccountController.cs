@@ -80,7 +80,7 @@ namespace RTWTR.MVC.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "The email and password you entered did not match our records. Please double-check and try again.");
                     return View(model);
                 }
             }

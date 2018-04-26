@@ -4,9 +4,21 @@ body {
   margin: 0;
 }
 
+ol, ul {
+  margin-left: -40px;
+  margin-bottom: 20px;
+  list-style-type: none;
+}
+
+.text {
+  margin: 10px;
+}
+
 .info {
+  color: #ffffff;
   background: #1da1f2;
   height: 100vh;
+  font-family: "Helvetica Heue", Helvetica, sans-serif;
 }
 
 .login {
@@ -81,6 +93,10 @@ body {
   font-size: 18px;
   line-height: 1.3333333;
   text-align: center;
+}
+
+h1 .title {
+  background-color: #ffffff;
 }
 
 @media screen and (max-width: 990px) {

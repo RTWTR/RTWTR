@@ -14,7 +14,7 @@ namespace RTWTR.MVC.Controllers
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
-                return View("NotLoggedInIndex");
+                return RedirectToAction("Login", "Account");
             }
             
             return View();
