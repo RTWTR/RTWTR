@@ -63,7 +63,8 @@ namespace RTWTR.MVC
                 .AddDefaultTokenProviders();
 
             this.RegisterInfrastructure(services);
-            this.RegisterServices(services);
+            
+
             if (this.Environment.IsDevelopment())
             {
                 services.Configure<IdentityOptions>(options =>
@@ -92,6 +93,9 @@ namespace RTWTR.MVC
             services.AddScoped<IEncoder, TokenEncoder>();
             services.AddScoped<IApiProvider, TwitterApiProvider>();
             services.AddScoped<ITwitterService, TwitterService>();
+            services.AddTransient<ITwitterUserService, TwitterUserService>();
+            services.AddTransient<ITweetService, TweetService>();
+            services.AddTransient<ICollectionService, CollectionService>();
 
             services.AddMvc();
         }
@@ -101,13 +105,7 @@ namespace RTWTR.MVC
             services.AddScoped<IMappingProvider, MappingProvider>();
             services.AddMvc();
         }
-        private void RegisterServices(IServiceCollection services)
-        {
-            services.AddTransient<ITwitterService,TwitterService>();
-            services.AddTransient<ITwitterUserService, TwitterUserService>();
-            services.AddTransient<ITweetService, TweetService>();
-            services.AddTransient<ICollectionService, CollectionService>();
-        }
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
