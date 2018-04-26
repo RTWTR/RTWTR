@@ -1,25 +1,78 @@
 html,
 body {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .info {
-    background: #1da1f2;
-    height: 100vh;
+  background: #1da1f2;
+  height: 100vh;
 }
 
 .login {
-    background: #1b2836;
-    height: 100vh;
+  background: #1b2836;
+  height: 100vh;
+}
+
+.form {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+
+.css-label {
+  color: #ffffff;
+}
+
+.form-signin .checkbox {
+  font-weight: normal;
+}
+
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 @media screen and (max-width: 990px) {
-    .info {
-        height: 50vh;
-    }
+  .login {
+    height: 50vh;
+  }
 
-    .login {
-        height: 50vh;
-    }
+  .info {
+    height: 50vh;
+  }
 }
