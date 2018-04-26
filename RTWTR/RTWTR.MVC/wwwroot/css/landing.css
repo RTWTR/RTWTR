@@ -70,6 +70,10 @@ body {
   border-radius: 100px;
 }
 
+.btn-login {
+  color: #1da1f2;
+}
+
 .btn-twitter {
   background-color: #1da1f2;
   margin-top: -20px;
