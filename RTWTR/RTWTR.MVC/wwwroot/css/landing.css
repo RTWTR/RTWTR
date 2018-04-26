@@ -19,7 +19,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  position: absolute;
+  position: relative;
 }
 
 .form-signin {
@@ -57,14 +57,26 @@ body {
 
 .form-signin input[type="email"] {
   margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+  border-radius: 0;
 }
 
 .form-signin input[type="password"] {
   margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  border-radius: 0;
+}
+
+.btn {
+  background-color: #ffffff;
+  border-radius: 100px;
+}
+
+.btn-twitter {
+  background-color: #1da1f2;
+  margin-top: -20px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+  text-align: center;
 }
 
 @media screen and (max-width: 990px) {
@@ -80,5 +92,29 @@ body {
     width: 100%;
     position: absolute;
     height: 50vh;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .top {
+    top: 0; 
+    height: 55vh;   
+  }
+
+  .bottom {
+    bottom:0;
+    height: 45vh;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .top {
+    top: 0; 
+    height: 60vh;   
+  }
+
+  .bottom {
+    bottom:0;
+    height: 40vh;
   }
 }
