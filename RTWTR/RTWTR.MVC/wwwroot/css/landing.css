@@ -26,12 +26,14 @@ ol, ul {
   height: 100vh;
 }
 
-.form {
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+#custom-form {
+  height: 100%;
+}
+
+#inner-form {
   position: relative;
+  top: 50%;
+  transform:  translateY(-55%);
 }
 
 .form-signin {
@@ -112,6 +114,10 @@ h1 .title {
     width: 100%;
     position: absolute;
     height: 50vh;
+  }
+
+  #inner-form {
+    transform: translateY(-60%);
   }
 }
 

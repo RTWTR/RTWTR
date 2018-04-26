@@ -36,45 +36,47 @@
             </div>
 
             <div class="col-md-6 login responsive top">
-                <div class="form">
-                    <form class="form-signin text-danger"
-                        asp-controller="Account"
-                        asp-action="Login"
-                        asp-route-returnurl="@ViewData["ReturnUrl"]" 
-                        asp-validation-summary="All" method="POST">
-                        <h2 class="form-signin-heading css-label">Please sign in</h2>
+                <div id="custom-form">
+                    <div id="inner-form">
+                        <form class="form-signin text-danger"
+                            asp-controller="Account"
+                            asp-action="Login"
+                            asp-route-returnurl="@ViewData["ReturnUrl"]" 
+                            asp-validation-summary="All" method="POST">
+                            <h2 class="form-signin-heading css-label">Please sign in</h2>
 
-                        <div asp-validation-summary="All" class="text-danger"></div>
+                            <div asp-validation-summary="All" class="text-danger"></div>
 
-                        <div class="email">
-                            <input asp-for="Email" class="form-control" placeholder="Email Address">
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
+                            <div class="email">
+                                <input asp-for="Email" class="form-control" placeholder="Email Address">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
 
-                        <div class="password">
-                            <input asp-for="Password" class="form-control" placeholder="Password">
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
+                            <div class="password">
+                                <input asp-for="Password" class="form-control" placeholder="Password">
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
 
-                        <div class="checkbox">
-                        <label class="css-label" asp-for="RememberMe">
-                            <input asp-for="RememberMe"> Remember me
-                        </label>
-                        </div>
-                        <button class="btn btn-lg btn-block btn-login" 
-                            type="submit">Log in</button>
-                    </form>
-                    
-                    <form class="form-signin text-danger"
-                        asp-controller="Account"
-                        asp-action="ExternalLogin"
-                        asp-route-returnurl="@ViewData["ReturnUrl"]" 
-                        asp-validation-summary="All" method="POST">
-                        <button class="btn btn-lg btn-block btn-twitter" 
-                            name="provider"
-                            value="Twitter"
-                            type="submit">Log in with Twitter</button>
-                    </form>
+                            <div class="checkbox">
+                            <label class="css-label" asp-for="RememberMe">
+                                <input asp-for="RememberMe"> Remember me
+                            </label>
+                            </div>
+                            <button class="btn btn-lg btn-block btn-login" 
+                                type="submit">Log in</button>
+                        </form>
+                        
+                        <form class="form-signin text-danger"
+                            asp-controller="Account"
+                            asp-action="ExternalLogin"
+                            asp-route-returnurl="@ViewData["ReturnUrl"]" 
+                            asp-validation-summary="All" method="POST">
+                            <button class="btn btn-lg btn-block btn-twitter" 
+                                name="provider"
+                                value="Twitter"
+                                type="submit">Log in with Twitter</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
