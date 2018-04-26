@@ -1,6 +1,13 @@
+@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@model LoginViewModel
+@inject SignInManager<User> SignInManager
+
 @{
-    ViewData["Title"] = "Home Page";
-    Layout = null;
+    ViewData["Title"] = "Log in";
+    Layout = null;  
 }
 
 <!DOCTYPE html>
@@ -23,18 +30,32 @@
 
             <div class="col-md-6 login">
                 <div class="form">
-                    <form class="form-signin">
+                    <form class="form-signin text-danger"
+                        asp-controller="Account"
+                        asp-action="Login"
+                        asp-route-returnurl="@ViewData["ReturnUrl"]" 
+                        asp-validation-summary="All" method="POST">
                         <h2 class="form-signin-heading css-label">Please sign in</h2>
-                        <label for="inputEmail" class="sr-only">Email address</label>
-                        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                        <label for="inputPassword" class="sr-only">Password</label>
-                        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+
+                        <div class="email">
+                            <!-- <label asp-for="Email" class="sr-only">Email Address</label> -->
+                            <input asp-for="Email" class="form-control" placeholder="Email Address">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="password">
+                            <!-- <label asp-for="Password" class="sr-only">Password</label> -->
+                            <input asp-for="Password" class="form-control" placeholder="Password">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
                         <div class="checkbox">
-                        <label class="css-label">
-                            <input type="checkbox" value="remember-me"> Remember me
+                        <label class="css-label" asp-for="RememberMe">
+                            <input asp-for="RememberMe"> Remember me
                         </label>
                         </div>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                        <button class="btn btn-lg btn-primary btn-block" 
+                            type="submit">Log in</button>
                     </form>
                 </div>
             </div>        
@@ -61,5 +82,9 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+
+    @section Scripts {
+        @await Html.PartialAsync("_ValidationScriptsPartial")
+    }
 </body>
 </html>

@@ -16,6 +16,7 @@ namespace RTWTR.MVC.Controllers
             {
                 return View("NotLoggedInIndex");
             }
+            
             return View();
         }
 
