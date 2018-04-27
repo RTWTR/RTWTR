@@ -46,6 +46,15 @@ ol, ul {
   padding-left: 10px;
 }
 
+.partial {
+  z-index: -1;
+  position: fixed;
+  min-width: 400px;
+  max-width: 400px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
 h1 .title {
   background-color: #ffffff;  
 }
@@ -56,12 +65,13 @@ li a {
   color: #ffffff;
 }
 
-.nav-bar {
+.nav-pills {
   padding-top: 5px;
   padding-left: 32px;
 }
 
-.nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+.nav-pills > li.active > a, 
+.nav-pills > li.active > a:focus {
   background-color: #1da1f2;
 }
 
@@ -161,6 +171,10 @@ li a {
 
   .bottom {
     bottom:0;
+  }
+
+  .info {
+    height: 0;
   }
 
   .responsive {

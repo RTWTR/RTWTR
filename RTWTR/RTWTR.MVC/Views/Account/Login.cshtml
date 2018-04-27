@@ -12,7 +12,6 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css">
     <link rel="stylesheet" href="~/css/landing.css">
 
     <title>RTWTR</title>
@@ -30,21 +29,32 @@
 
             <div class="col-md-6 login responsive top">
                 <div id="custom-form">
-                    <ul class="nav nav-pills nav-bar">
+                    <ul class="nav nav-pills">
                         <li class="active">
-                            <a href="#loginTab" data-toggle="tab">Log In</a>
+                            <a data-toggle="pill" href="#login">Log In</a>
                         </li>
                         <li>
-                            <a href="#registerTab" data-toggle="tab">Register</a>
+                            <a data-toggle="pill" href="#register">Register</a>
                         </li>
                     </ul>
+                    
+                    <div class="tab-content">
+                        <div id="inner-form">
+                            <div id="login" class="tab-pane fade in active frontal">
+                                <div class="partial">
+                                <!-- login partial -->
+                                @{
+                                    await Html.RenderPartialAsync("_LoginHomePartial");
+                                }
 
-                    <!-- <div id="inner-form">
-                        login partial
-                        @{
-                            await Html.RenderPartialAsync("_LoginHomePartial");
-                        }
-                    </div> -->
+                                </div>
+                            </div>
+                            
+                            <div id="register" class="tab-pane fade">
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -52,6 +62,7 @@
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
