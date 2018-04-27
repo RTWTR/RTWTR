@@ -38,20 +38,44 @@ ol, ul {
   transform:  translateY(-55%);
 }
 
-h1 .title {
-  background-color: #ffffff;
-}
-
-.field-validation-error {
-  margin-top: 10px;
-}
-
 .text-danger {
   color: #f02926;
 }
 
 .indent {
   padding-left: 10px;
+}
+
+h1 .title {
+  background-color: #ffffff;  
+}
+
+/* Nav-pills customization */
+
+li a {
+  color: #ffffff;
+}
+
+.nav-bar {
+  padding-top: 5px;
+  padding-left: 32px;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+  background-color: #1da1f2;
+}
+
+.nav > li > a:hover {
+  color: #1da1f2;
+  background-color: #ffffff;
+}
+
+.nav-pills > li.active > a:hover {
+  background: #1da1f2;
+}
+
+.field-validation-error {
+  margin-top: 10px;
 }
 
 /* Form customizations */
@@ -112,6 +136,11 @@ h1 .title {
 
 .btn-login {
   color: #1da1f2;
+}
+
+.btn-login:hover {
+  color: #1da1f2;
+  background-color: #f0f0f0;
 }
 
 .btn-twitter {

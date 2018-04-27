@@ -1,11 +1,4 @@
-﻿@using System.Collections.Generic
-@using System.Linq
-@using Microsoft.AspNetCore.Http
-@using Microsoft.AspNetCore.Http.Authentication
-@model LoginViewModel
-@inject SignInManager<User> SignInManager
-
-@{
+﻿@{
     ViewData["Title"] = "Log in";
     Layout = null;  
 }
@@ -37,46 +30,21 @@
 
             <div class="col-md-6 login responsive top">
                 <div id="custom-form">
-                    <div id="inner-form">
-                        <form class="form-signin text-danger"
-                            asp-controller="Account"
-                            asp-action="Login"
-                            asp-route-returnurl="@ViewData["ReturnUrl"]" 
-                            asp-validation-summary="All" method="POST">
-                            <h2 class="form-signin-heading css-label indent">Please sign in</h2>
+                    <ul class="nav nav-pills nav-bar">
+                        <li class="active">
+                            <a href="#loginTab" data-toggle="tab">Log In</a>
+                        </li>
+                        <li>
+                            <a href="#registerTab" data-toggle="tab">Register</a>
+                        </li>
+                    </ul>
 
-                            <div asp-validation-summary="All" class="text-danger"></div>
-
-                            <div class="email">
-                                <input asp-for="Email" class="form-control" placeholder="Email Address">
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
-
-                            <div class="password">
-                                <input asp-for="Password" class="form-control" placeholder="Password">
-                                <span asp-validation-for="Password" class="text-danger"></span>
-                            </div>
-
-                            <div class="checkbox indent">
-                                <label class="css-label" asp-for="RememberMe">
-                                    <input asp-for="RememberMe"> Remember me
-                                </label>
-                            </div>
-                            <button class="btn btn-lg btn-block btn-login" 
-                                type="submit">Log in</button>
-                        </form>
-                        
-                        <form class="form-signin text-danger"
-                            asp-controller="Account"
-                            asp-action="ExternalLogin"
-                            asp-route-returnurl="@ViewData["ReturnUrl"]" 
-                            asp-validation-summary="All" method="POST">
-                            <button class="btn btn-lg btn-block btn-twitter" 
-                                name="provider"
-                                value="Twitter"
-                                type="submit">Log in with Twitter</button>
-                        </form>
-                    </div>
+                    <!-- <div id="inner-form">
+                        login partial
+                        @{
+                            await Html.RenderPartialAsync("_LoginHomePartial");
+                        }
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -104,11 +72,21 @@
     </environment>
 
     <script>
-        $("li").on("click", function() {
-            e.preventDefault();
+        $(function() {
+            $('.nav-bar li').click(function(){ 
+                $(this).addClass('active').siblings().removeClass('active');
+            }); 
+        })
 
-            $(this).tab("show");
-        });
+        $(function() {
+            $("#login").on("click", function() {
+                $("#root").empty();
+                $("#root").html("hi");
+            });
+            $("#register").on("click", function() {
+
+            });
+        })
     </script>
 
     @section Scripts {
