@@ -1,12 +1,4 @@
-﻿@using System.Collections.Generic
-@using System.Linq
-@using Microsoft.AspNetCore.Http
-@using Microsoft.AspNetCore.Http.Authentication
-@model LoginViewModel
-@inject SignInManager<User> SignInManager
-
-@{
-    ViewData["Title"] = "Log in";
+﻿@{
     Layout = null;  
 }
 
@@ -19,7 +11,6 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css">
     <link rel="stylesheet" href="~/css/landing.css">
 
     <title>RTWTR</title>
@@ -37,45 +28,27 @@
 
             <div class="col-md-6 login responsive top">
                 <div id="custom-form">
+                        <ul class="nav nav-pills">
+                        <li class="active">
+                            <a data-toggle="pill" href="#login">Log In</a>
+                        </li>
+                        <li>
+                            <a data-toggle="pill" href="#register">Register</a>
+                        </li>
+                    </ul>
                     <div id="inner-form">
-                        <form class="form-signin text-danger"
-                            asp-controller="Account"
-                            asp-action="Login"
-                            asp-route-returnurl="@ViewData["ReturnUrl"]" 
-                            asp-validation-summary="All" method="POST">
-                            <h2 class="form-signin-heading css-label indent">Please sign in</h2>
-
-                            <div asp-validation-summary="All" class="text-danger"></div>
-
-                            <div class="email">
-                                <input asp-for="Email" class="form-control" placeholder="Email Address">
-                                <span asp-validation-for="Email" class="text-danger"></span>
+                    
+                    <div class="tab-content">
+                        <div id="inner-form">
+                            <div id="login" class="tab-pane fade in active frontal">
+                                <div class="partial">
+                                    @await Html.PartialAsync("_LoginPartialHome")
+                                </div>
                             </div>
-
-                            <div class="password">
-                                <input asp-for="Password" class="form-control" placeholder="Password">
-                                <span asp-validation-for="Password" class="text-danger"></span>
+                            
+                            <div id="register" class="tab-pane fade">
                             </div>
-
-                            <div class="checkbox indent">
-                                <label class="css-label" asp-for="RememberMe">
-                                    <input asp-for="RememberMe"> Remember me
-                                </label>
-                            </div>
-                            <button class="btn btn-lg btn-block btn-login" 
-                                type="submit">Log in</button>
-                        </form>
-                        
-                        <form class="form-signin text-danger"
-                            asp-controller="Account"
-                            asp-action="ExternalLogin"
-                            asp-route-returnurl="@ViewData["ReturnUrl"]" 
-                            asp-validation-summary="All" method="POST">
-                            <button class="btn btn-lg btn-block btn-twitter" 
-                                name="provider"
-                                value="Twitter"
-                                type="submit">Log in with Twitter</button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,6 +57,7 @@
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
@@ -102,14 +76,6 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
-    <script>
-        $("li").on("click", function() {
-            e.preventDefault();
-
-            $(this).tab("show");
-        });
-    </script>
 
     @section Scripts {
         @await Html.PartialAsync("_ValidationScriptsPartial")

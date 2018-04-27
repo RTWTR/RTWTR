@@ -42,6 +42,14 @@ h1 .title {
   background-color: #ffffff;
 }
 
+.partial {
+  margin-top: 150px;
+}
+
+.nav-pills {
+  position: relative;
+}
+
 .field-validation-error {
   margin-top: 10px;
 }
@@ -52,6 +60,33 @@ h1 .title {
 
 .indent {
   padding-left: 10px;
+}
+
+li a {
+  color: #ffffff;
+}
+
+.nav-pills {
+  padding-top: 5px;
+  padding-left: 32px;
+}
+
+.nav-pills > li.active > a, 
+.nav-pills > li.active > a:focus {
+  background-color: #1da1f2;
+}
+
+.nav > li > a:hover {
+  color: #1da1f2;
+  background-color: #ffffff;
+}
+
+.nav-pills > li.active > a:hover {
+  background: #1da1f2;
+}
+
+.field-validation-error {
+  margin-top: 10px;
 }
 
 /* Form customizations */
@@ -106,21 +141,29 @@ h1 .title {
 /* Button customizations */
 
 .btn {
+  color: #1da1f2;
   background-color: #ffffff;
   border-radius: 100px;
 }
 
-.btn-login {
+.btn:hover {
   color: #1da1f2;
+  background-color: #eaeaea;
 }
 
 .btn-twitter {
+  color: #ffffff;
   background-color: #1da1f2;
   margin-top: -20px;
   padding: 10px 16px;
   font-size: 18px;
   line-height: 1.3333333;
   text-align: center;
+}
+
+.btn-twitter:hover {
+  color: #ffffff;
+  background-color: #1986c9;
 }
 
 /* Media queries */
@@ -132,6 +175,14 @@ h1 .title {
 
   .bottom {
     bottom:0;
+  }
+
+  .info {
+    height: 0;
+  }
+
+  .partial {
+    margin-top: 175px;
   }
 
   .responsive {
