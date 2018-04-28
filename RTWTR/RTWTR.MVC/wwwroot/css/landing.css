@@ -7,13 +7,18 @@ body {
 /* General */
 
 ol, ul {
-  margin-left: -40px;
-  margin-bottom: 20px;
+  /* margin-left: -40px;
+  margin-bottom: 20px; */
   list-style-type: none;
 }
 
 .text {
   margin: 10px;
+}
+
+.validation {
+  position: absolute;
+  margin-top: -100px;
 }
 
 .info {
@@ -38,6 +43,22 @@ ol, ul {
   transform:  translateY(-55%);
 }
 
+h1 .title {
+  background-color: #ffffff;
+}
+
+.partial {
+  margin-top: 150px;
+}
+
+.nav-pills {
+  position: relative;
+}
+
+.field-validation-error {
+  margin-top: 10px;
+}
+
 .text-danger {
   color: #f02926;
 }
@@ -46,23 +67,15 @@ ol, ul {
   padding-left: 10px;
 }
 
-.partial {
-  z-index: -1;
-  position: fixed;
-  min-width: 400px;
-  max-width: 400px;
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
-
-h1 .title {
-  background-color: #ffffff;  
-}
-
-/* Nav-pills customization */
-
 li a {
   color: #ffffff;
+}
+
+.navigation {
+  position: absolute;
+  left: -26px;
+  top: 0;
+  list-style-type: none;
 }
 
 .nav-pills {
@@ -140,26 +153,29 @@ li a {
 /* Button customizations */
 
 .btn {
+  color: #1da1f2;
   background-color: #ffffff;
   border-radius: 100px;
 }
 
-.btn-login {
+.btn:hover {
   color: #1da1f2;
-}
-
-.btn-login:hover {
-  color: #1da1f2;
-  background-color: #f0f0f0;
+  background-color: #eaeaea;
 }
 
 .btn-twitter {
+  color: #ffffff;
   background-color: #1da1f2;
   margin-top: -20px;
   padding: 10px 16px;
   font-size: 18px;
   line-height: 1.3333333;
   text-align: center;
+}
+
+.btn-twitter:hover {
+  color: #ffffff;
+  background-color: #1986c9;
 }
 
 /* Media queries */
@@ -175,6 +191,14 @@ li a {
 
   .info {
     height: 0;
+  }
+
+  .partial {
+    margin-top: 175px;
+  }
+
+  .validation {
+    margin-top: -70px;
   }
 
   .responsive {

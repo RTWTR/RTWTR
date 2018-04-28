@@ -1,5 +1,4 @@
 ﻿@{
-    ViewData["Title"] = "Log in";
     Layout = null;  
 }
 
@@ -29,24 +28,23 @@
 
             <div class="col-md-6 login responsive top">
                 <div id="custom-form">
-                    <ul class="nav nav-pills">
-                        <li class="active">
-                            <a data-toggle="pill" href="#login">Log In</a>
-                        </li>
-                        <li>
-                            <a data-toggle="pill" href="#register">Register</a>
-                        </li>
-                    </ul>
+                    <div class="navigation">
+                        <ul class="nav nav-pills">
+                            <li class="active">
+                                <a data-toggle="pill" href="#login">Log In</a>
+                            </li>
+                            <li>
+                                <a data-toggle="pill" href="#register">Register</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="inner-form">
                     
                     <div class="tab-content">
                         <div id="inner-form">
                             <div id="login" class="tab-pane fade in active frontal">
                                 <div class="partial">
-                                <!-- login partial -->
-                                @{
-                                    await Html.RenderPartialAsync("_LoginHomePartial");
-                                }
-
+                                    @await Html.PartialAsync("_LoginPartialHome")
                                 </div>
                             </div>
                             
@@ -54,7 +52,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -81,24 +78,6 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
-    <script>
-        $(function() {
-            $('.nav-bar li').click(function(){ 
-                $(this).addClass('active').siblings().removeClass('active');
-            }); 
-        })
-
-        $(function() {
-            $("#login").on("click", function() {
-                $("#root").empty();
-                $("#root").html("hi");
-            });
-            $("#register").on("click", function() {
-
-            });
-        })
-    </script>
 
     @section Scripts {
         @await Html.PartialAsync("_ValidationScriptsPartial")
