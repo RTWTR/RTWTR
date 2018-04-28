@@ -29,10 +29,11 @@ namespace RTWTR.MVC.Controllers
 
         private IActionResult Validate()
         {
-            if (!this.IsLoggedIn())
-            {
-                return RedirectToAction("Login", "Account");
-            }
+            //TODO: Remove Comments when finished developing _layout
+            //if (!this.IsLoggedIn())
+            //{
+            //    return RedirectToAction("Login", "Account");
+            //}
 
             return View();
         }
