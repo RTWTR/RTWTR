@@ -15,9 +15,6 @@
     <div id="page">
         <div class="navbar navbar-default navbar-static-top" role="navigation">
 
-
-
-
             <div class="navbar-header ">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".collapsable">
                     <span class="sr-only">Toggle navigation</span>
@@ -26,7 +23,6 @@
                     <span class="icon-bar"></span>
                 </button>
             </div>
-
 
             <div class="collapse navbar-collapse collapsable col-sm-offset-1">
 
@@ -82,12 +78,11 @@
         </section>
 
 
-
     </div>
 
-
-
-    @RenderBody()
+    <div class="container">
+        @RenderBody()
+    </div>
 
     <!-- Scripts -->
 
@@ -96,5 +91,4 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
 </body>
-
 </html>

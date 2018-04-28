@@ -1,0 +1,35 @@
+@model RegisterViewModel
+
+<div class="partial">
+    <form class="form-signin text-danger"
+        asp-controller="Account"
+        asp-action="Register"
+        asp-route-returnurl="@ViewData["ReturnUrl"]" 
+        asp-validation-summary="All" method="POST">
+        <h2 class="form-signin-heading css-label indent">Register</h2>
+
+        <div asp-validation-summary="All" class="text-danger validation"></div>
+
+        <div class="email">
+            <input asp-for="Email" class="form-control" placeholder="Email Address">
+            <!-- <span asp-validation-for="Email" class="text-danger"></span> -->
+        </div>
+
+        <div class="passwordReg">
+            <input asp-for="Password" class="form-control" placeholder="Password">
+            <!-- <span asp-validation-for="Password" class="text-danger"></span> -->
+        </div>
+
+        <div class="passwordConf">
+            <input asp-for="ConfirmPassword" class="form-control" placeholder="ConfirmPassword">
+            <!-- <span asp-validation-for="Password" class="text-danger"></span> -->
+        </div>
+
+        <button class="btn btn-lg btn-block btn-register" 
+            type="submit">Register</button>
+    </form>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

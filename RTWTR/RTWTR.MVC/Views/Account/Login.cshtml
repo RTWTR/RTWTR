@@ -38,17 +38,15 @@
                             </li>
                         </ul>
                     </div>
-                    <div id="inner-form">
                     
                     <div class="tab-content">
                         <div id="inner-form">
                             <div id="login" class="tab-pane fade in active frontal">
-                                <div class="partial">
-                                    @await Html.PartialAsync("_LoginPartialHome")
-                                </div>
+                                @await Html.PartialAsync("_LoginPartialHome")
                             </div>
                             
                             <div id="register" class="tab-pane fade">
+                                @await Html.PartialAsync("_RegisterPartialHome")
                             </div>
                         </div>
                     </div>
