@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RTWTR.DTO\RTWTR.DTO.csproj" />
     <ProjectReference Include="..\RTWTR.Infrastructure\RTWTR.Infrastructure.csproj" />
   </ItemGroup>
 

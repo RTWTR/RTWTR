@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Security.AccessControl;
-using System.Threading.Tasks;
 using RTWTR.DTO;
 using RTWTR.Infrastructure.Contracts;
 using RTWTR.Service.Twitter.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RTWTR.Service.Twitter
 {
@@ -52,12 +49,11 @@ namespace RTWTR.Service.Twitter
 
             var json = await this.GetRequestJSON(url);
 
-            if (json != string.Empty)
+            if (json == null)
             {
-                return this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
-            }
-
             return new List<TweetDto>();
+            }
+            return this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
         }
 
         public Task<string> SearchTweetJSON(string id)
