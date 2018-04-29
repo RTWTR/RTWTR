@@ -4,6 +4,7 @@ using RTWTR.Service.Twitter.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace RTWTR.Service.Twitter
 {
@@ -38,8 +39,8 @@ namespace RTWTR.Service.Twitter
                 screenName,
                 "&include_entities=false"
             );
-
-            return await this.apiProvider.GetJSON(url);
+            throw new NotImplementedException();
+            //return await this.apiProvider.GetJSON(url);
         }
 
         public async Task<ICollection<TweetDto>> GetUserTimeline(string userId, int tweetsCount)
@@ -47,13 +48,14 @@ namespace RTWTR.Service.Twitter
             string url = string.Concat(this.baseUrl,
                 $"statuses/user_timeline.json?user_id={userId}&count={tweetsCount}");
 
-            var json = await this.GetRequestJSON(url);
+            var response = await this.GetRequestJson(url);
 
-            if (json == null)
+            if (response == null)
             {
-            return new List<TweetDto>();
+                return new List<TweetDto>();
             }
-            return this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
+            return this.jsonProvider.DeserializeObject<List<TweetDto>>(response.ToString());
+
         }
 
         public Task<string> SearchTweetJSON(string id)
@@ -63,18 +65,19 @@ namespace RTWTR.Service.Twitter
 
         public async Task<string> SearchUserJSON(string handle)
         {
-            // Does NOT work with Apllication-Only authentication
-            string url = string.Concat(
-                this.baseUrl,
-                "users/search.json?q=",
-                handle,
-                "&include_entities=false"
-            );
+            //// Does NOT work with Apllication-Only authentication
+            //string url = string.Concat(
+            //    this.baseUrl,
+            //    "users/search.json?q=",
+            //    handle,
+            //    "&include_entities=false"
+            //);
 
-            return await this.apiProvider.GetJSON(url);
+            //return await this.apiProvider.GetJSON(url);
+            throw new NotImplementedException();
         }
 
-        private async Task<string> GetRequestJSON(string url)
+        private async Task<JArray> GetRequestJson(string url)
         {
             return await this.apiProvider.GetJSON(url);
         }

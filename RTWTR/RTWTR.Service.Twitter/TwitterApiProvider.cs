@@ -14,20 +14,23 @@ namespace RTWTR.Service.Twitter
     public class TwitterApiProvider : IApiProvider
     {
         private readonly IEncoder encoder;
-
+        private readonly IJsonProvider jsonProvider;
         private string bearerToken;
 
         private readonly IVariableProvider variableProvider;
 
-        public TwitterApiProvider(IEncoder encoder, IVariableProvider variableProvider)
+        public TwitterApiProvider(IEncoder encoder, IVariableProvider variableProvider, IJsonProvider jsonProvider)
         {
             this.variableProvider = variableProvider ??
                 throw new ArgumentNullException(nameof(variableProvider));
+
+            this.jsonProvider = jsonProvider ?? throw new ArgumentNullException(nameof(jsonProvider));
+
             this.encoder = encoder ??
                 throw new ArgumentNullException(nameof(encoder));
         }
 
-        public async Task<string> GetJSON(string url)
+        public async Task<JArray> GetJSON(string url)
         {
             if (this.bearerToken == null)
             {
@@ -41,7 +44,9 @@ namespace RTWTR.Service.Twitter
                 "application/x-www-form-urlencoded;charset=UTF-8"
             );
 
-            return await this.GetResponse(request);
+            var json = jsonProvider.ParseToJArray(await this.GetResponse(request));
+
+            return json;
         }
 
         private async Task SetBearerToken()
