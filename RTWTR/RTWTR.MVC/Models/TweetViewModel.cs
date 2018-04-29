@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RTWTR.MVC.Models
 {
@@ -16,7 +13,6 @@ namespace RTWTR.MVC.Models
         public string TwitterUserId { get; set; }
 
         public string TwitterUserScreenName { get; set; }
-
-        
+  
     }
 }

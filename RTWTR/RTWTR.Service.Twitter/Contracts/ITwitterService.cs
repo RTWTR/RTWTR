@@ -1,4 +1,5 @@
-using System;
+using RTWTR.DTO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RTWTR.Service.Twitter.Contracts
@@ -9,7 +10,7 @@ namespace RTWTR.Service.Twitter.Contracts
 
         Task<string> GetSingleTweetJSON(string id);
 
-        Task<string> GetUserTimelineJSON(string id);
+        Task<ICollection<TweetDto>> GetUserTimeline(string id, int tweetsCount);
 
         Task<string> SearchUserJSON(string handle);
 
