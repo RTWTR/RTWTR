@@ -74,6 +74,19 @@ namespace RTWTR.Data
                 .WithMany(x => x.UserTwitterUsers)
                 .HasForeignKey(x => x.TwitterUserId);
 
+            builder.Entity<UserTweets>()
+                .HasKey(x => new { x.UserId, x.TweetId });
+
+            builder.Entity<UserTweets>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.UserTweets)
+                .HasForeignKey(x => x.UserId);
+
+            builder.Entity<UserTweets>()
+                .HasOne(x => x.Tweet)
+                .WithMany(x => x.UserTweets)
+                .HasForeignKey(x => x.TweetId);
+
 
         }
     }
