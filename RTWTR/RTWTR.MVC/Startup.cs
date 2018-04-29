@@ -92,6 +92,7 @@ namespace RTWTR.MVC
             services.AddScoped<IEncoder, TokenEncoder>();
             services.AddScoped<IApiProvider, TwitterApiProvider>();
             services.AddScoped<ITwitterService, TwitterService>();
+            services.AddScoped<IJsonProvider, JsonProvider>();
             services.AddTransient<ITwitterUserService, TwitterUserService>();
             services.AddTransient<ITweetService, TweetService>();
             services.AddTransient<ICollectionService, CollectionService>();
