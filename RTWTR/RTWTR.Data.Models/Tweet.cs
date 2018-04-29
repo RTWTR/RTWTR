@@ -24,5 +24,8 @@ namespace RTWTR.Data.Models
         public ICollection<TwitterUserTweet> TwitterUserTweets { get; set; }
 
         public ICollection<CollectionTweet> CollectionTweets { get; set; }
+
+        public ICollection<UserTweets> UserTweets { get; set; }
+
     }
 }
