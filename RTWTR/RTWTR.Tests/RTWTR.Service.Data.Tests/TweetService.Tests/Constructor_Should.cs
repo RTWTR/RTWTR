@@ -13,6 +13,8 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TweetService.Tests
         private Mock<ISaver> saverStub;
         private Mock<IMappingProvider> mapperStub;
         private Mock<IRepository<Tweet>> tweetRepositoryStub;
+        private Mock<IRepository<User>> userStub;
+        private Mock<IRepository<UserTweets>> userTweetsStub;
 
         [TestInitialize]
         public void TestInitialize()
@@ -20,6 +22,8 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TweetService.Tests
             this.saverStub = new Mock<ISaver>();
             this.mapperStub = new Mock<IMappingProvider>();
             this.tweetRepositoryStub = new Mock<IRepository<Tweet>>();
+            this.userStub = new Mock<IRepository<User>>();
+            this.userTweetsStub = new Mock<IRepository<UserTweets>>();
         }
 
         [TestMethod]
@@ -29,7 +33,11 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TweetService.Tests
             var tweetService = new global::RTWTR.Service.Data.TweetService(
                 this.saverStub.Object,
                 this.mapperStub.Object,
-                this.tweetRepositoryStub.Object
+                this.tweetRepositoryStub.Object,
+                this.userStub.Object,
+                this.userTweetsStub.Object
+
+
             );
 
             // Assert
@@ -45,7 +53,9 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TweetService.Tests
                 new global::RTWTR.Service.Data.TweetService(
                     null,
                     this.mapperStub.Object,
-                    this.tweetRepositoryStub.Object
+                    this.tweetRepositoryStub.Object,
+                    this.userStub.Object,
+                    this.userTweetsStub.Object
                 );
             });
         }
@@ -59,7 +69,9 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TweetService.Tests
                 new global::RTWTR.Service.Data.TweetService(
                     this.saverStub.Object,
                     null,
-                    this.tweetRepositoryStub.Object
+                    this.tweetRepositoryStub.Object,
+                    this.userStub.Object,
+                    this.userTweetsStub.Object
                 );
             });
         }
@@ -73,7 +85,9 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TweetService.Tests
                 new global::RTWTR.Service.Data.TweetService(
                     this.saverStub.Object,
                     this.mapperStub.Object,
-                    null
+                    null,
+                    this.userStub.Object,
+                    this.userTweetsStub.Object
                 );
             });
         }
