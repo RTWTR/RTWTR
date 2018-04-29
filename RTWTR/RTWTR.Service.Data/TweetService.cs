@@ -4,6 +4,7 @@ using RTWTR.DTO;
 using RTWTR.Infrastructure.Mapping.Provider;
 using RTWTR.Service.Data.Contracts;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using RTWTR.Infrastructure;
 using RTWTR.Infrastructure.Exceptions;
@@ -111,6 +112,20 @@ namespace RTWTR.Service.Data
 
 
             return this.saver.SaveChanges();
+        }
+
+        public ICollection<TweetDto> GetUserFavourites(string userId)
+        {
+            if (userId.IsNullOrWhitespace())
+            {
+                throw new InvalidTwitterUserIdException(nameof(userId));
+            }
+
+            var tweets = userTweets.All.Where(x => x.UserId == userId);
+
+            var collectionOfFavourites = tweets.Select(t => mapper.MapTo<TweetDto>(t)).ToList();
+
+            return collectionOfFavourites;
         }
 
 
