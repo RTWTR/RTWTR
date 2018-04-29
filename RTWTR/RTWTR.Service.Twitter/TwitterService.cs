@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Security.AccessControl;
-using System.Threading.Tasks;
 using RTWTR.DTO;
 using RTWTR.Infrastructure.Contracts;
 using RTWTR.Service.Twitter.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RTWTR.Service.Twitter
 {
@@ -50,11 +47,11 @@ namespace RTWTR.Service.Twitter
             string url = string.Concat(this.baseUrl,
                 $"statuses/user_timeline.json?user_id={userId}&count={tweetsCount}");
 
-            var json = await this.GetRequestJSON(url);
+            var jsonAsString = await this.GetRequestJson(url);
 
-            if (json != string.Empty)
+            if (jsonAsString != string.Empty)
             {
-                return this.jsonProvider.DeserializeObject<List<TweetDto>>(json.ToString());
+                return this.jsonProvider.DeserializeObject<List<TweetDto>>(jsonAsString);
             }
 
             return new List<TweetDto>();
@@ -78,7 +75,7 @@ namespace RTWTR.Service.Twitter
             return await this.apiProvider.GetJSON(url);
         }
 
-        private async Task<string> GetRequestJSON(string url)
+        private async Task<string> GetRequestJson(string url)
         {
             return await this.apiProvider.GetJSON(url);
         }
