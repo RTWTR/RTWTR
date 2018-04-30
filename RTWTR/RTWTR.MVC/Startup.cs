@@ -81,6 +81,15 @@ namespace RTWTR.MVC
                     options.Lockout.MaxFailedAccessAttempts = 999;
                 });
             }
+
+            var consumerKey = this.GetEnvironmentVariable("rtwtr_consumerKey");
+            var consumerSecret = this.GetEnvironmentVariable("rtwtr_consumerSecret");
+
+            services.AddAuthentication().AddTwitter(twitterOptions =>
+            {
+                twitterOptions.ConsumerKey = consumerKey;
+                twitterOptions.ConsumerSecret = consumerSecret;
+            });
         }
 
         private void RegisterServices(IServiceCollection services)
@@ -146,6 +155,11 @@ namespace RTWTR.MVC
             }
 
             return System.Environment.GetEnvironmentVariable("rtwtr").Replace(@"\\", @"\");
+        }
+
+        private string GetEnvironmentVariable(string variable)
+        {
+            return System.Environment.GetEnvironmentVariable(variable);
         }
     }
 }
