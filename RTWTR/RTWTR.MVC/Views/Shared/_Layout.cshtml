@@ -55,11 +55,11 @@
         <section id="body" class="container">
             <div class="row">
                 <div class="col-sm-1 col-sm-offset-1">
-                    <div class="panel" id="favourites-dashboard">
-                       @*TODO:Fill favourites-dashboard using JQUERY*@
+                    <div class="panel" id="urltotweet-dashboard">
+                       @RenderSection("UrlToTweetDashboard",false)
                     </div>
                     <div class ="panel" id="stats-dashboard">
-                        @*TODO:Fill stats-dashboard using JQUERY*@
+                        @RenderSection("StatsDashboard",false)
 
                     </div>
 
@@ -73,7 +73,7 @@
                 </div>
                 <div class="col-sm-1">
                     <div class="panel" id="footer">
-
+                        @RenderSection("FooterPanel",false)
                     </div>
                 </div>
             </div>
