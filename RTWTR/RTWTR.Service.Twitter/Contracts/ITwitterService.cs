@@ -15,5 +15,7 @@ namespace RTWTR.Service.Twitter.Contracts
         Task<ICollection<TwitterUserDto>> SearchUserJSON(string handle);
 
         Task<ICollection<TweetDto>> SearchTweetJSON(string id);
+
+        Task<string> GetHTML(string id);
     }
 }

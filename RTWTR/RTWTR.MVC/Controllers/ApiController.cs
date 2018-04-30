@@ -25,5 +25,10 @@ namespace RTWTR.MVC.Controllers
         {
             return await this.service.GetSingleUserJSON(screenName);
         }
+
+        public async Task<string> GetHTML(string id)
+        {
+            return await this.service.GetHTML(id);
+        }
     }
 }

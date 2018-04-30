@@ -71,7 +71,7 @@ namespace RTWTR.Service.Twitter
             throw new NotImplementedException();
         }
 
-        public async Task<ICollection<TwitterUserDto>> SearchUserJSON(string handle)
+        public Task<ICollection<TwitterUserDto>> SearchUserJSON(string handle)
         {
             //// Does NOT work with Apllication-Only authentication
             //string url = string.Concat(
@@ -83,6 +83,21 @@ namespace RTWTR.Service.Twitter
 
             //return await this.apiProvider.GetJSON(url);
             throw new NotImplementedException();
+        }
+
+        public async Task<string> GetHTML(string id)
+        {
+            string url = string.Concat(
+                "https://publish.twitter.com/oembed?",
+                "url=https://twitter.com/Interior/status/",
+                id
+            );
+
+            var response = await this.GetRequestJson(url);
+
+            var parsedResponse = JObject.Parse(response);
+
+            return parsedResponse["html"].ToString();
         }
 
         private async Task<string> GetRequestJson(string url)

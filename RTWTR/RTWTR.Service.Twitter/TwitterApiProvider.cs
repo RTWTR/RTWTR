@@ -17,7 +17,6 @@ namespace RTWTR.Service.Twitter
         private readonly IEncoder encoder;
         private readonly IJsonProvider jsonProvider;
         private string bearerToken;
-
         private readonly IVariableProvider variableProvider;
 
         public TwitterApiProvider(IEncoder encoder, IVariableProvider variableProvider, IJsonProvider jsonProvider)
