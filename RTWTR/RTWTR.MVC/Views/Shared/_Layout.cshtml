@@ -29,7 +29,7 @@
 
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#" class="btn btn-lg">
+                        <a asp-controller="Manage" asp-action="Index" class="btn btn-lg">
                             <span class="glyphicon glyphicon-user"></span>
                         </a>
                     </li>  @*TODO: Redirect to Profile and settings*@
@@ -48,7 +48,7 @@
             </div>
 
             <div class=" col-sm-offset-5">
-                <img id="logo" src="/images/logo.png" alt="RTWTR" />
+                <a asp-controller="Home" asp-action="Index"><img id="logo" src="~/images/logo.png" alt="RTWTR" /></a>
             </div>
         </div>
 
@@ -80,9 +80,9 @@
         </section>
     </div>
 
-    
+
         @RenderBody()
-    
+
 
     <!-- Scripts -->
 

@@ -9,6 +9,10 @@
     width: auto;
 }
 
+.nav-pills > li.active > a {
+    background-color: #1da1f2;
+}
+
 #manage {
     margin: 50px;
 }
