@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using RTWTR.DTO;
 using RTWTR.Service.Twitter.Contracts;
 
 namespace RTWTR.MVC.Controllers
@@ -14,14 +16,19 @@ namespace RTWTR.MVC.Controllers
             this.service = service ?? throw new ArgumentNullException(nameof(service));
         }
 
-        public async Task<string> Search(string handle)
+        public async Task<ICollection<TwitterUserDto>> Search(string handle)
         {
             return await this.service.SearchUserJSON(handle);
         }
 
-        public async Task<string> ShowUser(string screen_name)
+        public async Task<TwitterUserDto> ShowUser(string screenName)
         {
-            return await this.service.GetSingleUserJSON(screen_name);
+            return await this.service.GetSingleUserJSON(screenName);
+        }
+
+        public async Task<string> GetHTML(string id)
+        {
+            return await this.service.GetHTML(id);
         }
     }
 }

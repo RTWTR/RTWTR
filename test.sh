@@ -2,10 +2,8 @@ cd ./RTWTR
 # clean the solution,
 dotnet clean
 
-# restore dependencies,
-dotnet restore
-
-# build the solution,
+# restore dependencies
+# and build the solution
 dotnet build
 
 cd ./RTWTR.Tests

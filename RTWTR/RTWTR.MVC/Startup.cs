@@ -18,6 +18,7 @@ using RTWTR.Service.Twitter.Contracts;
 using RTWTR.Service.Twitter;
 using RTWTR.Data.Access;
 using RTWTR.Data.Access.Contracts;
+using AutoMapper;
 
 namespace RTWTR.MVC
 {
@@ -86,7 +87,6 @@ namespace RTWTR.MVC
         private void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<IEmailSender, EmailSender>();
-
             services.AddScoped<IVariableProvider, EnvironmentVariableProvider>();
             services.AddScoped<IHeaderGenerator, HeaderGenerator>();
             services.AddScoped<IEncoder, TokenEncoder>();
@@ -96,8 +96,6 @@ namespace RTWTR.MVC
             services.AddTransient<ITwitterUserService, TwitterUserService>();
             services.AddTransient<ITweetService, TweetService>();
             services.AddTransient<ICollectionService, CollectionService>();
-
-            services.AddMvc();
         }
 
         private void RegisterInfrastructure(IServiceCollection services)
