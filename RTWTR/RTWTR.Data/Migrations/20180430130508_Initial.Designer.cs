@@ -11,8 +11,8 @@ using System;
 namespace RTWTR.Data.Migrations
 {
     [DbContext(typeof(RTWTRDbContext))]
-    [Migration("20180420101552_Init")]
-    partial class Init
+    [Migration("20180430130508_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -232,9 +232,13 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<string>("TweetId");
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("TwitterUserId", "TweetId");
 
                     b.HasIndex("TweetId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("TwitterUserTweets");
                 });
@@ -298,6 +302,19 @@ namespace RTWTR.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("RTWTR.Data.Models.UserTweets", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("TweetId");
+
+                    b.HasKey("UserId", "TweetId");
+
+                    b.HasIndex("TweetId");
+
+                    b.ToTable("UserTweets");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.UserTwitterUser", b =>
@@ -399,6 +416,23 @@ namespace RTWTR.Data.Migrations
                     b.HasOne("RTWTR.Data.Models.TwitterUser", "TwitterUser")
                         .WithMany("TwitterUserTweets")
                         .HasForeignKey("TwitterUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RTWTR.Data.Models.User")
+                        .WithMany("TwitterUserTweets")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("RTWTR.Data.Models.UserTweets", b =>
+                {
+                    b.HasOne("RTWTR.Data.Models.Tweet", "Tweet")
+                        .WithMany("UserTweets")
+                        .HasForeignKey("TweetId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RTWTR.Data.Models.User", "User")
+                        .WithMany("UserTweets")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

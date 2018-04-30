@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using RTWTR.Data;
 using System;
 
@@ -229,9 +231,13 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<string>("TweetId");
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("TwitterUserId", "TweetId");
 
                     b.HasIndex("TweetId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("TwitterUserTweets");
                 });
@@ -410,6 +416,10 @@ namespace RTWTR.Data.Migrations
                         .WithMany("TwitterUserTweets")
                         .HasForeignKey("TwitterUserId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("RTWTR.Data.Models.User")
+                        .WithMany("TwitterUserTweets")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.UserTweets", b =>

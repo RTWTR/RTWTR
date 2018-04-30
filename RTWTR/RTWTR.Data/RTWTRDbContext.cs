@@ -14,10 +14,7 @@ namespace RTWTR.Data
             : base(options)
         {
         }
-
-        // This WAS intended
-        public new DbSet<User> Users { get; set; }
-
+        
         public DbSet<Tweet> Tweets { get; set; }
 
         public DbSet<TwitterUserTweet> TwitterUserTweets { get; set; }
@@ -86,8 +83,6 @@ namespace RTWTR.Data
                 .HasOne(x => x.Tweet)
                 .WithMany(x => x.UserTweets)
                 .HasForeignKey(x => x.TweetId);
-
-
         }
     }
 }
