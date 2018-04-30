@@ -4,6 +4,7 @@ using RTWTR.Service.Twitter.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.NodeServices;
 using Newtonsoft.Json.Linq;
 
 namespace RTWTR.Service.Twitter
@@ -63,18 +64,20 @@ namespace RTWTR.Service.Twitter
             throw new NotImplementedException();
         }
 
-        public async Task<string> SearchUserJSON(string handle)
+        public async Task<TwitterUserDto> SearchUserJSON(string handle)
         {
-            //// Does NOT work with Apllication-Only authentication
-            //string url = string.Concat(
-            //    this.baseUrl,
-            //    "users/search.json?q=",
-            //    handle,
-            //    "&include_entities=false"
-            //);
+            string url = string.Concat(this.baseUrl, 
+                $"users/lookup.json?screen_name={handle}");
 
-            //return await this.apiProvider.GetJSON(url);
-            throw new NotImplementedException();
+            var response = await this.GetRequestJson(url);
+
+            if (response == null)
+            {
+                return new TwitterUserDto();
+            }
+
+            return this.jsonProvider.DeserializeObject<TwitterUserDto>(response.ToString());
+
         }
 
         private async Task<JArray> GetRequestJson(string url)

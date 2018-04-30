@@ -12,7 +12,7 @@ namespace RTWTR.Service.Twitter.Contracts
 
         Task<ICollection<TweetDto>> GetUserTimeline(string id, int tweetsCount);
 
-        Task<string> SearchUserJSON(string handle);
+        Task<TwitterUserDto> SearchUserJSON(string handle);
 
         Task<string> SearchTweetJSON(string id);
     }
