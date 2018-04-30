@@ -4,3 +4,17 @@
     position: absolute;
     top: 8px;
 }
+
+.container {
+    width: auto;
+}
+
+#manage {
+    margin: 50px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: auto;
+    }
+}

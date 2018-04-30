@@ -1,4 +1,5 @@
-﻿using RTWTR.Data.Models;
+﻿using System.Collections.Generic;
+using RTWTR.Data.Models;
 using RTWTR.DTO;
 
 namespace RTWTR.Service.Data.Contracts
@@ -13,5 +14,6 @@ namespace RTWTR.Service.Data.Contracts
 
         int DeleteTweetFromFavourites(string tweetId, string userId);
 
+        ICollection<TweetDto> GetUserFavourites(string userId);
     }
 }
