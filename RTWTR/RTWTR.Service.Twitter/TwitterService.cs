@@ -77,14 +77,16 @@ namespace RTWTR.Service.Twitter
             string url = string.Concat(this.baseUrl, 
                 $"users/lookup.json?screen_name={handle}");
 
-            var response = await this.GetRequestJson(url);
+            var responseAsString = await this.GetRequestJson(url);
 
-            if (response == null)
+            JArray response = jsonProvider.ParseToJArray(responseAsString);
+
+            if (response[0].ToString() == "errors")
             {
                 return new TwitterUserDto();
             }
 
-            return this.jsonProvider.DeserializeObject<TwitterUserDto>(response.ToString());
+            return this.jsonProvider.DeserializeObject<TwitterUserDto>(response[0].ToString());
 
         }
 
