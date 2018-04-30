@@ -79,12 +79,12 @@ namespace RTWTR.Service.Twitter
 
             var responseAsString = await this.GetRequestJson(url);
 
-            JArray response = jsonProvider.ParseToJArray(responseAsString);
-
-            if (response[0].ToString() == "errors")
+            if (responseAsString == string.Empty)
             {
-                return new TwitterUserDto();
+                return null;
             }
+
+            JArray response = jsonProvider.ParseToJArray(responseAsString);
 
             return this.jsonProvider.DeserializeObject<TwitterUserDto>(response[0].ToString());
 

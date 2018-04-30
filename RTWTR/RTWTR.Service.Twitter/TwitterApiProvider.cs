@@ -93,7 +93,16 @@ namespace RTWTR.Service.Twitter
 
         private async Task<string> GetResponse(WebRequest request)
         {
-            HttpWebResponse response = (HttpWebResponse) await request.GetResponseAsync();
+            HttpWebResponse response = null;
+            try
+            {
+                 response = (HttpWebResponse)await request.GetResponseAsync();
+            }
+            catch (WebException ex)
+            {
+                 response = ex.Response as HttpWebResponse;
+            }
+            
 
             string jsonResponse = string.Empty;
 
