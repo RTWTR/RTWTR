@@ -21,6 +21,10 @@
     width: auto;
 }
 
+/*#page {
+    background: #e6ecf0;
+}*/
+
 @media (min-width: 768px) {
     .container {
         width: auto;
