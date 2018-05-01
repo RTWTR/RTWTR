@@ -13,6 +13,7 @@ using RTWTR.Service.Twitter.Contracts;
 
 namespace RTWTR.MVC.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ITwitterService twitterService;
@@ -24,10 +25,9 @@ namespace RTWTR.MVC.Controllers
             this.mapper = mapper;
         }
         
-        [AllowAnonymous]
         public IActionResult Index()
         {
-            return this.Validate();
+            return View();
         }
 
         public async Task<IActionResult> Timeline(string twitterUserId)
