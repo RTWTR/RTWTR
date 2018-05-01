@@ -75,7 +75,7 @@ namespace RTWTR.MVC.Controllers
                     var roles = await _userManager.GetRolesAsync(user);
 
 
-                    if (HttpContext.User.IsInRole("Administrator"))
+                    if (User.IsInRole("Administrator"))
                     {
                         _logger.LogInformation("Administrator logged in.");
                     }
@@ -271,7 +271,7 @@ namespace RTWTR.MVC.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]

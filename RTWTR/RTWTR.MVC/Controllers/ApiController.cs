@@ -18,7 +18,6 @@ namespace RTWTR.MVC.Controllers
         {
             this.service = service ?? throw new ArgumentNullException(nameof(service));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-
         }
 
         public async Task<ActionResult> Search(string screenName)
@@ -32,6 +31,8 @@ namespace RTWTR.MVC.Controllers
             }
 
             var viewModel = mapper.MapTo<TwitterUserViewModel>(model);
+
+            ViewData["Title"] = viewModel.Name;
 
             return View("Search", viewModel);
         }
