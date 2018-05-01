@@ -10,12 +10,9 @@ namespace RTWTR.Data.Access
     public class EfRepository<T> : IRepository<T> where T : class, IDeletable
     {
         private readonly RTWTRDbContext dbContext;
-        private readonly DbSet<T> dbSet;
-
-        public EfRepository(RTWTRDbContext dbContext,DbSet<T> dbSet)
+        public EfRepository(RTWTRDbContext dbContext)
         {
             this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-            this.dbSet = dbSet ?? throw new ArgumentNullException(nameof(dbSet));
         }
 
         public IQueryable<T> All => this.dbContext.Set<T>().Where(x => !x.IsDeleted);
@@ -43,7 +40,7 @@ namespace RTWTR.Data.Access
 
         public void Delete(string id)
         {
-            T entity = this.dbSet.Find(id);
+            T entity = this.dbContext.Set<T>().Find(id);
 
             this.Delete(entity);
         }

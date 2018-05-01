@@ -1,16 +1,12 @@
 using System;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using RTWTR.Data.Models;
 using RTWTR.Infrastructure;
 
 namespace RTWTR.Data
 {
-    // Forgive me, Stevie, for I have sinned
     public class DatabaseSeeder
     {
         private readonly RTWTRDbContext dbContext;
@@ -37,8 +33,6 @@ namespace RTWTR.Data
 
             await this.CreateUsers();
             await this.CreateRoles();
-
-            this.Seed();
         }
 
         private void EnsureDatabaseCreated()
@@ -89,14 +83,6 @@ namespace RTWTR.Data
             var user = await this.userManager.FindByEmailAsync(userEmail);
 
             await this.userManager.AddToRoleAsync(user, role);
-        }
-
-        private void Seed()
-        {
-            if (this.dbContext.Users.Any())
-            {
-                return;
-            }
         }
     }
 }

@@ -116,6 +116,8 @@ namespace RTWTR.MVC
 
             services.AddScoped<IMappingProvider, MappingProvider>();
 
+            services.AddMemoryCache();
+
             services.AddMvc();
         }
 

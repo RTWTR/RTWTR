@@ -12,35 +12,7 @@ namespace RTWTR.MVC
     {
         public static void Main(string[] args)
         {
-            var host = BuildWebHost(args);
-
-            // // Database seed
-            // using (var scope = host.Services.CreateScope())
-            // {
-            //     var serviceProvider = scope.ServiceProvider;
-
-            //     // Get DbContext
-            //     var dbContext = serviceProvider.GetRequiredService<RTWTRDbContext>();
-
-            //     // Get Logger
-            //     var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-
-            //     
-            //     dbContext.Database.Migrate();
-
-            //     try
-            //     {
-            //         DatabaseSeeder.Initialize(serviceProvider).Wait();
-            //     }
-            //     catch (Exception e)
-            //     {
-            //         // Log exceptions, if any
-            //         logger.LogError(e, e.Message);
-            //         throw e;
-            //     }
-            // }
-
-            host.Run();
+            BuildWebHost(args).Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

@@ -477,6 +477,10 @@ namespace RTWTR.MVC.Controllers
             {
                 return Redirect(returnUrl);
             }
+            if (User.IsInRole("Administrator"))
+            {
+                return RedirectToAction("Index", "Home", new { @area = "Administration" });
+            }
             else
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
