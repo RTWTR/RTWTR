@@ -11,7 +11,7 @@ namespace RTWTR.Data.Models
 
         public string TwitterUserId { get; set; }
 
-        public TwitterUser User { get; set; }
+        public TwitterUser TwitterUser { get; set; }
 
         // Comes from the Twitter JSON
         // NOT the same as CreatedOn from DataModel
@@ -24,5 +24,8 @@ namespace RTWTR.Data.Models
         public ICollection<TwitterUserTweet> TwitterUserTweets { get; set; }
 
         public ICollection<CollectionTweet> CollectionTweets { get; set; }
+
+        public ICollection<UserTweets> UserTweets { get; set; }
+
     }
 }

@@ -1,15 +1,19 @@
-﻿using RTWTR.Data.Models;
-using RTWTR.Infrastructure.Mapping;
+﻿using Newtonsoft.Json;
 
 namespace RTWTR.DTO
 {
-    class TweetDto : IMapFrom<Tweet>
+    public class TweetDto 
     {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("text")]
         public string Text { get; set; }
 
-        public TwitterUser User { get; set; }
+        [JsonProperty("user")]
+        public TwitterUserDto User { get; set; }
 
+        [JsonProperty("created_at")]
         public string CreatedAt { get; set; }
-
     }
 }

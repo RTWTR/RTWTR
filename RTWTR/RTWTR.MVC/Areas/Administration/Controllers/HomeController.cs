@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RTWTR.MVC.Areas.Administration.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("Administration")]
     public class HomeController : Controller
     {

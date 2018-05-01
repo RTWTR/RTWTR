@@ -1,3 +1,12 @@
-dotnet restore ./RTWTR
-dotnet build ./RTWTR
-dotnet run -p .RTWTR/RTWTR.MVC
+cd ./RTWTR
+# clean the solution,
+dotnet clean
+
+# restore dependencies,
+dotnet restore
+
+# build and then
+dotnet build
+
+# run the project
+dotnet run -p ./RTWTR.MVC

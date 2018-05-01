@@ -9,6 +9,13 @@ using RTWTR.Service.External;
 using RTWTR.Data.Models;
 using RTWTR.Infrastructure.Mapping.Provider;
 using System;
+using AutoMapper;
+using RTWTR.Infrastructure.Contracts;
+using RTWTR.Infrastructure;
+using RTWTR.Service.Data;
+using RTWTR.Service.Data.Contracts;
+using RTWTR.Service.Twitter.Contracts;
+using RTWTR.Service.Twitter;
 using RTWTR.Data.Access;
 using RTWTR.Data.Access.Contracts;
 
@@ -24,7 +31,7 @@ namespace RTWTR.MVC
 
         public IConfiguration Configuration { get; }
 
-        public IHostingEnvironment Environment {get;}
+        public IHostingEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -46,7 +53,7 @@ namespace RTWTR.MVC
                 options.UseSqlServer(connectionString));
 
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-            
+
             services.AddScoped<ISaver, Saver>();
         }
 
@@ -55,6 +62,7 @@ namespace RTWTR.MVC
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<RTWTRDbContext>()
                 .AddDefaultTokenProviders();
+
 
             if (this.Environment.IsDevelopment())
             {
@@ -72,19 +80,31 @@ namespace RTWTR.MVC
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(1);
                     options.Lockout.MaxFailedAccessAttempts = 999;
                 });
-            }       
+            }
         }
 
         private void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddScoped<IVariableProvider, EnvironmentVariableProvider>();
+            services.AddScoped<IHeaderGenerator, HeaderGenerator>();
+            services.AddScoped<IEncoder, TokenEncoder>();
+            services.AddScoped<IApiProvider, TwitterApiProvider>();
+            services.AddScoped<ITwitterService, TwitterService>();
+            services.AddScoped<IJsonProvider, JsonProvider>();
+            services.AddTransient<ITwitterUserService, TwitterUserService>();
+            services.AddTransient<ITweetService, TweetService>();
+            services.AddTransient<ICollectionService, CollectionService>();
         }
 
         private void RegisterInfrastructure(IServiceCollection services)
         {
-            services.AddSingleton<IMappingProvider, MappingProvider>();
+            services.AddAutoMapper();
+            services.AddScoped<IMappingProvider, MappingProvider>();
+
             services.AddMvc();
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
@@ -122,7 +142,7 @@ namespace RTWTR.MVC
         {
             if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
             {
-                return System.Environment.GetEnvironmentVariable("rtwtr_dev").Replace(@"\\", @"\");                
+                return System.Environment.GetEnvironmentVariable("rtwtr_dev").Replace(@"\\", @"\");
             }
 
             return System.Environment.GetEnvironmentVariable("rtwtr").Replace(@"\\", @"\");
