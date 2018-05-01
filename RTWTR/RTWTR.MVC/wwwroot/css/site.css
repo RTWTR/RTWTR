@@ -17,6 +17,10 @@
     margin: 50px;
 }
 
+#ul_footer {
+    width: auto;
+}
+
 @media (min-width: 768px) {
     .container {
         width: auto;
