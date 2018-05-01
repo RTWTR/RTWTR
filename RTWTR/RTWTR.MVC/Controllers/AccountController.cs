@@ -71,7 +71,7 @@ namespace RTWTR.MVC.Controllers
                 {
                     if (User.IsInRole("Admin"))
                     {
-                        _logger.LogInformation("Admin");
+                        _logger.LogInformation("Admin logged in.");
                     }
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
