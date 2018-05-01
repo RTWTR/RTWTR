@@ -13,6 +13,7 @@ using RTWTR.Service.Twitter.Contracts;
 
 namespace RTWTR.MVC.Controllers
 {
+    [Authorize(Roles = "Administrator,User")]
     public class HomeController : Controller
     {
         private readonly ITwitterService twitterService;
@@ -23,6 +24,7 @@ namespace RTWTR.MVC.Controllers
             this.twitterService = twitterService;
             this.mapper = mapper;
         }
+        
         [AllowAnonymous]
         public IActionResult Index()
         {

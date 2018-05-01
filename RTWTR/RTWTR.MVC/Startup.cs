@@ -18,6 +18,7 @@ using RTWTR.Service.Twitter.Contracts;
 using RTWTR.Service.Twitter;
 using RTWTR.Data.Access;
 using RTWTR.Data.Access.Contracts;
+using Microsoft.Extensions.Logging;
 
 namespace RTWTR.MVC
 {
@@ -43,6 +44,8 @@ namespace RTWTR.MVC
             this.RegisterServices(services);
 
             this.RegisterInfrastructure(services);
+
+            this.SeedDatabase(services);
         }
 
         private void RegisterData(IServiceCollection services)
@@ -63,6 +66,7 @@ namespace RTWTR.MVC
                 .AddEntityFrameworkStores<RTWTRDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddScoped<DatabaseSeeder>();
 
             if (this.Environment.IsDevelopment())
             {
@@ -100,11 +104,11 @@ namespace RTWTR.MVC
         private void RegisterInfrastructure(IServiceCollection services)
         {
             services.AddAutoMapper();
+
             services.AddScoped<IMappingProvider, MappingProvider>();
 
             services.AddMvc();
         }
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
@@ -146,6 +150,30 @@ namespace RTWTR.MVC
             }
 
             return System.Environment.GetEnvironmentVariable("rtwtr").Replace(@"\\", @"\");
+        }
+
+        private void SeedDatabase(IServiceCollection services)
+        {
+            var serviceProvider = services.BuildServiceProvider();
+
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var databaseSeeder = serviceProvider.GetRequiredService<DatabaseSeeder>();
+                var logger = serviceProvider.GetRequiredService<ILogger<Startup>>();
+
+                try
+                {
+                    // Database Seed
+                    databaseSeeder.Initialize().Wait();
+
+                    logger.LogInformation("Database Successfully Seeded");
+                }
+                catch (Exception e)
+                {
+                    logger.LogError(e, "Database Seed Unsuccessful");
+                    throw e;
+                }
+            }
         }
     }
 }

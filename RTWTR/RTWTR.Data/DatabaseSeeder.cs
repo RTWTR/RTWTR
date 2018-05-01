@@ -71,7 +71,7 @@ namespace RTWTR.Data
             var user = await this.userManager.FindByEmailAsync(email);
             if (user.IsNull())
             {
-                user = new User { Email = email, UserName = email };
+                user = new User { UserName = email, Email = email };
                 await this.userManager.CreateAsync(user, password);
             }
         }
