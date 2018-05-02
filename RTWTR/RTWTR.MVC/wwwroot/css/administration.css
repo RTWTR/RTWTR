@@ -6,5 +6,6 @@ body {
 
 nav.navbar {
     background: #000000;
+    border-bottom-color: transparent;
     position: relative;
 }
