@@ -105,9 +105,10 @@ namespace RTWTR.MVC
             services.AddScoped<IApiProvider, TwitterApiProvider>();
             services.AddScoped<ITwitterService, TwitterService>();
             services.AddScoped<IJsonProvider, JsonProvider>();
-            services.AddTransient<ITwitterUserService, TwitterUserService>();
-            services.AddTransient<ITweetService, TweetService>();
-            services.AddTransient<ICollectionService, CollectionService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITwitterUserService, TwitterUserService>();
+            services.AddScoped<ITweetService, TweetService>();
+            services.AddScoped<ICollectionService, CollectionService>();
         }
 
         private void RegisterInfrastructure(IServiceCollection services)
