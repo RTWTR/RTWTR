@@ -318,7 +318,9 @@ namespace RTWTR.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    TweetId = table.Column<string>(nullable: false)
+                    TweetId = table.Column<string>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

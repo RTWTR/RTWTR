@@ -9,3 +9,14 @@ nav.navbar {
     border-bottom-color: transparent;
     position: relative;
 }
+
+.btn-submit-cst-1 {
+    padding: 0;
+    border: none;
+    background: none;
+    color: #1da1f2;
+}
+
+.container-admin-cst {
+    margin: 0 150px;
+}

@@ -28,7 +28,9 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            ViewData["UsersCount"] = this.userService.GetAllAndDeletedUsersCount();
+
+            return View(ViewData);
         }
     }
 }

@@ -11,7 +11,7 @@ using System;
 namespace RTWTR.Data.Migrations
 {
     [DbContext(typeof(RTWTRDbContext))]
-    [Migration("20180501084432_Initial")]
+    [Migration("20180502133849_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -309,6 +309,10 @@ namespace RTWTR.Data.Migrations
                     b.Property<string>("UserId");
 
                     b.Property<string>("TweetId");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<bool>("IsDeleted");
 
                     b.HasKey("UserId", "TweetId");
 

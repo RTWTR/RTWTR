@@ -14,16 +14,19 @@ namespace RTWTR.Data
         private readonly RoleManager<IdentityRole> roleManager;
 
         public DatabaseSeeder(
-            RTWTRDbContext dbContext, 
-            UserManager<User> userManager, 
+            RTWTRDbContext dbContext,
+            UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager
         )
         {
-            this.dbContext = dbContext ??
+            this.dbContext = dbContext
+                ??
                 throw new ArgumentNullException(nameof(dbContext));
-            this.userManager = userManager ??
+            this.userManager = userManager
+                ??
                 throw new ArgumentNullException(nameof(userManager));
-            this.roleManager = roleManager ?? 
+            this.roleManager = roleManager
+                ??
                 throw new ArgumentNullException(nameof(roleManager));
         }
 
@@ -47,8 +50,11 @@ namespace RTWTR.Data
             // Create the Admin
             await this.CreateUser("admin@rtwtr.com", "rtwtradmin");
 
-            // Create the TestUser
-            await this.CreateUser("user@rtwtr.com", "password");
+            // Create the TestUsers
+            for (int i = 0; i < 10; i++)
+            {
+                await this.CreateUser($"user{i}@rtwtr.com", "password");
+            }
         }
 
         private async Task CreateRoles()
@@ -56,8 +62,11 @@ namespace RTWTR.Data
             // Create the Admin Role
             await this.CreateRole("Administrator", "admin@rtwtr.com");
 
-            // Create the User Role
-            await this.CreateRole("User", "user@rtwtr.com");
+            // Create the User Roles
+            for (int i = 0; i < 10; i++)
+            {
+                await this.CreateRole("User", $"user{i}@rtwtr.com");
+            }
         }
 
         private async Task CreateUser(string email, string password)
@@ -65,7 +74,7 @@ namespace RTWTR.Data
             var user = await this.userManager.FindByEmailAsync(email);
             if (user.IsNull())
             {
-                user = new User { UserName = email, Email = email };
+                user = new User { UserName = email, Email = email, CreatedOn = DateTime.Now };
                 await this.userManager.CreateAsync(user, password);
             }
         }

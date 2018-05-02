@@ -1,0 +1,27 @@
+@model ShowAllUsersModel
+@using System.Linq;
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col" class="col-sm-4 text-center">User ID</th>
+      <th scope="col" class="col-sm-3 text-center">Email</th>
+      <th scope="col" class="col-sm-2 text-center">Created On</th>
+      <th scope="col" class="col-sm-1 text-center"></th>
+      <th scope="col" class="col-sm-3 text-center"></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var user in @Model.Users)
+    {
+        <tr>
+            <a asp-controller="Manage" asp-action="Manage">
+                <td class="text-center">@user.Id</td>
+                <td class="text-center">@user.Email</td>
+                <td class="text-center">@user.CreatedOn</td>
+                <td class="text-center"><form><button type="submit" class="btn-submit-cst-1">Edit</button></form></td>
+            </a>
+        </tr>
+    }
+  </tbody>
+</table>

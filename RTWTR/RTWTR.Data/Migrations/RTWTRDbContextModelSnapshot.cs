@@ -309,6 +309,10 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<string>("TweetId");
 
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<bool>("IsDeleted");
+
                     b.HasKey("UserId", "TweetId");
 
                     b.HasIndex("TweetId");
