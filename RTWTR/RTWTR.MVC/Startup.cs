@@ -19,6 +19,7 @@ using RTWTR.Service.Twitter;
 using RTWTR.Data.Access;
 using RTWTR.Data.Access.Contracts;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RTWTR.MVC
 {
@@ -119,7 +120,10 @@ namespace RTWTR.MVC
 
             services.AddMemoryCache();
 
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

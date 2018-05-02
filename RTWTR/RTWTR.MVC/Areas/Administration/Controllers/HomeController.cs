@@ -12,8 +12,8 @@ using RTWTR.Service.Twitter.Contracts;
 
 namespace RTWTR.MVC.Areas.Administration.Controllers
 {
-    [Authorize(Roles = "Administrator")]
     [Area("Administration")]
+    [Authorize(Roles = "Administrator")]
     public class HomeController : Controller
     {
         private readonly IUserService userService;
