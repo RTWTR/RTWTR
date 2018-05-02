@@ -47,6 +47,25 @@ namespace RTWTR.Service.Data
             return this.mapper.MapTo<UserDTO>(user);
         }
 
+        public UserDTO GetUserByEmail(string userEmail)
+        {
+            if (userEmail.IsNullOrWhitespace())
+            {
+                throw new InvalidUserIdException();
+            }
+
+            var user = this.users
+                .AllAndDeleted
+                .SingleOrDefault(x => x.Email == userEmail);
+
+            if (user.IsNull())
+            {
+                throw new NullUserException();
+            }
+
+            return this.mapper.MapTo<UserDTO>(user);
+        }
+
         public ICollection<UserDTO> GetAllUsers()
         {
             var users = this.users.All;

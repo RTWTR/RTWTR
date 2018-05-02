@@ -9,6 +9,8 @@ namespace RTWTR.Service.Data.Contracts
     {
         UserDTO GetUserById(string userId);
 
+        UserDTO GetUserByEmail(string userEmail);
+
         ICollection<UserDTO> GetAllUsers();
 
         ICollection<UserDTO> GetAllAndDeletedUsers();
