@@ -2,7 +2,9 @@
 
 @if (@ViewData["Error"].IsNull())
 {
-    <h1>@Model.Email</h1>
+    <h1>@Model.User.Email</h1>
+
+    <button type="button" class="btn btn-outline-dark">Dark</button>
 
     @if (@Model.Tweets.Count() == 0)
     {

@@ -45,19 +45,14 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
                 var user = this.userService.GetUserByEmail(email);
                 var tweets = this.tweetService.GetUserFavourites(user.Id);
 
-                var model = new UserViewModel
-                {
-                    Id = user.Id,
-                    TwitterId = user.TwitterId,
-                    Email = user.Email,
-                    IsDeleted = user.IsDeleted,
-                    CreatedOn = user.CreatedOn,
-                    Tweets = this.mapper.MapTo<ICollection<TweetViewModel>>(tweets)
-                };
+                var model = new UserViewModel();
+
+                model.User = this.mapper.MapTo<MinifiedUserViewModel>(user);
+                model.Tweets = this.mapper.MapTo<ICollection<TweetViewModel>>(tweets);
 
                 return View(model);
             }
-            catch
+            catch ()
             {
                 ViewData ["Error"] = email;
 
