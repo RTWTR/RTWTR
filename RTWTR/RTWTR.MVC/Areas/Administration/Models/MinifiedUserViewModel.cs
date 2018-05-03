@@ -1,11 +1,10 @@
 using System;
-using Microsoft.AspNetCore.Identity;
 
-namespace RTWTR.DTO
+namespace RTWTR.MVC.Areas.Administration.Models
 {
-    public class UserDTO
+    public class MinifiedUserViewModel
     {
-        public string Id { get; set; }
+         public string Id { get; set; }
 
         public string TwitterId { get; set; }
 

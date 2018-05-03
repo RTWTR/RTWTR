@@ -6,6 +6,6 @@ namespace RTWTR.MVC.Areas.Administration.Models
 {
     public class ShowAllUsersModel
     {
-        public ICollection<UserDTO> Users { get; set; }
+        public ICollection<MinifiedUserViewModel> Users { get; set; }
     }
 }

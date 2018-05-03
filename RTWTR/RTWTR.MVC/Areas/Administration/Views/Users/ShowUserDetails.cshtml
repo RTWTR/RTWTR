@@ -1,0 +1,10 @@
+@model UserViewModel
+
+@if (@ViewData["Error"].IsNull())
+{
+    <h1>@Model.Email</h1>
+}
+else
+{
+    <div>No user found</div>
+}
