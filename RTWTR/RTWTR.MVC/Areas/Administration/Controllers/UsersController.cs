@@ -24,6 +24,7 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
             this.tweetService = tweetService ?? throw new ArgumentNullException(nameof(tweetService));
         }
 
+        [Route("Administration/Users/All/")]
         public IActionResult ShowAllUsers()
         {
             var users = this.userService.GetAllAndDeletedUsers();
@@ -36,7 +37,7 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
             return View(model);
         }
 
-        [Route("/Details/{email}")]
+        [Route("Administration/Users/Details/")]
         public IActionResult ShowUserDetails(string email)
         {
             try
