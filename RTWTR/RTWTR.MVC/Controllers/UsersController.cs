@@ -54,20 +54,32 @@ namespace RTWTR.MVC.Controllers
 
         public async Task<IActionResult> Search(string screenName)
         {
-            var user = await this.GetTwitterUserDtoAsync(screenName);
+            try
+            {
+                var twitterUser = await this.GetTwitterUserDtoAsync(screenName);
+                var userId = this.userManager.GetUserId(User);
 
-            var model = this.mapper.MapTo<TwitterUserViewModel>(user);
+                var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
+                model.IsFavourite = this.favouriteUserService.IsFavourite(userId, twitterUser.Id);
 
-            return View(model);
+                return View(model);
+            }
+            catch
+            {
+                ViewData["Error"] = screenName;
+                return View("FailedSearch");
+            }
         }
 
         public async Task<IActionResult> ShowUser(string screenName)
         {
             try
             {
-                var user = await this.GetTwitterUserDtoAsync(screenName);
+                var twitterUser = await this.GetTwitterUserDtoAsync(screenName);
+                var userId = this.userManager.GetUserId(User);
 
-                var model = this.mapper.MapTo<TwitterUserViewModel>(user);
+                var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
+                model.IsFavourite = this.favouriteUserService.IsFavourite(userId, twitterUser.Id);
 
                 ViewData ["Title"] = model.Name;
 
@@ -87,11 +99,37 @@ namespace RTWTR.MVC.Controllers
             try
             {
                 var twitterUser = await this.GetTwitterUserDtoAsync(screenName);
-                var user = this.userManager.GetUserId(User);
+                var user = this.mapper.MapTo<UserDTO>(await this.userManager.GetUserAsync(User));
 
                 this.favouriteUserService.AddTwitterUserToFavourites(
                     user,
-                    twitterUser.Id // TODO: Maybe use TwitterId?
+                    twitterUser
+                );
+
+                return View("ShowUser", twitterUser);
+
+                // Will return this when it uses AJAX
+                // return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("em sori brat");
+                throw e;
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveFromFavourites(string screenName)
+        {
+            try
+            {
+                var twitterUser = await this.GetTwitterUserDtoAsync(screenName);
+                var user = this.mapper.MapTo<UserDTO>(await this.userManager.GetUserAsync(User));
+
+                this.favouriteUserService.RemoveTwitterUserFromFavourites(
+                    user,
+                    twitterUser
                 );
 
                 return View("ShowUser", twitterUser);

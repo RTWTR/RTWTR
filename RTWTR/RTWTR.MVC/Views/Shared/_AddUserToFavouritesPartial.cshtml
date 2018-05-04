@@ -1,9 +1,13 @@
-<form asp-controller="Users" asp-action="AddToFavourites" asp-route-screenName="@Model.ScreenName" method="POST">
-    <button id="save-twitter-btn" class="btn btn-primary left" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Add to Favourites</button>
-</form>
-
-@section Scripts {
-    <script>
-        console.log(2);
-    </script>
+@if (@Model.IsFavourite)
+{
+    <!-- TODO: Make is so it shows Remove from favourites when hovered -->
+    <form asp-controller="Users" asp-action="RemoveFromFavourites" asp-route-screenName="@Model.ScreenName" method="POST">
+        <button id="save-twitter-btn" class="btn btn-primary left" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Already a Favourite</button>
+    </form>
+}
+else
+{
+    <form asp-controller="Users" asp-action="AddToFavourites" asp-route-screenName="@Model.ScreenName" method="POST">
+        <button id="save-twitter-btn" class="btn btn-primary left" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Add to Favourites</button>
+    </form>
 }
