@@ -11,7 +11,7 @@ using System;
 namespace RTWTR.Data.Migrations
 {
     [DbContext(typeof(RTWTRDbContext))]
-    [Migration("20180502133849_Initial")]
+    [Migration("20180504123932_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -218,6 +218,8 @@ namespace RTWTR.Data.Migrations
                     b.Property<string>("ProfileImageUrl");
 
                     b.Property<string>("ScreenName");
+
+                    b.Property<string>("TwitterId");
 
                     b.Property<DateTime?>("UpdatedOn");
 

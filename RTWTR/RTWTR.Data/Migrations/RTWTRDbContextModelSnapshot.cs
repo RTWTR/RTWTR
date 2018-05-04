@@ -218,6 +218,8 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<string>("ScreenName");
 
+                    b.Property<string>("TwitterId");
+
                     b.Property<DateTime?>("UpdatedOn");
 
                     b.HasKey("Id");

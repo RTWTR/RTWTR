@@ -27,7 +27,7 @@ namespace RTWTR.Service.Data
                 return null;
             }
 
-            var twitterUser = twitterUsers.All.Where(x => x.Id == twitterUserId);
+            var twitterUser = twitterUsers.All.FirstOrDefault(x => x.Id == twitterUserId);
 
             return mapper.MapTo<TwitterUserDto>(twitterUser);
         }
@@ -39,19 +39,33 @@ namespace RTWTR.Service.Data
                 return null;
             }
 
-            var twitterUser = twitterUsers.All.Where(x => x.ScreenName == screenName);
+            var twitterUser = twitterUsers.All.FirstOrDefault(x => x.ScreenName == screenName);
 
             return mapper.MapTo<TwitterUserDto>(twitterUser);
         }
 
-        public int SaveTwitterUser(TwitterUser twitterUser)
+        public int SaveTwitterUser(TwitterUserDto twitterUser)
         {
             if (twitterUser == null)
             {
                 return -1;
             }
 
-            twitterUsers.Add(twitterUser);
+            if (twitterUsers.All.Any(x => x.TwitterId == twitterUser.Id))
+            {
+                return 1;
+            }
+
+            var user = new TwitterUser
+            {
+                TwitterId = twitterUser.Id,
+                Name = twitterUser.Name,
+                ScreenName = twitterUser.ScreenName,
+                Description = twitterUser.Description,
+                ProfileImageUrl = twitterUser.ProfileImageUrl
+            };
+
+            twitterUsers.Add(user);
 
             return this.saver.SaveChanges();
         }

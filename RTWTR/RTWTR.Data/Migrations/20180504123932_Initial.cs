@@ -65,6 +65,7 @@ namespace RTWTR.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     ProfileImageUrl = table.Column<string>(nullable: true),
                     ScreenName = table.Column<string>(nullable: true),
+                    TwitterId = table.Column<string>(nullable: true),
                     UpdatedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>

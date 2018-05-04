@@ -9,7 +9,6 @@ namespace RTWTR.Service.Data.Contracts
 
         TwitterUserDto GetTwitterUserByScreenName(string screenName);
 
-        int SaveTwitterUser(TwitterUser twitterUser);
-
+        int SaveTwitterUser(TwitterUserDto twitterUser);
     }
 }

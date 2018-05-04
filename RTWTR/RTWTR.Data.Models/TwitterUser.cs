@@ -5,6 +5,15 @@ namespace RTWTR.Data.Models
 {
     public class TwitterUser : DataModel
     {
+        public TwitterUser()
+        {
+            this.TwitterUserTweets = new List<TwitterUserTweet>();
+            this.UserTwitterUsers = new List<UserTwitterUser>();
+        }
+
+        // TODO: Match the properties' names with JSON names
+        public string TwitterId { get; set; }
+
         public string ScreenName  { get; set; }
 
         public string Name { get; set; }
@@ -16,6 +25,5 @@ namespace RTWTR.Data.Models
         public ICollection<TwitterUserTweet> TwitterUserTweets { get; set; }
 
         public ICollection<UserTwitterUser> UserTwitterUsers { get; set; }
-
     }
 }

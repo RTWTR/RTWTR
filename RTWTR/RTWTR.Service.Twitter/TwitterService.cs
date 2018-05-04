@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.NodeServices;
 using Newtonsoft.Json.Linq;
+using RTWTR.Data.Models;
 using RTWTR.DTO;
 using RTWTR.Infrastructure;
 using RTWTR.Infrastructure.Contracts;
+using RTWTR.Infrastructure.Exceptions;
+using RTWTR.Infrastructure.Mapping.Provider;
 using RTWTR.Service.Twitter.Contracts;
 
 namespace RTWTR.Service.Twitter
@@ -15,8 +18,13 @@ namespace RTWTR.Service.Twitter
         private readonly string baseUrl;
         private readonly IApiProvider apiProvider;
         private readonly IJsonProvider jsonProvider;
+        private readonly IMappingProvider mapper;
 
-        public TwitterService(IApiProvider apiProvider, IJsonProvider jsonProvider)
+        public TwitterService(
+            IApiProvider apiProvider,
+            IJsonProvider jsonProvider,
+            IMappingProvider mapper
+        )
         {
             this.apiProvider = apiProvider
                 ??
@@ -24,6 +32,9 @@ namespace RTWTR.Service.Twitter
             this.jsonProvider = jsonProvider
                 ??
                 throw new ArgumentNullException(nameof(jsonProvider));
+            this.mapper = mapper
+                ??
+                throw new ArgumentNullException(nameof(mapper));
 
             this.baseUrl = "https://api.twitter.com/1.1/";
         }
@@ -36,7 +47,7 @@ namespace RTWTR.Service.Twitter
                 screenName,
                 "&include_entities=false"
             );
-            
+
             var response = await this.GetRequestJsonAsync(url);
 
             if (response.IsNullOrWhitespace())
@@ -124,33 +135,32 @@ namespace RTWTR.Service.Twitter
         // TODO: Check this later
         public async Task<string> SearchUserJSONAsync(string handle)
         {
-            string url = string.Concat(this.baseUrl, 
-                $"users/lookup.json?screen_name={handle}");
+            string url = string.Concat(
+                this.baseUrl,
+                $"users/lookup.json?screen_name=",
+                handle
+            );
 
-            var responseAsString = await this.GetRequestJsonAsync(url);
+            var response = await this.GetRequestJsonAsync(url);
 
-            if (responseAsString.IsNullOrWhitespace())
+            if (response.IsNullOrWhitespace())
             {
                 return string.Empty;
             }
 
-            JArray response = jsonProvider.ParseToJArray(responseAsString);
-
-            return response[0].ToString();
+            return response;
         }
 
         public async Task<TwitterUserDto> SearchUserAsync(string handle)
         {
-            var responseAsString = await this.SearchUserJSONAsync(handle);
+            var response = await this.SearchUserJSONAsync(handle);
 
-            if (responseAsString == string.Empty)
+            if (response == string.Empty)
             {
-                return null;
+                throw new NullTwitterUserException();
             }
 
-            JArray response = jsonProvider.ParseToJArray(responseAsString);
-
-            return this.jsonProvider.DeserializeObject<TwitterUserDto>(response[0].ToString());
+            return this.jsonProvider.DeserializeObject<TwitterUserDto[]>(response)[0];
         }
 
         public async Task<string> GetHTMLAsync(string id)
@@ -165,7 +175,7 @@ namespace RTWTR.Service.Twitter
 
             var parsedResponse = JObject.Parse(response);
 
-            return parsedResponse["html"].ToString();
+            return parsedResponse ["html"].ToString();
         }
 
         private async Task<string> GetRequestJsonAsync(string url)
