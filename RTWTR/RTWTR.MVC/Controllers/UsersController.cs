@@ -94,7 +94,10 @@ namespace RTWTR.MVC.Controllers
                     twitterUser.Id // TODO: Maybe use TwitterId?
                 );
 
-                return Ok();
+                return View("ShowUser", twitterUser);
+
+                // Will return this when it uses AJAX
+                // return Ok();
             }
             catch (Exception e)
             {
