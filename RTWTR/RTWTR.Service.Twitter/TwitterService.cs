@@ -28,12 +28,7 @@ namespace RTWTR.Service.Twitter
             this.baseUrl = "https://api.twitter.com/1.1/";
         }
 
-        public Task<TweetDto> GetSingleTweetJSON(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<TwitterUserDto> GetSingleUserJSON(string screenName)
+        public async Task<string> GetSingleUserJSON(string screenName)
         {
             string url = string.Concat(
                 this.baseUrl,
@@ -46,18 +41,52 @@ namespace RTWTR.Service.Twitter
 
             if (response.IsNullOrWhitespace())
             {
+                return string.Empty;
+            }
+
+            return response;
+        }
+
+        public async Task<TwitterUserDto> GetSingleUser(string screenName)
+        {            
+            var response = await this.GetSingleUserJSON(screenName);
+
+            if (response.IsNullOrWhitespace())
+            {
                 return new TwitterUserDto();
             }
 
             return this.jsonProvider.DeserializeObject<TwitterUserDto>(response);
         }
 
-        public async Task<ICollection<TweetDto>> GetUserTimeline(string screenName, int tweetsCount)
+        public async Task<string> GetSingleTweetJSON(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<TweetDto> GetSingleTweet(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<string> GetUserTimelineJSON(string screenName, int tweetsCount)
         {
             string url = string.Concat(this.baseUrl,
                 $"statuses/user_timeline.json?screen_name={screenName}&count={tweetsCount}");
 
             var response = await this.GetRequestJson(url);
+
+            if (response.IsNullOrWhitespace())
+            {
+                return string.Empty;
+            }
+
+            return response;
+        }
+
+        public async Task<ICollection<TweetDto>> GetUserTimeline(string screenName, int tweetsCount)
+        {
+            var response = await this.GetUserTimelineJSON(screenName, tweetsCount);
 
             if (response.IsNullOrWhitespace())
             {
@@ -72,12 +101,27 @@ namespace RTWTR.Service.Twitter
             throw new NotImplementedException();
         }
 
-        public async Task<TwitterUserDto> SearchUserJSON(string handle)
+        // TODO: Check this later
+        public async Task<string> SearchUserJSON(string handle)
         {
             string url = string.Concat(this.baseUrl, 
                 $"users/lookup.json?screen_name={handle}");
 
             var responseAsString = await this.GetRequestJson(url);
+
+            if (responseAsString.IsNullOrWhitespace())
+            {
+                return string.Empty;
+            }
+
+            JArray response = jsonProvider.ParseToJArray(responseAsString);
+
+            return response[0].ToString();
+        }
+
+        public async Task<TwitterUserDto> SearchUser(string handle)
+        {
+            var responseAsString = await this.SearchUserJSON(handle);
 
             if (responseAsString == string.Empty)
             {
@@ -87,7 +131,6 @@ namespace RTWTR.Service.Twitter
             JArray response = jsonProvider.ParseToJArray(responseAsString);
 
             return this.jsonProvider.DeserializeObject<TwitterUserDto>(response[0].ToString());
-
         }
 
         public async Task<string> GetHTML(string id)
