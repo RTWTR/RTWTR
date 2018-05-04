@@ -71,7 +71,7 @@ namespace RTWTR.MVC.Controllers
 
                 ViewData ["Title"] = model.Name;
 
-                return View("Search", model);
+                return View(model);
             }
             catch
             {

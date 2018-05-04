@@ -1,3 +1,9 @@
-<script>
-    console.log(2);
-</script>
+<form asp-controller="Users" asp-action="AddToFavourites" asp-route-screenName="@Model.ScreenName" method="POST">
+    <button id="save-twitter-btn" class="btn btn-primary left" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Add to Favourites</button>
+</form>
+
+@section Scripts {
+    <script>
+        console.log(2);
+    </script>
+}
