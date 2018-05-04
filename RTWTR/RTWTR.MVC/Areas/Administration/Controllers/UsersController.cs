@@ -1,15 +1,17 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RTWTR.Infrastructure.Mapping.Provider;
-using RTWTR.MVC.Areas.Administration.Controllers.Abstractions;
 using RTWTR.MVC.Areas.Administration.Models;
 using RTWTR.MVC.Models;
 using RTWTR.Service.Data.Contracts;
 
 namespace RTWTR.MVC.Areas.Administration.Controllers
 {
-    public class UsersController : AdminController
+    [Area("Administration")]
+    [Authorize(Roles = "Administrator")]
+    public class UsersController : Controller
     {
         private readonly IMappingProvider mapper;
         private readonly IUserService userService;
@@ -52,7 +54,7 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
 
                 return View(model);
             }
-            catch ()
+            catch
             {
                 ViewData ["Error"] = email;
 
