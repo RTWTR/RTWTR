@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RTWTR.DTO;
 using RTWTR.Infrastructure;
+using RTWTR.Infrastructure.Contracts;
 using RTWTR.Infrastructure.Mapping.Provider;
 using RTWTR.MVC.Models;
 using RTWTR.Service.Data.Contracts;
@@ -15,74 +16,87 @@ namespace RTWTR.MVC.Controllers
     {
         private readonly ITwitterService twitterService;
         private readonly ITwitterUserService twitterUserService;
+        private readonly IJsonProvider jsonProvider;
         private readonly IMappingProvider mapper;
 
         public TwitterController(
             ITwitterService twitterService,
             ITwitterUserService twitterUserService,
+            IJsonProvider jsonProvider,
             IMappingProvider mapper
         )
         {
-            this.twitterService = twitterService ??
+            this.twitterService = twitterService
+                ??
                 throw new ArgumentNullException(nameof(twitterService));
-            this.twitterUserService = twitterUserService ??
+            this.twitterUserService = twitterUserService
+                ??
                 throw new ArgumentNullException(nameof(twitterUserService));
-            this.mapper = mapper ??
+            this.jsonProvider = jsonProvider
+                ??
+                throw new ArgumentNullException(nameof(jsonProvider));
+            this.mapper = mapper
+                ??
                 throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<ActionResult> Search(string screenName)
+        public async Task<IActionResult> Search(string screenName)
         {
-            try
-            {
-                var model = this.twitterUserService.GetTwitterUserByScreenName(screenName);
+            var user = await this.GetUserDtoAsync(screenName);
 
-                if (model.IsNull())
-                {
-                    model = await this.twitterService.SearchUserAsync(screenName);
-                    this.twitterUserService.SaveTwitterUser(model);
-                }
+            var model = this.mapper.MapTo<TwitterUserViewModel>(user);
 
-                return Json(model);
-            }
-            catch
-            {
-                return Json("{{}}");
-            }
-
-            // if (model.IsNull()) 
-            // {
-            //     ViewData["Error"] = screenName;
-            //     return View("FailedSearch");
-            // }
-
-            // var viewModel = mapper.MapTo<TwitterUserViewModel>(model);
-
-            // ViewData["Title"] = viewModel.Name;
-
-            // return View("Search", viewModel);
+            return View(model);
         }
 
         public async Task<IActionResult> ShowUser(string screenName)
         {
-            var user = await this.twitterService.GetSingleUserAsync(screenName);
+            // var user = await this.twitterService.GetSingleUserAsync(screenName);
 
-            if (user.IsNull())
+            // if (user.IsNull())
+            // {
+            //     ViewData ["Error"] = screenName;
+            //     return View("FailedSearch");
+            // }
+
+            // var model = this.mapper.MapTo<TwitterUserViewModel>(user);
+
+            // ViewData ["Title"] = model.Name;
+
+            // return View(model);
+            try
+            {
+                var user = await this.GetUserDtoAsync(screenName);
+
+                var model = this.mapper.MapTo<TwitterUserViewModel>(user);
+
+                ViewData ["Title"] = model.Name;
+
+                return View("Search", model);
+            }
+            catch
             {
                 ViewData ["Error"] = screenName;
                 return View("FailedSearch");
             }
-
-            var model = this.mapper.MapTo<TwitterUserViewModel>(user);
-
-            ViewData ["Title"] = model.Name;
-
-            return View(model);
         }
 
         public async Task<string> GetHTMLASync(string id)
         {
             return await this.twitterService.GetHTMLAsync(id);
+        }
+
+        private async Task<TwitterUserDto> GetUserDtoAsync(string screenName)
+        {
+            var model = this.twitterUserService.GetTwitterUserByScreenName(screenName);
+
+            if (model.IsNull())
+            {
+                model = await this.twitterService.SearchUserAsync(screenName);
+                this.twitterUserService.SaveTwitterUser(model);
+            }
+
+            return model;
         }
     }
 }
