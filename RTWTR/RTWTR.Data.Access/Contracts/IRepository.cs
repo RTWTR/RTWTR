@@ -15,5 +15,9 @@ namespace RTWTR.Data.Access.Contracts
         void Delete(string id);
 
         void Update(T entity);
+
+        bool Exists(string id);
+
+        bool Exists(T entity);
     }
 }
