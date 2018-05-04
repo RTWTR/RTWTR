@@ -28,7 +28,7 @@ namespace RTWTR.Service.Twitter
             this.baseUrl = "https://api.twitter.com/1.1/";
         }
 
-        public async Task<string> GetSingleUserJSON(string screenName)
+        public async Task<string> GetSingleUserJSONAsync(string screenName)
         {
             string url = string.Concat(
                 this.baseUrl,
@@ -37,7 +37,7 @@ namespace RTWTR.Service.Twitter
                 "&include_entities=false"
             );
             
-            var response = await this.GetRequestJson(url);
+            var response = await this.GetRequestJsonAsync(url);
 
             if (response.IsNullOrWhitespace())
             {
@@ -47,9 +47,9 @@ namespace RTWTR.Service.Twitter
             return response;
         }
 
-        public async Task<TwitterUserDto> GetSingleUser(string screenName)
-        {            
-            var response = await this.GetSingleUserJSON(screenName);
+        public async Task<TwitterUserDto> GetSingleUserAsync(string screenName)
+        {
+            var response = await this.GetSingleUserJSONAsync(screenName);
 
             if (response.IsNullOrWhitespace())
             {
@@ -59,22 +59,15 @@ namespace RTWTR.Service.Twitter
             return this.jsonProvider.DeserializeObject<TwitterUserDto>(response);
         }
 
-        public async Task<string> GetSingleTweetJSON(string id)
+        public async Task<string> GetSingleTweetJSONAsync(string tweetId)
         {
-            throw new NotImplementedException();
-        }
+            string url = string.Concat(
+                this.baseUrl,
+                "statuses/show.json?id=",
+                tweetId
+            );
 
-        public async Task<TweetDto> GetSingleTweet(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<string> GetUserTimelineJSON(string screenName, int tweetsCount)
-        {
-            string url = string.Concat(this.baseUrl,
-                $"statuses/user_timeline.json?screen_name={screenName}&count={tweetsCount}");
-
-            var response = await this.GetRequestJson(url);
+            var response = await this.GetRequestJsonAsync(url);
 
             if (response.IsNullOrWhitespace())
             {
@@ -84,9 +77,41 @@ namespace RTWTR.Service.Twitter
             return response;
         }
 
-        public async Task<ICollection<TweetDto>> GetUserTimeline(string screenName, int tweetsCount)
+        public async Task<TweetDto> GetSingleTweetAsync(string tweetId)
         {
-            var response = await this.GetUserTimelineJSON(screenName, tweetsCount);
+            var response = await this.GetSingleTweetJSONAsync(tweetId);
+
+            if (response.IsNullOrWhitespace())
+            {
+                return new TweetDto();
+            }
+
+            return this.jsonProvider.DeserializeObject<TweetDto>(response);
+        }
+
+        public async Task<string> GetUserTimelineJSONAsync(string screenName, int tweetsCount)
+        {
+            string url = string.Concat(
+                this.baseUrl,
+                $"statuses/user_timeline.json?screen_name=",
+                screenName,
+                "&count=",
+                tweetsCount
+            );
+
+            var response = await this.GetRequestJsonAsync(url);
+
+            if (response.IsNullOrWhitespace())
+            {
+                return string.Empty;
+            }
+
+            return response;
+        }
+
+        public async Task<ICollection<TweetDto>> GetUserTimelineAsync(string screenName, int tweetsCount)
+        {
+            var response = await this.GetUserTimelineJSONAsync(screenName, tweetsCount);
 
             if (response.IsNullOrWhitespace())
             {
@@ -96,18 +121,13 @@ namespace RTWTR.Service.Twitter
             return this.jsonProvider.DeserializeObject<List<TweetDto>>(response);
         }
 
-        public Task<ICollection<TweetDto>> SearchTweetJSON(string id)
-        {
-            throw new NotImplementedException();
-        }
-
         // TODO: Check this later
-        public async Task<string> SearchUserJSON(string handle)
+        public async Task<string> SearchUserJSONAsync(string handle)
         {
             string url = string.Concat(this.baseUrl, 
                 $"users/lookup.json?screen_name={handle}");
 
-            var responseAsString = await this.GetRequestJson(url);
+            var responseAsString = await this.GetRequestJsonAsync(url);
 
             if (responseAsString.IsNullOrWhitespace())
             {
@@ -119,9 +139,9 @@ namespace RTWTR.Service.Twitter
             return response[0].ToString();
         }
 
-        public async Task<TwitterUserDto> SearchUser(string handle)
+        public async Task<TwitterUserDto> SearchUserAsync(string handle)
         {
-            var responseAsString = await this.SearchUserJSON(handle);
+            var responseAsString = await this.SearchUserJSONAsync(handle);
 
             if (responseAsString == string.Empty)
             {
@@ -133,7 +153,7 @@ namespace RTWTR.Service.Twitter
             return this.jsonProvider.DeserializeObject<TwitterUserDto>(response[0].ToString());
         }
 
-        public async Task<string> GetHTML(string id)
+        public async Task<string> GetHTMLAsync(string id)
         {
             string url = string.Concat(
                 "https://publish.twitter.com/oembed?",
@@ -141,14 +161,14 @@ namespace RTWTR.Service.Twitter
                 id
             );
 
-            var response = await this.GetRequestJson(url);
+            var response = await this.GetRequestJsonAsync(url);
 
             var parsedResponse = JObject.Parse(response);
 
             return parsedResponse["html"].ToString();
         }
 
-        private async Task<string> GetRequestJson(string url)
+        private async Task<string> GetRequestJsonAsync(string url)
         {
             return await this.apiProvider.GetJSON(url);
         }

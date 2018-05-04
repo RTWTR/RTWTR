@@ -6,22 +6,22 @@ namespace RTWTR.Service.Twitter.Contracts
 {
     public interface ITwitterService
     {
-        Task<string> GetSingleUserJSON(string screenName);
+        Task<string> GetSingleUserJSONAsync(string screenName);
 
-        Task<TwitterUserDto> GetSingleUser(string screenName);
+        Task<TwitterUserDto> GetSingleUserAsync(string screenName);
 
-        Task<string> GetSingleTweetJSON(string id);
+        Task<string> GetSingleTweetJSONAsync(string id);
 
-        Task<TweetDto> GetSingleTweet(string id);
+        Task<TweetDto> GetSingleTweetAsync(string id);
 
-        Task<string> GetUserTimelineJSON(string id, int tweetsCount);
+        Task<string> GetUserTimelineJSONAsync(string id, int tweetsCount);
 
-        Task<ICollection<TweetDto>> GetUserTimeline(string id, int tweetsCount);
+        Task<ICollection<TweetDto>> GetUserTimelineAsync(string id, int tweetsCount);
 
-        Task<string> SearchUserJSON(string handle);
+        Task<string> SearchUserJSONAsync(string handle);
 
-        Task<TwitterUserDto> SearchUser(string handle);
+        Task<TwitterUserDto> SearchUserAsync(string handle);
 
-        Task<string> GetHTML(string id);
+        Task<string> GetHTMLAsync(string id);
     }
 }
