@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using RTWTR.Data.Models.Abstractions;
 
 namespace RTWTR.Data.Models
 {
-    public class UserTwitterUser
+    public class UserTwitterUser : DataModel
     {
         // The User
         public string UserId { get; set; }

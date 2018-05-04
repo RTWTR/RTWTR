@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RTWTR.Data.Models;
 using RTWTR.DTO;
 using RTWTR.Infrastructure;
 using RTWTR.Infrastructure.Contracts;
@@ -12,16 +15,21 @@ using RTWTR.Service.Twitter.Contracts;
 
 namespace RTWTR.MVC.Controllers
 {
-    public class TwitterController : Controller
+    [Authorize]
+    public class UsersController : Controller
     {
         private readonly ITwitterService twitterService;
         private readonly ITwitterUserService twitterUserService;
+        private readonly IFavouriteUserService favouriteUserService;
+        private readonly UserManager<User> userManager;
         private readonly IJsonProvider jsonProvider;
         private readonly IMappingProvider mapper;
 
-        public TwitterController(
+        public UsersController(
             ITwitterService twitterService,
             ITwitterUserService twitterUserService,
+            IFavouriteUserService favouriteUserService,
+            UserManager<User> userManager,
             IJsonProvider jsonProvider,
             IMappingProvider mapper
         )
@@ -32,6 +40,10 @@ namespace RTWTR.MVC.Controllers
             this.twitterUserService = twitterUserService
                 ??
                 throw new ArgumentNullException(nameof(twitterUserService));
+            this.favouriteUserService = favouriteUserService
+                ??
+                throw new ArgumentNullException(nameof(favouriteUserService));
+            this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             this.jsonProvider = jsonProvider
                 ??
                 throw new ArgumentNullException(nameof(jsonProvider));
@@ -42,7 +54,7 @@ namespace RTWTR.MVC.Controllers
 
         public async Task<IActionResult> Search(string screenName)
         {
-            var user = await this.GetUserDtoAsync(screenName);
+            var user = await this.GetTwitterUserDtoAsync(screenName);
 
             var model = this.mapper.MapTo<TwitterUserViewModel>(user);
 
@@ -51,22 +63,9 @@ namespace RTWTR.MVC.Controllers
 
         public async Task<IActionResult> ShowUser(string screenName)
         {
-            // var user = await this.twitterService.GetSingleUserAsync(screenName);
-
-            // if (user.IsNull())
-            // {
-            //     ViewData ["Error"] = screenName;
-            //     return View("FailedSearch");
-            // }
-
-            // var model = this.mapper.MapTo<TwitterUserViewModel>(user);
-
-            // ViewData ["Title"] = model.Name;
-
-            // return View(model);
             try
             {
-                var user = await this.GetUserDtoAsync(screenName);
+                var user = await this.GetTwitterUserDtoAsync(screenName);
 
                 var model = this.mapper.MapTo<TwitterUserViewModel>(user);
 
@@ -81,12 +80,35 @@ namespace RTWTR.MVC.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddToFavourites(string screenName)
+        {
+            try
+            {
+                var twitterUser = await this.GetTwitterUserDtoAsync(screenName);
+                var user = this.userManager.GetUserId(User);
+
+                this.favouriteUserService.AddTwitterUserToFavourites(
+                    user,
+                    twitterUser.Id // TODO: Maybe use TwitterId?
+                );
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("em sori brat");
+                throw e;
+            }
+        }
+
         public async Task<string> GetHTMLASync(string id)
         {
             return await this.twitterService.GetHTMLAsync(id);
         }
 
-        private async Task<TwitterUserDto> GetUserDtoAsync(string screenName)
+        private async Task<TwitterUserDto> GetTwitterUserDtoAsync(string screenName)
         {
             var model = this.twitterUserService.GetTwitterUserByScreenName(screenName);
 

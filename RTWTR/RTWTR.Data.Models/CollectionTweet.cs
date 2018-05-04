@@ -1,8 +1,9 @@
 using System;
+using RTWTR.Data.Models.Abstractions;
 
 namespace RTWTR.Data.Models
 {
-    public class CollectionTweet
+    public class CollectionTweet : DataModel
     {
         public string TweetId { get; set; }
 

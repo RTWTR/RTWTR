@@ -4,6 +4,8 @@
     {
         public string Id { get; set; }
 
+        public string TwitterId { get; set; }
+
         public string Name { get; set; }
 
         public string ScreenName { get; set; }

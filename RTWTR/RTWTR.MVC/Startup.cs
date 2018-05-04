@@ -107,6 +107,7 @@ namespace RTWTR.MVC
             services.AddScoped<ITwitterService, TwitterService>();
             services.AddScoped<IJsonProvider, JsonProvider>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFavouriteUserService, FavouriteUserService>();
             services.AddScoped<ITwitterUserService, TwitterUserService>();
             services.AddScoped<ITweetService, TweetService>();
             services.AddScoped<ICollectionService, CollectionService>();

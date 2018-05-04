@@ -1,9 +1,10 @@
 ﻿using System;
+using RTWTR.Data.Models.Abstractions;
 using RTWTR.Data.Models.Contracts;
 
 namespace RTWTR.Data.Models
 {
-    public class UserTweets : IDeletable
+    public class UserTweets : DataModel
     {
         public string UserId { get; set; }
 
@@ -12,9 +13,5 @@ namespace RTWTR.Data.Models
         public string TweetId { get; set; }
 
         public Tweet Tweet { get; set; }
-
-        public bool IsDeleted { get; set; }
-        
-        public DateTime? DeletedOn { get; set; }
     }
 }

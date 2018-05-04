@@ -1,0 +1,28 @@
+﻿@using RTWTR.MVC.Models
+@model TwitterUserViewModel
+
+@{
+    var url = $"https://twitter.com/{Model.ScreenName}";
+}
+
+
+
+@section Timeline {
+    <div class="container">
+        <br />
+        <div>
+            <a asp-area="" asp-action="ShowUser" asp-route-screenName="@Model.ScreenName" class="right">
+                @await Html.PartialAsync("_User")
+            </a>
+            
+            <!-- TODO: Make async and use AJAX -->
+            <form asp-controller="Users" asp-action="AddToFavourites" asp-route-screenName="@Model.ScreenName" method="POST">
+                <button id="save-twitter-btn" class="btn btn-primary left" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Add to Favourites</button>
+            </form>
+
+            <button>View Timeline</button>
+        </div>
+    </div>
+}
+
+@await Html.PartialAsync("_AddUserToFavouritesPartial")

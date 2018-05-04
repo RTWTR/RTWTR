@@ -55,8 +55,16 @@ namespace RTWTR.Service.Data
                 User = user, 
                 UserId = user.Id, 
                 TwitterUser = twitterUser, 
-                TwitterUserId = twitterUser.Id 
+                TwitterUserId = twitterUser.Id,
+                CreatedOn = DateTime.Now,
+                IsDeleted = false
             };
+
+            if (this.userTwitterUsers.All.Any(x => x.TwitterUserId == twitterUserId && x.UserId == userId))
+            {
+                // TODO: Throw some adequate error
+                return 1;
+            }
 
             userTwitterUsers.Add(userTwitterUserToAdd);
 
