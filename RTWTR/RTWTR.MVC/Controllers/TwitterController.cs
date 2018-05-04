@@ -23,7 +23,7 @@ namespace RTWTR.MVC.Controllers
 
         public async Task<ActionResult> Search(string screenName)
         {
-            var model = await this.service.SearchUserJSON(screenName);
+            var model = await this.service.SearchUserJSONAsync(screenName);
 
             return Json(model);
 
@@ -42,7 +42,7 @@ namespace RTWTR.MVC.Controllers
 
         public async Task<IActionResult> ShowUser(string screenName)
         {
-            var user = await this.service.GetSingleUserJSON(screenName);
+            var user = await this.service.GetSingleUserJSONAsync(screenName);
 
             if (user.IsNull())
             {
@@ -57,9 +57,9 @@ namespace RTWTR.MVC.Controllers
             return View(model);
         }
 
-        public async Task<string> GetHTML(string id)
+        public async Task<string> GetHTMLASync(string id)
         {
-            return await this.service.GetHTML(id);
+            return await this.service.GetHTMLAsync(id);
         }
     }
 }

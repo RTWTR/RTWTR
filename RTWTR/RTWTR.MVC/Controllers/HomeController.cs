@@ -34,7 +34,7 @@ namespace RTWTR.MVC.Controllers
         {
             int tweetsCount = 30;
 
-            var tweets =  await twitterService.GetUserTimeline(twitterUserId, tweetsCount);
+            var tweets =  await twitterService.GetUserTimelineAsync(twitterUserId, tweetsCount);
 
             var model = new TimelineViewModel
             {
