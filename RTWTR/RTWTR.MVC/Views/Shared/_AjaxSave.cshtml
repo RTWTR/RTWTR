@@ -1,0 +1,19 @@
+<script>
+    $("#ajax-save").on("submit", function (event) {
+        event.preventDefault(); 
+
+        var $this = $(this);
+        var frmValues = $this.serialize();
+        $.ajax({
+            type: $this.attr('method'),
+            url: $this.attr('action'),
+            data: frmValues
+        })
+        .done(function () {
+            $("#para").text("Serialized! Input String is " + frmValues);
+        })
+        .fail(function () {
+            $("#para").text("An error occured");
+        });
+    });
+</script>
