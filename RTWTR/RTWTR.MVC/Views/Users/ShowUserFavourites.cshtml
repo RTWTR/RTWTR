@@ -6,10 +6,10 @@
     <div class="user-favourites">
         @foreach (var user in @Model.TwitterUsers)
         {
-            <div>
+            <a asp-controller="Users" asp-action="ShowUser" asp-route-screenName="@user.ScreenName">
                 <p>@user.ScreenName</p>
                 <img src="@user.ProfileImageUrl"></img>
-            </div>
+            </a>
             <br />
             <br />
             <br />
