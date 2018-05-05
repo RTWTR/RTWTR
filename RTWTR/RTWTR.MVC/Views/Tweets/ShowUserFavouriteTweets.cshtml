@@ -1,0 +1,12 @@
+﻿@model FavouriteTweetsViewModel
+
+@section Timeline {
+    <h3>User Favourites:</h3>
+
+    <div class="user-favourites">
+        @foreach (var tweet in @Model.Tweets)
+        {
+            @Html.Partial("_Tweet",tweet)
+        }
+    </div>
+}

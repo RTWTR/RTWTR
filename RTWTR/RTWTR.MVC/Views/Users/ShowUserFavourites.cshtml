@@ -6,10 +6,9 @@
     <div class="user-favourites">
         @foreach (var user in @Model.TwitterUsers)
         {
-            <div>
-                <p>@user.ScreenName</p>
-                <img src="@user.ProfileImageUrl"></img>
-            </div>
+        <div>
+            @Html.Partial("_User", user)
+        </div>
             <br />
             <br />
             <br />
