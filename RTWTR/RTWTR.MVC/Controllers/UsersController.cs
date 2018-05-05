@@ -109,7 +109,7 @@ namespace RTWTR.MVC.Controllers
                 var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
                 model.IsFavourite = true;
 
-                return View("ShowUser", model);
+                return RedirectToAction("ShowUser", model);
 
                 // Will return this when it uses AJAX
                 // return Ok();
@@ -137,7 +137,7 @@ namespace RTWTR.MVC.Controllers
                 var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
                 model.IsFavourite = false;
 
-                return View("ShowUser", model);
+                return RedirectToAction("ShowUser", model);
 
                 // Will return this when it uses AJAX
                 // return Ok();

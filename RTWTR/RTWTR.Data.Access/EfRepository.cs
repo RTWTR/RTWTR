@@ -27,6 +27,8 @@ namespace RTWTR.Data.Access
                 throw new ArgumentNullException(nameof(entity));
             }
 
+            entity.CreatedOn = DateTime.Now;
+
             EntityEntry entityEntry = this.dbContext.Entry(entity);
 
             if (entityEntry.State != EntityState.Detached)

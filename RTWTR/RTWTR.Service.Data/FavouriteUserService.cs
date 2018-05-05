@@ -110,13 +110,18 @@ namespace RTWTR.Service.Data
             var user = this.mapper.MapTo<User>(userDto);
             var twitterUser = this.mapper.MapTo<TwitterUser>(twitterUserDto);
 
-            var userTwitterUserToRemove = new UserTwitterUser() 
-            { 
-                User = user, 
-                UserId = user.Id, 
-                TwitterUser = twitterUser, 
-                TwitterUserId = twitterUser.Id 
-            };
+            var userTwitterUserToRemove = this.userTwitterUsers
+                .All
+                .SingleOrDefault(x =>
+                    x.UserId.Equals(user.Id) 
+                    &&
+                    x.TwitterUserId.Equals(twitterUser.Id)
+                );
+            
+            if (userTwitterUserToRemove.IsNull())
+            {
+                throw new NullReferenceException();
+            }
 
             userTwitterUsers.Delete(userTwitterUserToRemove);
 
