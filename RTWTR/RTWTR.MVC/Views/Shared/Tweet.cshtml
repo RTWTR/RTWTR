@@ -1,0 +1,18 @@
+﻿@model TweetViewModel
+
+<div class="container">
+    <div id="avatar">
+        <img src="@Model.User.ProfileImageUrl" />
+    </div>
+    <div class="content col-sm-offset-1">
+        <div class="name">@Model.User.Name</div>
+        <div class="screenName"><a href=@Url.Action("ShowUser","Users", new{screenName = @Model.User.ScreenName})>@Model.User.ScreenName</a></div>
+        <div class="text">
+            <p>@Model.Text</p>
+        </div>
+
+        <a class="btn btn-sm btn-default " href="https://twitter.com/intent/retweet?tweet_id=@Model.Id">Retweet</a>
+
+    </div>
+
+</div>
