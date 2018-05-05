@@ -148,6 +148,23 @@ namespace RTWTR.MVC.Controllers
             }
         }
 
+        public IActionResult ShowUserFavourites(string userId)
+        {
+            if (userId.IsNullOrWhitespace())
+            {
+                userId = this.userManager.GetUserId(User);
+            }
+
+            var favourites = this.favouriteUserService.GetUserFavourites(userId);
+
+            var model = new FavouriteUsersViewModel
+            {
+                TwitterUsers = this.mapper.MapTo<List<TwitterUserViewModel>>(favourites)
+            };
+
+            return View(model);
+        }
+
         public async Task<string> GetHTMLASync(string id)
         {
             return await this.twitterService.GetHTMLAsync(id);

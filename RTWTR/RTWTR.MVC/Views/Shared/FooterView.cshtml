@@ -5,8 +5,8 @@
         {
             <li><a asp-area="Administration">Administration</a></li>
         }
-        <li class=""><a class="Footer-link" href="@Url.Action("Index", "Users")" rel="noopener">Favourites</a></li>
-        <li class=""><a class="Footer-link" href="@Url.Action("Index", "Users")" rel="noopener">Tweets</a></li>
+        <li class=""><a class="Footer-link" asp-controller="Users" asp-action="ShowUserFavourites" rel="noopener">Favourite Users</a></li>
+        <li class=""><a class="Footer-link" href="@Url.Action("Index", "Users")" rel="noopener">Favourite Tweets</a></li>
         <li class=""><a class="Footer-link" href="@Url.Action("Index", "Manage")" rel="noopener">Settings</a></li>
         <li class="">
             <form asp-controller="Account" asp-action="Logout" method="post">

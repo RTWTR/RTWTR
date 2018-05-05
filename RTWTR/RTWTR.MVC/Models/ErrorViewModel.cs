@@ -1,6 +1,6 @@
 using System;
 
-namespace RTWTR.MVC.ViewModels
+namespace RTWTR.MVC.Models
 {
     public class ErrorViewModel
     {

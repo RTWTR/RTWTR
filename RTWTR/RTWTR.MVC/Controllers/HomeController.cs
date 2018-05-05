@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RTWTR.Infrastructure.Mapping.Provider;
 using RTWTR.MVC.Models;
-using RTWTR.MVC.ViewModels;
 using RTWTR.Service.Twitter;
 using RTWTR.Service.Twitter.Contracts;
 

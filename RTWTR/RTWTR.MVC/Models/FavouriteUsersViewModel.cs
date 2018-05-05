@@ -4,6 +4,6 @@ namespace RTWTR.MVC.Models
 {
     public class FavouriteUsersViewModel
     {
-        public ICollection<TwitterUserViewModel> Tweets { get; set; }
+        public ICollection<TwitterUserViewModel> TwitterUsers { get; set; }
     }
 }
