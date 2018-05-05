@@ -9,11 +9,7 @@
     <div class="container">
         <br />
         <div>
-            <a asp-area="" asp-action="ShowUser" asp-route-screenName="@Model.ScreenName" class="right">
-                @await Html.PartialAsync("_AddUserToFavouritesPartial")
-            </a>
-
-            <button>View Timeline</button>
+            @await Html.PartialAsync("_AddUserToFavouritesPartial")
         </div>
     </div>
 }
