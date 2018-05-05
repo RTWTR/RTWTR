@@ -2,7 +2,7 @@
     height: 35px;
     width: 80px;
     position: absolute;
-    top: 8px;
+    top: 20px;
 }
 
 .container {
@@ -21,11 +21,34 @@
     width: auto;
 }
 
-/*#page {
-    background: #e6ecf0;
-}*/
+#container-main {
+    margin-top: 70px;
+}
 
-@media (min-width: 768px) {
+.fixed {
+    position: fixed;
+}
+
+.input-group {
+    margin: 10px;
+}
+
+.offset-cst-left {
+    margin-left: 80px;
+}
+
+@media (max-width: 1010px) {
+    .offset-cst-left {
+        margin-left: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    #logo {
+        top: 15px;
+        left: 15px;
+    }
+
     .container {
         width: auto;
     }

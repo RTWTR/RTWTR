@@ -14,7 +14,7 @@
 
 <body>
     <div id="page">
-        <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
 
             <div class="navbar-header ">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".collapsable">
@@ -34,7 +34,7 @@
                         </a>
                     </li>  @*TODO: Redirect to Profile and settings*@
                 </ul>
-                <div class="col-sm-3 col-md-3 pull-right"> 
+                <div class="col-sm-3 col-sm-3 pull-right"> 
                     <form asp-controller="Users" asp-action="Search" role="search" method="get">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Search" name="screenName" id="srch-term">
@@ -55,9 +55,9 @@
             </div>
         </div>
 
-        <section id="body" class="container">
+        <section id="container-main" class="container">
             <div class="row">
-                <div class="col-sm-2 col-sm-offset-1">
+                <div class="col-sm-2 text-left offset-cst-left fixed">
                     <div class="panel" id="urltotweet-dashboard">
                         @await Html.PartialAsync("UrlToTweet")
 
@@ -68,14 +68,12 @@
                     </div>
 
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-offset-3 col-sm-6">
                     <div class="panel" id="timeline">
-                        
                         @RenderSection("Timeline", false)
-
                     </div>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-offset-9 col-sm-2 text-right fixed">
                     <div class="panel" id="footer">
                         @await Html.PartialAsync("FooterView")
                     </div>
