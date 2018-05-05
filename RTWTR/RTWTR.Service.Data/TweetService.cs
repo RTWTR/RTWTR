@@ -19,15 +19,19 @@ namespace RTWTR.Service.Data
         private readonly IRepository<User> users;
         private readonly IRepository<UserTweets> userTweets;
 
-        public TweetService(ISaver saver, IMappingProvider mapper, IRepository<Tweet> tweets, IRepository<User> users, IRepository<UserTweets> userTweets)
+        public TweetService(
+            ISaver saver,
+            IMappingProvider mapper, 
+            IRepository<Tweet> tweets, 
+            IRepository<User> users, 
+            IRepository<UserTweets> userTweets
+        )
         {
             this.saver = saver ?? throw new ArgumentNullException(nameof(saver));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.tweets = tweets ?? throw new ArgumentNullException(nameof(tweets));
             this.users = users ?? throw new ArgumentNullException(nameof(users));
             this.userTweets = userTweets ?? throw new ArgumentNullException(nameof(userTweets));
-
-
         }
 
         public TweetDto GetTweetById (string tweetId)

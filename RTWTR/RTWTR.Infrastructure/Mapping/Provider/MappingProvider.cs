@@ -28,6 +28,5 @@ namespace RTWTR.Infrastructure.Mapping.Provider
         {
             return source.AsQueryable().ProjectTo<TDestination>();
         }
-
     }
 }

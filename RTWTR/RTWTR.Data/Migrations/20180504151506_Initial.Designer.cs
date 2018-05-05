@@ -11,7 +11,7 @@ using System;
 namespace RTWTR.Data.Migrations
 {
     [DbContext(typeof(RTWTRDbContext))]
-    [Migration("20180430130508_Initial")]
+    [Migration("20180504151506_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -159,6 +159,16 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<string>("CollectionId");
 
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<string>("Id");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("UpdatedOn");
+
                     b.HasKey("TweetId", "CollectionId");
 
                     b.HasIndex("CollectionId");
@@ -219,6 +229,8 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<string>("ScreenName");
 
+                    b.Property<string>("TwitterId");
+
                     b.Property<DateTime?>("UpdatedOn");
 
                     b.HasKey("Id");
@@ -231,6 +243,16 @@ namespace RTWTR.Data.Migrations
                     b.Property<string>("TwitterUserId");
 
                     b.Property<string>("TweetId");
+
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<string>("Id");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("UpdatedOn");
 
                     b.Property<string>("UserId");
 
@@ -310,6 +332,16 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<string>("TweetId");
 
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<string>("Id");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("UpdatedOn");
+
                     b.HasKey("UserId", "TweetId");
 
                     b.HasIndex("TweetId");
@@ -322,6 +354,16 @@ namespace RTWTR.Data.Migrations
                     b.Property<string>("TwitterUserId");
 
                     b.Property<string>("UserId");
+
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<string>("Id");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("UpdatedOn");
 
                     b.HasKey("TwitterUserId", "UserId");
 

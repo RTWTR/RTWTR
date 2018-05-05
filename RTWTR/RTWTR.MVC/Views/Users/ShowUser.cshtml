@@ -1,11 +1,9 @@
-﻿@using RTWTR.MVC.Models
+@using RTWTR.MVC.Models
 @model TwitterUserViewModel
 
 @{
     var url = $"https://twitter.com/{Model.ScreenName}";
 }
-
-
 
 @section Timeline {
     <div class="container">
@@ -17,8 +15,7 @@
                 @await Html.PartialAsync("_User")
             </div>
             
-            <button id="save-twitter-btn" class="btn btn-primary left" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Add to Favourites</button>
-
+            @await Html.PartialAsync("_AddUserToFavouritesPartial")
         </div>
 
         <a class="twitter-timeline" href="@url" data-tweet-limit="20"></a>

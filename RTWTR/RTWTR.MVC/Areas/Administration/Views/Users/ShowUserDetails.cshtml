@@ -1,0 +1,27 @@
+@model UserViewModel
+
+@if (@ViewData["Error"].IsNull())
+{
+    <h1>@Model.User.Email</h1>
+
+    <button type="button" class="btn btn-dark">Dark</button>
+
+    @if (@Model.Tweets.Count() == 0)
+    {
+        <div>This user has no Tweets</div>
+    }
+    else
+    {
+        <div>Tweets: </div>
+        @foreach (var tweet in @Model.Tweets)
+        {
+            <div>
+                <p>tweet.Id</p>
+            </div>
+        }
+    }
+}
+else
+{
+    <div>User <strong>@ViewData["Error"]</strong> not found</div>
+}

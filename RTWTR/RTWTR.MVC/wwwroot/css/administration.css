@@ -1,0 +1,29 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+nav.navbar {
+    background: #000000;
+    border-bottom-color: transparent;
+    position: relative;
+}
+
+.btn-submit-cst-1 {
+    padding: 0;
+    border: none;
+    background: none;
+    color: #1da1f2;
+}
+
+.container-fluid {
+    margin-left: 20px;
+    margin-right: 30px;
+}
+
+/* .form-admin-cst { */
+    /* margin-left: 49%;
+    margin-bottom: 30px;
+    transform: translateX(-49%);
+} */

@@ -12,6 +12,7 @@ using RTWTR.Service.Data.Contracts;
 
 namespace RTWTR.Service.Data
 {
+    // TODO: Fix tests!!!!!!!!!!!
     public class FavouriteUserService : IFavouriteUserService
     {
         private readonly ISaver saver;
@@ -35,22 +36,28 @@ namespace RTWTR.Service.Data
             this.userTwitterUsers = userTwitterUsers ?? throw new ArgumentNullException(nameof(userTwitterUsers));
         }
 
-        public int AddTwitterUserToFavourites(string userId, string twitterUserId)
+        public int AddTwitterUserToFavourites(UserDTO userDto, TwitterUserDto twitterUserDto)
         {
-            if (userId.IsNullOrWhitespace())
+            if (userDto.IsNull())
             {
-                throw new InvalidUserIdException(nameof(userId));
+                throw new NullUserException(nameof(userDto));
             }
 
-            if (twitterUserId.IsNullOrWhitespace())
+            if (twitterUserDto.IsNull())
             {
-                throw new InvalidTwitterUserIdException(nameof(twitterUserId));
+                throw new NullTwitterUserException(nameof(twitterUserDto));
             }
 
-            var user = GetUserById(userId);
-            var twitterUser = GetTwitterUserById(twitterUserId);
+            if (!IsFavourite(userDto.Id, twitterUserDto.Id))
+            {
+                // TODO: throw adequate exception
+                return -1;
+            }
 
-            var userTwitterUserToAdd = new UserTwitterUser() 
+            var user = this.mapper.MapTo<User>(userDto);
+            var twitterUser = this.mapper.MapTo<TwitterUser>(twitterUserDto);
+
+            var userTwitterUserToRemove = new UserTwitterUser() 
             { 
                 User = user, 
                 UserId = user.Id, 
@@ -58,25 +65,31 @@ namespace RTWTR.Service.Data
                 TwitterUserId = twitterUser.Id 
             };
 
-            userTwitterUsers.Add(userTwitterUserToAdd);
+            userTwitterUsers.Add(userTwitterUserToRemove);
 
             return this.saver.SaveChanges();
         }
 
-        public int RemoveTwitterUserFromFavourites(string userId, string twitterUserId)
+        public int RemoveTwitterUserFromFavourites(UserDTO userDto, TwitterUserDto twitterUserDto)
         {
-            if (userId.IsNullOrWhitespace())
+            if (userDto.IsNull())
             {
-                throw new InvalidUserIdException(nameof(userId));
+                throw new NullUserException(nameof(userDto));
             }
 
-            if (twitterUserId.IsNullOrWhitespace())
+            if (twitterUserDto.IsNull())
             {
-                throw new InvalidTwitterUserIdException(nameof(twitterUserId));
+                throw new NullTwitterUserException(nameof(twitterUserDto));
             }
 
-            var user = GetUserById(userId);
-            var twitterUser = GetTwitterUserById(twitterUserId);
+            if (!IsFavourite(userDto.Id, twitterUserDto.Id))
+            {
+                // TODO: throw adequate exception
+                return -1;
+            }
+
+            var user = this.mapper.MapTo<User>(userDto);
+            var twitterUser = this.mapper.MapTo<TwitterUser>(twitterUserDto);
 
             var userTwitterUserToRemove = new UserTwitterUser() 
             { 
@@ -105,32 +118,9 @@ namespace RTWTR.Service.Data
             return mapper.ProjectTo<TwitterUserDto>(favourites);
         }
 
-        private User GetUserById(string userId)
+        public bool IsFavourite(string userId, string twitterUserId)
         {
-            User userToReturn = users
-                .All
-                .SingleOrDefault(x => x.Id == userId);
-
-            if (userToReturn.IsNull())
-            {
-                throw new NullUserException();
-            }
-
-            return userToReturn;
-        }
-
-        private TwitterUser GetTwitterUserById(string userId)
-        {
-            TwitterUser twitterUserToReturn = twitterUsers
-                .All
-                .SingleOrDefault(x => x.Id == userId);
-
-            if (twitterUserToReturn.IsNull())
-            {
-                throw new NullTwitterUserException();
-            }
-
-            return twitterUserToReturn;
+            return this.userTwitterUsers.All.Any(x => x.TwitterUserId.Equals(twitterUserId) && x.UserId.Equals(userId));
         }
     }
 }

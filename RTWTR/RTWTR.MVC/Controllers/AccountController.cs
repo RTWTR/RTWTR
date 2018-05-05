@@ -69,9 +69,15 @@ namespace RTWTR.MVC.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    if (User.IsInRole("Admin"))
+                    // Resolve the user via their email
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    // Get the roles for the user
+                    var roles = await _userManager.GetRolesAsync(user);
+
+
+                    if (User.IsInRole("Administrator"))
                     {
-                        _logger.LogInformation("Admin");
+                        _logger.LogInformation("Administrator logged in.");
                     }
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
@@ -234,6 +240,14 @@ namespace RTWTR.MVC.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    // Just in case
+                    if (!await _roleManager.RoleExistsAsync("User"))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole("User"));
+                    }
+
+                    await _userManager.AddToRoleAsync(user, "User");
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -462,6 +476,10 @@ namespace RTWTR.MVC.Controllers
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
+            }
+            if (User.IsInRole("Administrator"))
+            {
+                return RedirectToAction("Index", "Home", new { @area = "Administration" });
             }
             else
             {

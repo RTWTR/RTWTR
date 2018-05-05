@@ -18,6 +18,8 @@ using RTWTR.Service.Twitter.Contracts;
 using RTWTR.Service.Twitter;
 using RTWTR.Data.Access;
 using RTWTR.Data.Access.Contracts;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RTWTR.MVC
 {
@@ -43,6 +45,8 @@ namespace RTWTR.MVC
             this.RegisterServices(services);
 
             this.RegisterInfrastructure(services);
+
+            this.SeedDatabase(services);
         }
 
         private void RegisterData(IServiceCollection services)
@@ -63,6 +67,7 @@ namespace RTWTR.MVC
                 .AddEntityFrameworkStores<RTWTRDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddScoped<DatabaseSeeder>();
 
             if (this.Environment.IsDevelopment())
             {
@@ -81,6 +86,15 @@ namespace RTWTR.MVC
                     options.Lockout.MaxFailedAccessAttempts = 999;
                 });
             }
+
+            var consumerKey = this.GetEnvironmentVariable("rtwtr_consumerKey");
+            var consumerSecret = this.GetEnvironmentVariable("rtwtr_consumerSecret");
+
+            services.AddAuthentication().AddTwitter(twitterOptions =>
+            {
+                twitterOptions.ConsumerKey = consumerKey;
+                twitterOptions.ConsumerSecret = consumerSecret;
+            });
         }
 
         private void RegisterServices(IServiceCollection services)
@@ -92,19 +106,26 @@ namespace RTWTR.MVC
             services.AddScoped<IApiProvider, TwitterApiProvider>();
             services.AddScoped<ITwitterService, TwitterService>();
             services.AddScoped<IJsonProvider, JsonProvider>();
-            services.AddTransient<ITwitterUserService, TwitterUserService>();
-            services.AddTransient<ITweetService, TweetService>();
-            services.AddTransient<ICollectionService, CollectionService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFavouriteUserService, FavouriteUserService>();
+            services.AddScoped<ITwitterUserService, TwitterUserService>();
+            services.AddScoped<ITweetService, TweetService>();
+            services.AddScoped<ICollectionService, CollectionService>();
         }
 
         private void RegisterInfrastructure(IServiceCollection services)
         {
             services.AddAutoMapper();
+
             services.AddScoped<IMappingProvider, MappingProvider>();
 
-            services.AddMvc();
-        }
+            services.AddMemoryCache();
 
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
@@ -146,6 +167,35 @@ namespace RTWTR.MVC
             }
 
             return System.Environment.GetEnvironmentVariable("rtwtr").Replace(@"\\", @"\");
+        }
+        
+        private string GetEnvironmentVariable(string variable)
+        {
+            return System.Environment.GetEnvironmentVariable(variable);
+        }
+
+        private void SeedDatabase(IServiceCollection services)
+        {
+            var serviceProvider = services.BuildServiceProvider();
+
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var databaseSeeder = serviceProvider.GetRequiredService<DatabaseSeeder>();
+                var logger = serviceProvider.GetRequiredService<ILogger<Startup>>();
+
+                try
+                {
+                    // Database Seed
+                    databaseSeeder.Initialize().Wait();
+
+                    logger.LogInformation("Database Successfully Seeded");
+                }
+                catch (Exception e)
+                {
+                    logger.LogError(e, "Database Seed Unsuccessful");
+                    throw e;
+                }
+            }
         }
     }
 }

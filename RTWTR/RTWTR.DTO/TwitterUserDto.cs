@@ -4,8 +4,11 @@ namespace RTWTR.DTO
 {
     public class TwitterUserDto
     {
-        [JsonProperty("id_str")]
+        [JsonIgnore]
         public string Id { get; set; }
+
+        [JsonProperty("id_str")]
+        public string TwitterId { get; set; }
 
         [JsonProperty("screen_name")]
         public string ScreenName { get; set; }

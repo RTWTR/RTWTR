@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using RTWTR.Data.Access.Contracts;
 using RTWTR.Data.Models.Contracts;
+using RTWTR.Infrastructure;
 using System;
 using System.Linq;
 
@@ -10,12 +11,9 @@ namespace RTWTR.Data.Access
     public class EfRepository<T> : IRepository<T> where T : class, IDeletable
     {
         private readonly RTWTRDbContext dbContext;
-        private readonly DbSet<T> dbSet;
-
-        public EfRepository(RTWTRDbContext dbContext,DbSet<T> dbSet)
+        public EfRepository(RTWTRDbContext dbContext)
         {
             this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-            this.dbSet = dbSet ?? throw new ArgumentNullException(nameof(dbSet));
         }
 
         public IQueryable<T> All => this.dbContext.Set<T>().Where(x => !x.IsDeleted);
@@ -43,7 +41,7 @@ namespace RTWTR.Data.Access
 
         public void Delete(string id)
         {
-            T entity = this.dbSet.Find(id);
+            T entity = this.dbContext.Set<T>().Find(id);
 
             this.Delete(entity);
         }
@@ -72,6 +70,18 @@ namespace RTWTR.Data.Access
             }
 
             entityEntry.State = EntityState.Modified;
+        }
+
+        public bool Exists(string id)
+        {
+            var entity = this.dbContext.Set<T>().Find(id);
+
+            return this.Exists(entity);
+        }
+
+        public bool Exists(T entity)
+        {
+            return !entity.IsNull();
         }
     }
 }

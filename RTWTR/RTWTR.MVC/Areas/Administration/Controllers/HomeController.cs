@@ -1,29 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RTWTR.Service.Data.Contracts;
+using RTWTR.Service.Twitter.Contracts;
 
 namespace RTWTR.MVC.Areas.Administration.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [Area("Administration")]
+    [Authorize(Roles = "Administrator")]
     public class HomeController : Controller
     {
+        private readonly IUserService userService;
+        private readonly ITwitterService twitterService;
+
+        public HomeController(IUserService userService, ITwitterService twitterService)
+        {
+            this.userService = userService ??
+                throw new ArgumentNullException(nameof(userService));
+            this.twitterService = twitterService ?? throw new ArgumentNullException(nameof(twitterService));
+        }
+
         public IActionResult Index()
         {
-            return View();
-        }
+            ViewData["UsersCount"] = this.userService.GetAllAndDeletedUsersCount();
 
-        public IActionResult About() 
-        {
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            return View();
+            return View(ViewData);
         }
     }
 }

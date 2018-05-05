@@ -65,6 +65,7 @@ namespace RTWTR.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     ProfileImageUrl = table.Column<string>(nullable: true),
                     ScreenName = table.Column<string>(nullable: true),
+                    TwitterId = table.Column<string>(nullable: true),
                     UpdatedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
@@ -239,7 +240,12 @@ namespace RTWTR.Data.Migrations
                 columns: table => new
                 {
                     TwitterUserId = table.Column<string>(nullable: false),
-                    UserId = table.Column<string>(nullable: false)
+                    UserId = table.Column<string>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: true),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Id = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    UpdatedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -263,7 +269,12 @@ namespace RTWTR.Data.Migrations
                 columns: table => new
                 {
                     TweetId = table.Column<string>(nullable: false),
-                    CollectionId = table.Column<string>(nullable: false)
+                    CollectionId = table.Column<string>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: true),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Id = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    UpdatedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -288,6 +299,11 @@ namespace RTWTR.Data.Migrations
                 {
                     TwitterUserId = table.Column<string>(nullable: false),
                     TweetId = table.Column<string>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: true),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Id = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    UpdatedOn = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -318,7 +334,12 @@ namespace RTWTR.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    TweetId = table.Column<string>(nullable: false)
+                    TweetId = table.Column<string>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: true),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Id = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    UpdatedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {

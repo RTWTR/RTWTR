@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RTWTR.Data.Models\RTWTR.Data.Models.csproj" />
-    <ProjectReference Include="..\RTWTR.Infrastructure\RTWTR.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

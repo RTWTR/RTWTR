@@ -13,6 +13,7 @@ using RTWTR.Service.Twitter.Contracts;
 
 namespace RTWTR.MVC.Controllers
 {
+    [Authorize(Roles = "Administrator,User")]
     public class HomeController : Controller
     {
         private readonly ITwitterService twitterService;
@@ -23,21 +24,17 @@ namespace RTWTR.MVC.Controllers
             this.twitterService = twitterService;
             this.mapper = mapper;
         }
-        [AllowAnonymous]
+        
         public IActionResult Index()
         {
-            return this.Validate();
+            return View();
         }
 
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
         public async Task<IActionResult> Timeline(string twitterUserId)
         {
             int tweetsCount = 30;
 
-            var tweets =  await twitterService.GetUserTimeline(twitterUserId, tweetsCount);
+            var tweets =  await twitterService.GetUserTimelineAsync(twitterUserId, tweetsCount);
 
             var model = new TimelineViewModel
             {
@@ -47,6 +44,11 @@ namespace RTWTR.MVC.Controllers
             return View(model);
         }
 
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
         private bool IsLoggedIn()
         {
             return HttpContext.User.Identity.IsAuthenticated;
@@ -54,11 +56,10 @@ namespace RTWTR.MVC.Controllers
 
         private IActionResult Validate()
         {
-            //TODO: Remove Comments when finished developing _layout
-            //if (!this.IsLoggedIn())
-            //{
-            //    return RedirectToAction("Login", "Account");
-            //}
+            if (!this.IsLoggedIn())
+            {
+               return RedirectToAction("Login", "Account");
+            }
 
             return View();
         }
