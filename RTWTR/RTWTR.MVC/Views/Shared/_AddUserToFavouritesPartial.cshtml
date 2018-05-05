@@ -23,14 +23,14 @@
     <div id="buttons">
         @if (@Model.IsFavourite)
         {
-            <form id="ajax-save" asp-controller="Users" asp-action="RemoveFromFavourites" asp-route-screenName="@Model.ScreenName" method="POST">
-                <button class="btn btn-primary left btn-cst-add" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Already a Favourite</button>
+            <form class="ajax-call" asp-controller="Users" asp-action="RemoveFromFavourites" asp-route-screenName="@Model.ScreenName" method="POST">
+                <button class="btn btn-primary left btn-cst-add" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading" data-name="@Model.ScreenName">Remove from Favourites</button>
             </form>
         }
         else
         {
-            <form id="ajax-save" asp-controller="Users" asp-action="AddToFavourites" asp-route-screenName="@Model.ScreenName" method="POST">
-                <button class="btn btn-primary left btn-cst-add" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Add to Favourites</button>
+            <form class="ajax-call" asp-controller="Users" asp-action="AddToFavourites" asp-route-screenName="@Model.ScreenName" method="POST">
+                <button class="btn btn-primary left btn-cst-add" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading" data-name="@Model.ScreenName">Add to Favourites</button>
             </form>
         }
     </div>

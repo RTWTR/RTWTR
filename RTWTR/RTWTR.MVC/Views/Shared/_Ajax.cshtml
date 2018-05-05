@@ -1,5 +1,5 @@
 <script>
-    $("#ajax-save").on("submit", function (event) {
+    $(".ajax-call").on("submit", function (event) {
         event.preventDefault(); 
 
         var $this = $(this);
@@ -10,10 +10,11 @@
             data: frmValues
         })
         .done(function () {
-            $("#para").text("Serialized! Input String is " + frmValues);
+            //TODO: Finish
+            alert("done");
         })
         .fail(function () {
-            $("#para").text("An error occured");
+            alert("Something went wrong bruh")
         });
     });
 </script>

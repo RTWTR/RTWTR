@@ -3,6 +3,8 @@
     width: 80px;
     position: absolute;
     top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .img-circle {
@@ -44,7 +46,11 @@
 
 .btn-cst-add {
     text-align: center;
-    margin-top: 15px;
+    margin-top: 10px;
+}
+
+.hidden-cst {
+    display: none;
 }
 
 @media (max-width: 1010px) {
