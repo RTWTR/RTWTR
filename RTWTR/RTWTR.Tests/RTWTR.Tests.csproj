@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\RTWTR.Service.Data\RTWTR.Service.Data.csproj" />
     <ProjectReference Include="..\RTWTR.Data.Access\RTWTR.Data.Access.csproj" />
+    <ProjectReference Include="..\RTWTR.Service.Twitter\RTWTR.Service.Twitter.csproj" />
   </ItemGroup>
 
 </Project>
