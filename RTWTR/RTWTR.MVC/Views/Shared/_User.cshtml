@@ -5,8 +5,6 @@
     var imageUrl = $"{Model.ProfileImageUrl}";
 }
 
-
-
 <div class="container">
 
     <div class="col-md-6">
@@ -18,5 +16,19 @@
         <h4>@@@Model.ScreenName</h4>
         <div class ="text">@Model.Description</div>
     </div>
+
+    @if (@Model.IsFavourite)
+    {
+        <!-- TODO: Make is so it shows Remove from favourites when hovered -->
+        <form id="async-save" asp-controller="Users" asp-action="RemoveFromFavourites" asp-route-screenName="@Model.ScreenName" method="POST">
+            <button class="btn btn-primary left" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Already a Favourite</button>
+        </form>
+    }
+    else
+    {
+        <form id="async-save" asp-controller="Users" asp-action="AddToFavourites" asp-route-screenName="@Model.ScreenName" method="POST">
+            <button class="btn btn-primary left" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Add to Favourites</button>
+        </form>
+    }
 
 </div>

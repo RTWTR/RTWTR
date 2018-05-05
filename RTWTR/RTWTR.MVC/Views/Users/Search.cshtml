@@ -5,20 +5,20 @@
     var url = $"https://twitter.com/{Model.ScreenName}";
 }
 
-
-
 @section Timeline {
     <div class="container">
         <br />
         <div>
             <a asp-area="" asp-action="ShowUser" asp-route-screenName="@Model.ScreenName" class="right">
-                @await Html.PartialAsync("_User")
+                @await Html.PartialAsync("_AddUserToFavouritesPartial")
             </a>
-            
-            <!-- TODO: Make async and use AJAX -->
-            @await Html.PartialAsync("_AddUserToFavouritesPartial")
 
             <button>View Timeline</button>
         </div>
     </div>
+}
+
+@section Scripts {
+    <!-- TODO: Make async and use AJAX -->
+    @await Html.PartialAsync("_AjaxSave")
 }
