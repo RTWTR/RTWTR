@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RTWTR.Data.Models.Abstractions;
+using RTWTR.Data.Models.Contracts;
 
 namespace RTWTR.Data.Models
 {
-    public class TwitterUserTweet : DataModel
+    public class TwitterUserTweet : IDeletable, IAuditable
     {
         public string TwitterUserId { get; set; }
 
@@ -14,5 +12,13 @@ namespace RTWTR.Data.Models
         public string TweetId { get; set; }
 
         public Tweet Tweet { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
+
+        public DateTime? CreatedOn { get; set; }
+
+        public DateTime? UpdatedOn { get; set; }
     }
 }
