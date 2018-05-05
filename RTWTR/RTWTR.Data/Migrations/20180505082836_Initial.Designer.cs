@@ -11,7 +11,7 @@ using System;
 namespace RTWTR.Data.Migrations
 {
     [DbContext(typeof(RTWTRDbContext))]
-    [Migration("20180504151506_Initial")]
+    [Migration("20180505082836_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -163,8 +163,6 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<string>("Id");
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("UpdatedOn");
@@ -247,8 +245,6 @@ namespace RTWTR.Data.Migrations
                     b.Property<DateTime?>("CreatedOn");
 
                     b.Property<DateTime?>("DeletedOn");
-
-                    b.Property<string>("Id");
 
                     b.Property<bool>("IsDeleted");
 
@@ -358,8 +354,6 @@ namespace RTWTR.Data.Migrations
                     b.Property<DateTime?>("CreatedOn");
 
                     b.Property<DateTime?>("DeletedOn");
-
-                    b.Property<string>("Id");
 
                     b.Property<bool>("IsDeleted");
 

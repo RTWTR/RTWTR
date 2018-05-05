@@ -162,8 +162,6 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<string>("Id");
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("UpdatedOn");
@@ -246,8 +244,6 @@ namespace RTWTR.Data.Migrations
                     b.Property<DateTime?>("CreatedOn");
 
                     b.Property<DateTime?>("DeletedOn");
-
-                    b.Property<string>("Id");
 
                     b.Property<bool>("IsDeleted");
 
@@ -357,8 +353,6 @@ namespace RTWTR.Data.Migrations
                     b.Property<DateTime?>("CreatedOn");
 
                     b.Property<DateTime?>("DeletedOn");
-
-                    b.Property<string>("Id");
 
                     b.Property<bool>("IsDeleted");
 

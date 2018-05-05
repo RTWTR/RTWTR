@@ -243,7 +243,6 @@ namespace RTWTR.Data.Migrations
                     UserId = table.Column<string>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Id = table.Column<string>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     UpdatedOn = table.Column<DateTime>(nullable: true)
                 },
@@ -272,7 +271,6 @@ namespace RTWTR.Data.Migrations
                     CollectionId = table.Column<string>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Id = table.Column<string>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     UpdatedOn = table.Column<DateTime>(nullable: true)
                 },
@@ -301,7 +299,6 @@ namespace RTWTR.Data.Migrations
                     TweetId = table.Column<string>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Id = table.Column<string>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     UpdatedOn = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
