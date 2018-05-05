@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -80,6 +81,22 @@ namespace RTWTR.MVC.Controllers
                 throw e;
 
             }
+        }
+        public IActionResult ShowUserFavouriteTweets(string userId)
+        {
+            if (userId.IsNullOrWhitespace())
+            {
+                userId = this.userManager.GetUserId(User);
+            }
+
+            var favourites = this.tweetService.GetUserFavourites(userId);
+
+            var model = new FavouriteTweetsViewModel()
+            {
+                Tweets = this.mapper.MapTo<List<TweetViewModel>>(favourites)
+            };
+
+            return View(model);
         }
 
         private async Task<TweetDto> GetTweetDtoAsync(string tweetId)
