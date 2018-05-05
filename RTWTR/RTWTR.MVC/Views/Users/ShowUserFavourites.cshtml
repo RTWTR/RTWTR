@@ -2,17 +2,24 @@
 
 @section Timeline {
     <h3>User Favourites:</h3>
-
-    <div class="user-favourites">
-        @foreach (var user in @Model.TwitterUsers)
-        {
-        <div>
-            @Html.Partial("_User", user)
+    @if (Model.TwitterUsers.Count == 0)
+    {
+        <h3>No favourite users</h3>
+    }
+    else
+    {
+        <div class="user-favourites">
+            @foreach (var user in @Model.TwitterUsers)
+            {
+                <div>
+                    @Html.Partial("_User", user)
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+            }
         </div>
-            <br />
-            <br />
-            <br />
-            <br />
-        }
-    </div>
+    }
+    
 }

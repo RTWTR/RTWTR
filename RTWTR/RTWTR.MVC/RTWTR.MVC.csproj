@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Administration\Models\" />
+    <Folder Include="Views\Tweets\" />
   </ItemGroup>
 
 </Project>
