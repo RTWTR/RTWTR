@@ -13,7 +13,7 @@ using RTWTR.Service.Twitter.Contracts;
 
 namespace RTWTR.MVC.Controllers
 {
-    [Authorize(Roles = "Administrator,User")]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ITwitterService twitterService;

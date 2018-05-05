@@ -55,6 +55,12 @@ namespace RTWTR.Service.Data
 
             if (this.IsActuallyFavourite(user.Id, twitterUser.Id))
             {
+                if (!this.IsDeleted(user.Id, twitterUser.Id))
+                {
+                    // TODO: throw adequate exception
+                    return -1;
+                }
+
                 userTwitterUser = this.userTwitterUsers
                     .AllAndDeleted
                     .SingleOrDefault(x => 
@@ -63,12 +69,6 @@ namespace RTWTR.Service.Data
                         x.TwitterUserId.Equals(twitterUser.Id
                     ));
                 
-                if (!this.IsDeleted(user.Id, twitterUser.Id))
-                {
-                    // TODO: throw adequate exception
-                    return -1;
-                }
-
                 userTwitterUser.IsDeleted = false;
 
                 userTwitterUsers.Update(userTwitterUser);
