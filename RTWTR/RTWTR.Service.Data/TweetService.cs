@@ -18,13 +18,15 @@ namespace RTWTR.Service.Data
         private readonly IRepository<Tweet> tweets;
         private readonly IRepository<User> users;
         private readonly IRepository<UserTweets> userTweets;
+        private readonly IRepository<TwitterUser> twitterUsers;
 
         public TweetService(
             ISaver saver,
             IMappingProvider mapper, 
             IRepository<Tweet> tweets, 
             IRepository<User> users, 
-            IRepository<UserTweets> userTweets
+            IRepository<UserTweets> userTweets,
+            IRepository<TwitterUser> twitterUsers
         )
         {
             this.saver = saver ?? throw new ArgumentNullException(nameof(saver));
@@ -32,6 +34,8 @@ namespace RTWTR.Service.Data
             this.tweets = tweets ?? throw new ArgumentNullException(nameof(tweets));
             this.users = users ?? throw new ArgumentNullException(nameof(users));
             this.userTweets = userTweets ?? throw new ArgumentNullException(nameof(userTweets));
+            this.twitterUsers = twitterUsers ?? throw new ArgumentNullException(nameof(twitterUsers));
+
         }
 
         public TweetDto GetTweetById (string tweetId)
@@ -48,14 +52,31 @@ namespace RTWTR.Service.Data
             return mapper.MapTo<TweetDto>(tweet);
         }
 
-        public int AddTweet(Tweet tweetToSave)
+        public int AddTweet(TweetDto tweetToSave)
         {
             if (tweetToSave == null)
             {
                 return -1;
             }
 
-            this.tweets.Add(tweetToSave);
+            if (tweets.All.Any(x => x.Id == tweetToSave.Id))
+            {
+                return 1;
+            }
+
+            var user = GetTwitterUserById(tweetToSave.User.Id);
+
+
+            var tweet = new Tweet
+            {
+                TwitterId = tweetToSave.Id,
+                Text = tweetToSave.Text,
+                CreatedAt = tweetToSave.CreatedAt,
+                TwitterUser = user,
+                TwitterUserId = tweetToSave.User.Id
+
+            };
+            this.tweets.Add(tweet);
 
             return this.saver.SaveChanges();
         }
@@ -136,6 +157,20 @@ namespace RTWTR.Service.Data
         private User GetUserById(string userId)
         {
             User userToReturn = users
+                .All
+                .SingleOrDefault(x => x.Id == userId);
+
+            if (userToReturn.IsNull())
+            {
+                throw new NullUserException();
+            }
+
+            return userToReturn;
+        }
+
+        private TwitterUser GetTwitterUserById(string userId)
+        {
+            TwitterUser userToReturn = twitterUsers
                 .All
                 .SingleOrDefault(x => x.Id == userId);
 

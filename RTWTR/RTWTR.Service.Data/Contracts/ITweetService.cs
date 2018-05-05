@@ -8,7 +8,7 @@ namespace RTWTR.Service.Data.Contracts
     {
         TweetDto GetTweetById(string tweetId);
 
-        int AddTweet(Tweet tweetToSave);
+        int AddTweet(TweetDto tweetToSave);
 
         int SaveTweetToFavourites(string tweetId,string userId);
 
