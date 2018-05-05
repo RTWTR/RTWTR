@@ -48,24 +48,43 @@ namespace RTWTR.Service.Data
                 throw new NullTwitterUserException(nameof(twitterUserDto));
             }
 
-            if (!IsFavourite(userDto.Id, twitterUserDto.Id))
-            {
-                // TODO: throw adequate exception
-                return -1;
-            }
-
             var user = this.mapper.MapTo<User>(userDto);
             var twitterUser = this.mapper.MapTo<TwitterUser>(twitterUserDto);
 
-            var userTwitterUserToRemove = new UserTwitterUser() 
-            { 
-                User = user, 
-                UserId = user.Id, 
-                TwitterUser = twitterUser, 
-                TwitterUserId = twitterUser.Id 
-            };
+            UserTwitterUser userTwitterUser = null;
 
-            userTwitterUsers.Add(userTwitterUserToRemove);
+            if (this.IsActuallyFavourite(user.Id, twitterUser.Id))
+            {
+                userTwitterUser = this.userTwitterUsers
+                    .AllAndDeleted
+                    .SingleOrDefault(x => 
+                        x.UserId.Equals(user.Id)
+                        &&
+                        x.TwitterUserId.Equals(twitterUser.Id
+                    ));
+                
+                if (!this.IsDeleted(user.Id, twitterUser.Id))
+                {
+                    // TODO: throw adequate exception
+                    return -1;
+                }
+
+                userTwitterUser.IsDeleted = false;
+
+                userTwitterUsers.Update(userTwitterUser);
+            }
+            else
+            {
+                userTwitterUser = new UserTwitterUser() 
+                { 
+                    User = user, 
+                    UserId = user.Id, 
+                    TwitterUser = twitterUser, 
+                    TwitterUserId = twitterUser.Id
+                };
+
+                userTwitterUsers.Add(userTwitterUser);
+            }
 
             return this.saver.SaveChanges();
         }
@@ -121,6 +140,18 @@ namespace RTWTR.Service.Data
         public bool IsFavourite(string userId, string twitterUserId)
         {
             return this.userTwitterUsers.All.Any(x => x.TwitterUserId.Equals(twitterUserId) && x.UserId.Equals(userId));
+        }
+
+        public bool IsDeleted(string userId, string twitterUserId)
+        {
+            var entity = this.userTwitterUsers.AllAndDeleted.SingleOrDefault(x => x.TwitterUserId.Equals(twitterUserId) && x.UserId.Equals(userId));
+
+            return entity.IsDeleted;
+        }
+
+        private bool IsActuallyFavourite(string userId, string twitterUserId)
+        {
+            return this.userTwitterUsers.AllAndDeleted.Any(x => x.TwitterUserId.Equals(twitterUserId) && x.UserId.Equals(userId));
         }
     }
 }

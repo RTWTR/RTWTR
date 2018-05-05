@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace RTWTR.Data.Access
 {
-    public class EfRepository<T> : IRepository<T> where T : class, IDeletable
+    public class EfRepository<T> : IRepository<T> where T : class, IDeletable, IAuditable
     {
         private readonly RTWTRDbContext dbContext;
         public EfRepository(RTWTRDbContext dbContext)
@@ -68,6 +68,8 @@ namespace RTWTR.Data.Access
             {
                 this.dbContext.Set<T>().Attach(entity);
             }
+
+            entity.UpdatedOn = DateTime.Now;
 
             entityEntry.State = EntityState.Modified;
         }

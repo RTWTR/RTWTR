@@ -60,7 +60,7 @@ namespace RTWTR.MVC.Controllers
                 var userId = this.userManager.GetUserId(User);
 
                 var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
-                model.IsFavourite = this.favouriteUserService.IsFavourite(userId, twitterUser.Id);
+                model.IsFavourite = this.IsFavourite(userId, twitterUser.Id);
 
                 return View(model);
             }
@@ -79,7 +79,7 @@ namespace RTWTR.MVC.Controllers
                 var userId = this.userManager.GetUserId(User);
 
                 var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
-                model.IsFavourite = this.favouriteUserService.IsFavourite(userId, twitterUser.Id);
+                model.IsFavourite = this.IsFavourite(userId, twitterUser.Id);
 
                 ViewData ["Title"] = model.Name;
 
@@ -106,14 +106,16 @@ namespace RTWTR.MVC.Controllers
                     twitterUser
                 );
 
-                return View("ShowUser", twitterUser);
+                var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
+                model.IsFavourite = true;
+
+                return View("ShowUser", model);
 
                 // Will return this when it uses AJAX
                 // return Ok();
             }
             catch (Exception e)
             {
-                Console.WriteLine("em sori brat");
                 throw e;
             }
         }
@@ -132,14 +134,16 @@ namespace RTWTR.MVC.Controllers
                     twitterUser
                 );
 
-                return View("ShowUser", twitterUser);
+                var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
+                model.IsFavourite = false;
+
+                return View("ShowUser", model);
 
                 // Will return this when it uses AJAX
                 // return Ok();
             }
             catch (Exception e)
             {
-                Console.WriteLine("em sori brat");
                 throw e;
             }
         }
@@ -160,6 +164,13 @@ namespace RTWTR.MVC.Controllers
             }
 
             return model;
+        }
+
+        private bool IsFavourite(string userId, string twitterUserId)
+        {
+            return (this.favouriteUserService.IsFavourite(userId, twitterUserId)) 
+            &&
+            !(this.favouriteUserService.IsDeleted(userId, twitterUserId));
         }
     }
 }

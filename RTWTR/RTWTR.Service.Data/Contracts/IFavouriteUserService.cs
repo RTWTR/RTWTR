@@ -12,5 +12,7 @@ namespace RTWTR.Service.Data.Contracts
         IEnumerable<TwitterUserDto> GetUserFavourites(string userId);
 
         bool IsFavourite(string userId, string twitterUserId);
+
+        bool IsDeleted(string userId, string twitterUserId);
     }
 }
