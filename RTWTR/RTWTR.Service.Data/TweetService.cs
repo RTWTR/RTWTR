@@ -196,9 +196,12 @@ namespace RTWTR.Service.Data
                 throw new InvalidTwitterUserIdException(nameof(userId));
             }
 
-            var tweets = userTweets.All.Where(x => x.UserId == userId);
+            var tweets = userTweets
+                .All
+                .Where(x => x.UserId.Equals(userId))
+                .Select(x => x.Tweet).ToList();
 
-            var collectionOfFavourites = tweets.Select(t => mapper.MapTo<TweetDto>(t)).ToList();
+            var collectionOfFavourites = mapper.MapTo<List<TweetDto>>(tweets);
 
             return collectionOfFavourites;
         }

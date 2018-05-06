@@ -327,7 +327,7 @@ namespace RTWTR.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserTweets",
+                name: "UserTweet",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -340,15 +340,15 @@ namespace RTWTR.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTweets", x => new { x.UserId, x.TweetId });
+                    table.PrimaryKey("PK_UserTweet", x => new { x.UserId, x.TweetId });
                     table.ForeignKey(
-                        name: "FK_UserTweets_Tweets_TweetId",
+                        name: "FK_UserTweet_Tweets_TweetId",
                         column: x => x.TweetId,
                         principalTable: "Tweets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserTweets_AspNetUsers_UserId",
+                        name: "FK_UserTweet_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -425,8 +425,8 @@ namespace RTWTR.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserTweets_TweetId",
-                table: "UserTweets",
+                name: "IX_UserTweet_TweetId",
+                table: "UserTweet",
                 column: "TweetId");
 
             migrationBuilder.CreateIndex(
@@ -459,7 +459,7 @@ namespace RTWTR.Data.Migrations
                 name: "TwitterUserTweets");
 
             migrationBuilder.DropTable(
-                name: "UserTweets");
+                name: "UserTweet");
 
             migrationBuilder.DropTable(
                 name: "UserTwitterUsers");

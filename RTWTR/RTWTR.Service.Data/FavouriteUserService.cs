@@ -147,7 +147,7 @@ namespace RTWTR.Service.Data
 
             var favourites = userTwitterUsers
                 .All
-                .Where(x => x.UserId == userId)
+                .Where(x => x.UserId.Equals(userId))
                 .Select(x => x.TwitterUser);
 
             return mapper.MapTo<List<TwitterUserDto>>(favourites);

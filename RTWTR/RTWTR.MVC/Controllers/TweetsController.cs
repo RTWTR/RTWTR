@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -48,6 +49,8 @@ namespace RTWTR.MVC.Controllers
                 Tweets = this.mapper.MapTo<List<TweetViewModel>>(favourites)
             };
 
+            model.Tweets.Select(x => { x.IsFavourite = true; return x; }).ToList();
+
             return View(model);
         }
  
@@ -57,12 +60,11 @@ namespace RTWTR.MVC.Controllers
         {
             try
             {
-                // var tweet = await this.GetTweetDtoAsync(tweetId);
-                var user = await this.userManager.GetUserAsync(User);
+                var user = this.mapper.MapTo<UserDTO>(await this.userManager.GetUserAsync(User));
 
-                this.tweetService.SaveTweetToFavourites(
+                this.tweetService.AddTweetToFavourites(
                     tweetId,
-                    user.Id
+                    user
                 );
 
                 // TODO: Maybe delete?
@@ -79,20 +81,20 @@ namespace RTWTR.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveFromTweetFavourites(string tweetId)
+        public IActionResult RemoveFromTweetFavourites(string tweetId)
         {
             try
             {
-                var tweet = await this.GetTweetDtoAsync(tweetId);
-                var user = await this.userManager.GetUserAsync(User);
+                // var tweet = await this.GetTweetDtoAsync(tweetId);
+                var userId = this.userManager.GetUserId(User);
 
-                this.tweetService.DeleteTweetFromFavourites(
-                    tweet.Id,
-                    user.Id
+                this.tweetService.RemoveTweetFromFavourites(
+                    tweetId,
+                    userId
                 );
 
-                var model = this.mapper.MapTo<TweetViewModel>(tweet);
-                model.IsFavourite = false;
+                // var model = this.mapper.MapTo<TweetViewModel>(tweet);
+                // model.IsFavourite = false;
 
                 return Ok();
             }
@@ -109,7 +111,7 @@ namespace RTWTR.MVC.Controllers
             if (model.IsNull())
             {
                 model = await this.twitterService.GetSingleTweetAsync(tweetId);
-                this.tweetService.AddTweet(model);
+                this.tweetService.SaveTweet(model);
             }
 
             return model;
