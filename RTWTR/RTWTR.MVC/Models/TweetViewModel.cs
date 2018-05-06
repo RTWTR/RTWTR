@@ -15,7 +15,7 @@ namespace RTWTR.MVC.Models
 
         public string TwitterUserId { get; set; }
 
-        public string TwitterUserScreenName { get; set; }  
+        public string TwitterUserScreenName { get; set; }
 
         public bool IsFavourite { get; set; }
     }

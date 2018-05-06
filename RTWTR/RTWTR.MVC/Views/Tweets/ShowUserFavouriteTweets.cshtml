@@ -1,12 +1,25 @@
 ﻿@model FavouriteTweetsViewModel
 
 @section Timeline {
-    <h3>User Favourites:</h3>
+    @if (@Model.Tweets.Count == 0)
+    {
+        <h3>You have no favourite Tweets</h3>
+    }
+    else
+    {
+        <h3>Your Favourites:</h3>
 
-    <div class="user-favourites">
-        @foreach (var tweet in @Model.Tweets)
-        {
-            @Html.Partial("_Tweet",tweet)
-        }
-    </div>
+        <div class="user-favourites">
+                @foreach (var tweet in @Model.Tweets)
+                {
+                    <div class="favourite">
+                        @Html.Partial("_Tweet", tweet)
+                    </div>
+                }
+        </div>
+    }
+}
+
+@section Scripts {
+    @await Html.PartiaAsync("_Ajax")
 }

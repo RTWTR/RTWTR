@@ -43,7 +43,8 @@ namespace RTWTR.MVC.Controllers
             this.favouriteUserService = favouriteUserService
                 ??
                 throw new ArgumentNullException(nameof(favouriteUserService));
-            this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            this.userManager = userManager ??
+                throw new ArgumentNullException(nameof(userManager));
             this.jsonProvider = jsonProvider
                 ??
                 throw new ArgumentNullException(nameof(jsonProvider));
@@ -66,7 +67,7 @@ namespace RTWTR.MVC.Controllers
             }
             catch
             {
-                ViewData["Error"] = screenName;
+                ViewData ["Error"] = screenName;
                 return View("FailedSearch");
             }
         }
@@ -109,9 +110,6 @@ namespace RTWTR.MVC.Controllers
                 var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
                 model.IsFavourite = true;
 
-                // return RedirectToAction("ShowUser", model);
-
-                // Will return this when it uses AJAX
                 return Ok();
             }
             catch
@@ -137,9 +135,6 @@ namespace RTWTR.MVC.Controllers
                 var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
                 model.IsFavourite = false;
 
-                // return RedirectToAction("ShowUser", model);
-
-                // Will return this when it uses AJAX
                 return Ok();
             }
             catch
@@ -165,6 +160,7 @@ namespace RTWTR.MVC.Controllers
             return View(model);
         }
 
+        // TODO: Maybe remove?
         public async Task<string> GetHTMLASync(string id)
         {
             return await this.twitterService.GetHTMLAsync(id);
@@ -185,9 +181,8 @@ namespace RTWTR.MVC.Controllers
 
         private bool IsFavourite(string userId, string twitterUserId)
         {
-            return (this.favouriteUserService.IsFavourite(userId, twitterUserId)) 
-            &&
-            !(this.favouriteUserService.IsDeleted(userId, twitterUserId));
+            return (this.favouriteUserService.IsFavourite(userId, twitterUserId))
+                && !(this.favouriteUserService.IsDeleted(userId, twitterUserId));
         }
     }
 }

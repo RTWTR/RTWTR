@@ -34,7 +34,7 @@ namespace RTWTR.MVC.Controllers
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
-        [HttpPost("/tweetId")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToTweetFavourites(string tweetId)
         {

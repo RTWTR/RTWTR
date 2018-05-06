@@ -53,6 +53,10 @@
     display: none;
 }
 
+.favourite {
+    margin-bottom: 50px;
+}
+
 @media (max-width: 1010px) {
     .offset-cst-left {
         margin-left: 50px;
