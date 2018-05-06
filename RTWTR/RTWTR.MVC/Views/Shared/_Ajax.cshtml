@@ -3,13 +3,20 @@
         event.preventDefault();
 
         var $this = $(this);
+
+
         var frmValues = $this.serialize();
         $.ajax({
-            type: $this.attr('method'),
-            url: $this.attr('action'),
+            type: $this.attr("method"),
+            url: $this.attr("action"),
             data: frmValues
         })
         .done(function () {
+            if ($this.hasClass("ajax-remove")) {
+                var parentClassName = $this.parent().attr("class");
+                var toRemove = $("." + parentClassName);
+                toRemove.remove();
+            }
             //TODO: Finish
             alert("done");
         })
