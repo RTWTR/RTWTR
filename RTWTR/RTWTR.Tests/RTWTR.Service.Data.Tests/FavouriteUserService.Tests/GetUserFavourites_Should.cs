@@ -73,6 +73,10 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         public void Return_NoFavourites_When_UserHasNoFavourites()
         {
             // Arrange
+            this.mapperStub
+                .Setup(x => x.MapTo<List<TwitterUserDto>>(It.IsAny<IQueryable<TwitterUser>>()))
+                .Returns(new List<TwitterUserDto>());
+
             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
                 this.saverStub.Object,
                 this.mapperStub.Object,
@@ -83,8 +87,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
 
             // Act
             var favourites = favouriteUserService
-                .GetUserFavourites("userId")
-                .ToList();
+                .GetUserFavourites("userId");
 
             // Assert
             Assert.AreEqual(
@@ -126,7 +129,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         }
 
         [TestMethod]
-        public void Call_Mapper_ProjectTo_Once()
+        public void Call_Mapper_MapTo_Once()
         {
             // Arrange
             this.userTwitterUserRepositoryStub
@@ -139,12 +142,12 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
                 );
 
             this.mapperStub
-                .Setup(x => x.ProjectTo<TwitterUserDto>(It.IsAny<IQueryable<UserTwitterUser>>()))
+                .Setup(x => x.MapTo<List<TwitterUserDto>>(It.IsAny<IQueryable<TwitterUser>>()))
                 .Returns(
                     new List<TwitterUserDto>()
                     {
                         new TwitterUserDto() { Name = "twitterUser" }
-                    }.AsQueryable()
+                    }
                 )
                 .Verifiable();
 
@@ -161,7 +164,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
 
             // Assert
             this.mapperStub.Verify(
-                x => x.ProjectTo<TwitterUserDto>(It.IsAny<IQueryable<UserTwitterUser>>()), 
+                x => x.MapTo<List<TwitterUserDto>>(It.IsAny<IQueryable<TwitterUser>>()), 
                 Times.Once
             );
         }
@@ -180,12 +183,12 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
                 );
 
             this.mapperStub
-                .Setup(x => x.ProjectTo<TwitterUserDto>(It.IsAny<IQueryable<UserTwitterUser>>()))
+                .Setup(x => x.MapTo<List<TwitterUserDto>>(It.IsAny<IQueryable<TwitterUser>>()))
                 .Returns(
                     new List<TwitterUserDto>()
                     {
                         new TwitterUserDto() { Name = "twitterUser" }
-                    }.AsQueryable()
+                    }
                 );
 
             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(

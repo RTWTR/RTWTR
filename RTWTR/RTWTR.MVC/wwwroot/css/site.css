@@ -12,6 +12,10 @@ body {
     transform: translateX(-50%);
 }
 
+.tweet-view {
+    margin-top: 20px;
+}
+
 .img-circle {
     width: 80px;
     margin-left: 15px;
@@ -90,5 +94,9 @@ form#ajax-call {
     .fixed {
         position: relative;
         text-align: center;
+    }
+
+    .ajax-call {
+        margin-top: 15px;
     }
 }

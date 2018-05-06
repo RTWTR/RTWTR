@@ -15,18 +15,18 @@
         <div class="user-favourites">
                 @foreach (var tweet in @Model.Tweets)
                 {
-                    <div class="@tweet.Id">
-                        @Html.Partial("_Tweet", tweet)
+                    <div class="tweet-view @tweet.Id">
+                        @Html.Partial("_TweetPartial", tweet)
                         @if (@tweet.IsFavourite)
                         {
                             <form class="ajax-call ajax-remove" asp-controller="Tweets" asp-action="RemoveTweetFromFavourites" asp-route-tweetid="@tweet.Id">
-                                <button type="submit">Remove From Favourites</button>
+                                <button class="btn" type="submit">Remove From Favourites</button>
                             </form>
                         }
                         else
                         {
                             <form class="ajax-call" asp-controller="Tweets" asp-action="AddTweetToFavourites" asp-route-tweetid="@tweet.Id">
-                                <button type="submit">Add To Favourites</button>
+                                <button class="btn" type="submit">Add To Favourites</button>
                             </form>
                         }
                     </div>

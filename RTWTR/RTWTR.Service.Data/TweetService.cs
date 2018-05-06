@@ -15,19 +15,19 @@ namespace RTWTR.Service.Data
     public class TweetService : ITweetService
     {
         private readonly ISaver saver;
-        private readonly IMappingProvider mapper;
+        private readonly IMappingProvider mappingProvider;
         private readonly IRepository<Tweet> tweets;
         private readonly IRepository<UserTweet> userTweets;
 
         public TweetService(
             ISaver saver,
-            IMappingProvider mapper, 
+            IMappingProvider mappingProvider, 
             IRepository<Tweet> tweets,
             IRepository<UserTweet> userTweets
         )
         {
             this.saver = saver ?? throw new ArgumentNullException(nameof(saver));
-            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.mappingProvider = mappingProvider ?? throw new ArgumentNullException(nameof(mappingProvider));
             this.tweets = tweets ?? throw new ArgumentNullException(nameof(tweets));
             this.userTweets = userTweets ?? throw new ArgumentNullException(nameof(userTweets));
         }
@@ -43,21 +43,21 @@ namespace RTWTR.Service.Data
                 .All
                 .SingleOrDefault(x => x.Id == tweetId);
 
-            return mapper.MapTo<TweetDto>(tweet);
+            return mappingProvider.MapTo<TweetDto>(tweet);
         }
 
         public ICollection<TweetDto> GetAllTweets()
         {
             var tweets = this.tweets.All;
 
-            return this.mapper.MapTo<List<TweetDto>>(tweets);
+            return this.mappingProvider.MapTo<List<TweetDto>>(tweets);
         }
 
         public ICollection<TweetDto> GetAllAndDeletedTweets()
         {
             var tweets = this.tweets.AllAndDeleted;
 
-            return this.mapper.MapTo<List<TweetDto>>(tweets);
+            return this.mappingProvider.MapTo<List<TweetDto>>(tweets);
         }
         
         public int GetAllTweetsCount()
@@ -82,8 +82,8 @@ namespace RTWTR.Service.Data
                 return 1;
             }
 
-            var tweet = this.mapper.MapTo<Tweet>(tweetDto);
-            var user = this.mapper.MapTo<TwitterUser>(tweetDto.TwitterUser);
+            var tweet = this.mappingProvider.MapTo<Tweet>(tweetDto);
+            var user = this.mappingProvider.MapTo<TwitterUser>(tweetDto.TwitterUser);
 
             tweet.TwitterUser = user;
             tweet.TwitterUserId = user.TwitterId;
@@ -106,7 +106,7 @@ namespace RTWTR.Service.Data
         {
             if (tweetId.IsNullOrWhitespace())
             {
-                throw new InvalidUserIdException(nameof(tweetId));
+                throw new InvalidTweetIdException(nameof(tweetId));
             }
 
             if (userDto.IsNull())
@@ -115,7 +115,7 @@ namespace RTWTR.Service.Data
             }
 
             var tweet = GetSavedTweetById(tweetId);
-            var user = this.mapper.MapTo<User>(userDto);
+            var user = this.mappingProvider.MapTo<User>(userDto);
 
             UserTweet userTweet = null;
 
@@ -207,7 +207,7 @@ namespace RTWTR.Service.Data
                 .Include(x => x.TwitterUser)
                 .ToList();
 
-            var collectionOfFavourites = mapper.MapTo<List<TweetDto>>(tweets);
+            var collectionOfFavourites = mappingProvider.MapTo<List<TweetDto>>(tweets);
 
             return collectionOfFavourites;
         }
