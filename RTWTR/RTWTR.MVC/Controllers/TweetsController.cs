@@ -104,6 +104,13 @@ namespace RTWTR.MVC.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddTweetFromUrl(string tweetUrl)
+        {
+            throw new Exception();
+        }
+
         private async Task<TweetDto> GetTweetDtoAsync(string tweetId)
         {
             var model = this.tweetService.GetTweetById(tweetId);
