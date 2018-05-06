@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RTWTR.Infrastructure;
 using RTWTR.Infrastructure.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace RTWTR.Service.Data
 {
@@ -76,24 +77,27 @@ namespace RTWTR.Service.Data
                 return -1;
             }
 
-            if (tweets.All.Any(x => x.Id.Equals(tweetDto.Id)))
+            if (tweets.All.Any(x => x.TwitterId.Equals(tweetDto.Id)))
             {
                 return 1;
             }
 
             var tweet = this.mapper.MapTo<Tweet>(tweetDto);
-            var user = this.mapper.MapTo<TwitterUser>(tweetDto.User);
+            var user = this.mapper.MapTo<TwitterUser>(tweetDto.TwitterUser);
 
-            var tweetToAdd = new Tweet
-            {
-                TwitterId = tweet.Id,
-                Text = tweet.Text,
-                CreatedAt = tweet.CreatedAt,
-                TwitterUser = user,
-                TwitterUserId = user.Id
-            };
+            tweet.TwitterUser = user;
+            tweet.TwitterUserId = user.TwitterId;
 
-            this.tweets.Add(tweetToAdd);
+            // var tweetToAdd = new Tweet
+            // {
+            //     TwitterId = tweet.TwitterId,
+            //     Text = tweet.Text,
+            //     CreatedAt = tweet.CreatedAt,
+            //     TwitterUser = user,
+            //     TwitterUserId = user.Id
+            // };
+
+            this.tweets.Add(tweet);
 
             return this.saver.SaveChanges();
         }
@@ -142,7 +146,7 @@ namespace RTWTR.Service.Data
                     User = user,
                     UserId = user.Id,
                     Tweet = tweet,
-                    TweetId = tweet.Id
+                    TweetId = tweet.TwitterId
                 };
 
                 userTweets.Add(userTweet);
@@ -163,20 +167,20 @@ namespace RTWTR.Service.Data
                 throw new NullUserException(nameof(userId));
             }
 
-            if (!IsFavourite(userId, tweetId))
+            var tweet = GetSavedTweetById(tweetId);
+
+            if (!IsFavourite(tweet.Id, userId))
             {
                 // TODO: Throw exception
                 return -1;
             }
-
-            var tweet = GetSavedTweetById(tweetId);
 
             var userTweet = this.userTweets
                 .All
                 .SingleOrDefault(x =>
                     x.UserId.Equals(userId)
                     &&
-                    x.TweetId.Equals(tweetId)
+                    x.TweetId.Equals(tweet.Id)
                 );
 
             if (userTweet.IsNull())
@@ -199,7 +203,9 @@ namespace RTWTR.Service.Data
             var tweets = userTweets
                 .All
                 .Where(x => x.UserId.Equals(userId))
-                .Select(x => x.Tweet).ToList();
+                .Select(x => x.Tweet)
+                .Include(x => x.TwitterUser)
+                .ToList();
 
             var collectionOfFavourites = mapper.MapTo<List<TweetDto>>(tweets);
 
@@ -251,6 +257,13 @@ namespace RTWTR.Service.Data
             return entity.IsDeleted;
         }
 
+        public bool Exists(string tweetId)
+        {
+            return this.tweets
+                .All
+                .Any(x => x.TwitterId.Equals(tweetId));
+        }
+
         private bool IsActuallyFavourite(string tweetId, string userId)
         {
             return this.userTweets
@@ -266,7 +279,7 @@ namespace RTWTR.Service.Data
         {
             Tweet tweetToReturn = tweets
                 .All
-                .SingleOrDefault(x => x.Id == tweetId);
+                .SingleOrDefault(x => x.TwitterId.Equals(tweetId));
 
             if (tweetToReturn.IsNull())
             {

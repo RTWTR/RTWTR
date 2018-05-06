@@ -108,7 +108,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TwitterService.Tests
             Assert.IsNotNull(TweetDto);
             Assert.IsNull(TweetDto.Id);
             Assert.IsNull(TweetDto.Text);
-            Assert.IsNull(TweetDto.User);
+            Assert.IsNull(TweetDto.TwitterUser);
             Assert.IsNull(TweetDto.CreatedAt);
         }
 
@@ -128,7 +128,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TwitterService.Tests
                         Id = "ID",
                         Text = "Tweet Text",
                         CreatedAt = "createdAt",
-                        User = new TwitterUserDto
+                        TwitterUser = new TwitterUserDto
                         {
                             Id = "userId",
                             Name = "userName",
@@ -148,13 +148,13 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TwitterService.Tests
 
             // Assert
             Assert.IsNotNull(TweetDto);
-            Assert.IsNotNull(TweetDto.User);
+            Assert.IsNotNull(TweetDto.TwitterUser);
             Assert.AreEqual("ID", TweetDto.Id);
             Assert.AreEqual("Tweet Text", TweetDto.Text);
             Assert.AreEqual("createdAt", TweetDto.CreatedAt);
-            Assert.AreEqual("userId", TweetDto.User.Id);
-            Assert.AreEqual("userName", TweetDto.User.Name);
-            Assert.AreEqual("userScreenName", TweetDto.User.ScreenName);
+            Assert.AreEqual("userId", TweetDto.TwitterUser.Id);
+            Assert.AreEqual("userName", TweetDto.TwitterUser.Name);
+            Assert.AreEqual("userScreenName", TweetDto.TwitterUser.ScreenName);
         }
     }
 }

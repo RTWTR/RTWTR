@@ -341,7 +341,7 @@ namespace RTWTR.Data.Migrations
 
                     b.HasIndex("TweetId");
 
-                    b.ToTable("UserTweet");
+                    b.ToTable("UserTweets");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.UserTwitterUser", b =>

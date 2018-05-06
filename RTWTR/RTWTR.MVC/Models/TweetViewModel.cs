@@ -11,11 +11,13 @@ namespace RTWTR.MVC.Models
 
         public string Text { get; set; }
 
-        public TwitterUserViewModel User { get; set; }
-
         public string TwitterUserId { get; set; }
 
+        public string TwitterUserName { get; set; }
+
         public string TwitterUserScreenName { get; set; }
+
+        public string TwitterUserProfileImageUrl { get; set; }
 
         public bool IsFavourite { get; set; }
     }

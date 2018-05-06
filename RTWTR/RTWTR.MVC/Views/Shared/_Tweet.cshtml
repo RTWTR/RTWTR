@@ -2,17 +2,29 @@
 
 <div class="container">
     <div id="avatar">
-        <img src="@Model.User.ProfileImageUrl" />
+        <img src="@Model.TwitterUserProfileImageUrl" />
     </div>
     <div class="content col-sm-offset-1">
-        <div class="name">@Model.User.Name</div>
+        <div class="name">@Model.TwitterUserScreenName</div>
         <div class="screenName">
-            <a asp-controller="Users" asp-action="ShowUser" asp-route-screenname="@Model.User.ScreenName">@Model.User.ScreenName</a>
+            <a asp-controller="Users" asp-action="ShowUser" asp-route-screenname="@Model.TwitterUserScreenName">@Model.TwitterUserScreenName</a>
         </div>
         <div class="text">
             <p>@Model.Text</p>
         </div>
 
-        <a class="btn btn-sm btn-default " href="https://twitter.com/intent/retweet?tweet_id=@Model.Id">Retweet</a>
+        <a class="btn btn-sm btn-default" href="https://twitter.com/intent/retweet?tweet_id=@Model.Id">Retweet</a>
+        @if (@Model.IsFavourite)
+        {
+            <form class="ajax-call" asp-controller="Tweets" asp-action="RemoveTweetFromFavourites" asp-route-tweetid="@Model.Id">
+                <button type="submit">Remove From Favourites</button>
+            </form>
+        }
+        else
+        {
+            <form class="ajax-call" asp-controller="Tweets" asp-action="AddTweetToFavourites" asp-route-tweetid="@Model.Id">
+                <button type="submit">Add To Favourites</button>
+            </form>
+        }
     </div>
 </div>

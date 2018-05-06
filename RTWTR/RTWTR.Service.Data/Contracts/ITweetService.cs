@@ -31,5 +31,7 @@ namespace RTWTR.Service.Data.Contracts
         bool IsFavourite(string tweetId, string userId);
 
         bool IsDeleted(string tweetId, string userId);
+
+        bool Exists(string tweetId);
     }
 }

@@ -21,6 +21,7 @@ namespace RTWTR.MVC.Controllers
     {
         private ITwitterService twitterService;
         private readonly ITwitterUserService twitterUserService;
+        private readonly IFavouriteUserService favouriteUserService;
         private ITweetService tweetService;
         private IMappingProvider mapper;
         private UserManager<User> userManager;
@@ -28,6 +29,7 @@ namespace RTWTR.MVC.Controllers
         public TweetsController(
             ITwitterService twitterService,
             ITwitterUserService twitterUserService,
+            IFavouriteUserService favouriteUserService,
             ITweetService tweetService,
             IMappingProvider mapper,
             UserManager<User> userManager)
@@ -35,6 +37,7 @@ namespace RTWTR.MVC.Controllers
             this.tweetService = tweetService ?? throw new ArgumentNullException(nameof(tweetService));
             this.twitterService = twitterService ?? throw new ArgumentNullException(nameof(twitterService));
             this.twitterUserService = twitterUserService ?? throw new ArgumentNullException(nameof(twitterUserService));
+            this.favouriteUserService = favouriteUserService ?? throw new ArgumentNullException(nameof(favouriteUserService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
@@ -63,6 +66,9 @@ namespace RTWTR.MVC.Controllers
         {
             try
             {
+                // application user ID
+                var userId = this.userManager.GetUserId(User);
+
                 var user = await this.GetTwitterUserDtoAsync(screenName);
                 var timeline = await this.twitterService.GetUserTimelineAsync(user.ScreenName, 20);
 
@@ -71,6 +77,11 @@ namespace RTWTR.MVC.Controllers
                     User = this.mapper.MapTo<TwitterUserViewModel>(user),
                     Timeline = this.mapper.MapTo<List<TweetViewModel>>(timeline)
                 };
+
+                model.User.IsFavourite = 
+                    (this.favouriteUserService.IsFavourite(userId, user.Id))
+                    &&
+                    (!this.favouriteUserService.IsDeleted(userId, user.Id));
 
                 ViewData["Title"] = model.User.ScreenName;
 
@@ -85,15 +96,17 @@ namespace RTWTR.MVC.Controllers
  
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddToTweetFavourites(string tweetId)
+        public async Task<IActionResult> AddTweetToFavourites(string tweetId)
         {
             try
             {
-                var user = this.mapper.MapTo<UserDTO>(await this.userManager.GetUserAsync(User));
+                await this.EnsureTweetCreated(tweetId);
+                var user = await this.userManager.GetUserAsync(User);
+                var mappedUser = this.mapper.MapTo<UserDTO>(user);
 
                 this.tweetService.AddTweetToFavourites(
                     tweetId,
-                    user
+                    mappedUser
                 );
 
                 // TODO: Maybe delete?
@@ -110,11 +123,11 @@ namespace RTWTR.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RemoveFromTweetFavourites(string tweetId)
+        public async Task<IActionResult> RemoveTweetFromFavourites(string tweetId)
         {
             try
             {
-                // var tweet = await this.GetTweetDtoAsync(tweetId);
+                await this.EnsureTweetCreated(tweetId);
                 var userId = this.userManager.GetUserId(User);
 
                 this.tweetService.RemoveTweetFromFavourites(
@@ -140,19 +153,6 @@ namespace RTWTR.MVC.Controllers
         //     throw new Exception();
         // }
 
-        private async Task<TweetDto> GetTweetDtoAsync(string tweetId)
-        {
-            var model = this.tweetService.GetTweetById(tweetId);
-
-            if (model.IsNull())
-            {
-                model = await this.twitterService.GetSingleTweetAsync(tweetId);
-                this.tweetService.SaveTweet(model);
-            }
-
-            return model;
-        }
-
         private async Task<TwitterUserDto> GetTwitterUserDtoAsync(string screenName)
         {
             var model = this.twitterUserService.GetTwitterUserByScreenName(screenName);
@@ -164,6 +164,17 @@ namespace RTWTR.MVC.Controllers
             }
 
             return model;
+        }
+
+        private async Task EnsureTweetCreated(string tweetId)
+        {
+            if (!this.tweetService.Exists(tweetId))
+            {
+                var tweetToSave = await this.twitterService
+                    .GetSingleTweetAsync(tweetId);
+
+                this.tweetService.SaveTweet(tweetToSave);
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ using System;
 namespace RTWTR.Data.Migrations
 {
     [DbContext(typeof(RTWTRDbContext))]
-    [Migration("20180506112454_Initial")]
+    [Migration("20180506155050_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -342,7 +342,7 @@ namespace RTWTR.Data.Migrations
 
                     b.HasIndex("TweetId");
 
-                    b.ToTable("UserTweet");
+                    b.ToTable("UserTweets");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.UserTwitterUser", b =>
