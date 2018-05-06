@@ -3,7 +3,7 @@
     <ul class="list-unstyled" id="ul_footer">
         @if (User.IsInRole("Administrator"))
         {
-            <li><a asp-area="Administration">Administration</a></li>
+            <li><a asp-area="Administration" asp-controller="Home" asp-action="Index">Administration</a></li>
         }
         <li><a class="Footer-link" asp-controller="Users" asp-action="ShowUserFavourites" rel="noopener">Favourite Users</a></li>
         <li><a class="Footer-link" asp-controller="Tweets" asp-action="ShowUserFavouriteTweets" rel="noopener">Favourite Tweets</a></li>

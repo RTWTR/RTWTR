@@ -1,14 +1,17 @@
 @model TwitterUserTimelineViewModel
+@{
+    ViewData["Title"] = @Model.User.Name;
+}
 
 @section Timeline{
     <div>
-        @await Html.PartialAsync("_User", @Model.User)
+        @await Html.PartialAsync("_UserPartial", @Model.User)
     </div>
     <div id="timeline">
         @foreach (var tweet in @Model.Timeline)
         {
             <div class="tweet">
-                @await Html.PartialAsync("_Tweet", @tweet)
+                @await Html.PartialAsync("_TweetPartial", @tweet)
                 @if (@tweet.IsFavourite)
                 {
                     <form class="ajax-call ajax-remove" asp-controller="Tweets" asp-action="RemoveTweetFromFavourites" asp-route-tweetid="@tweet.Id">

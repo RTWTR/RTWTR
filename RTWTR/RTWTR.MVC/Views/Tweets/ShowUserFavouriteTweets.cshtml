@@ -1,4 +1,7 @@
 ﻿@model FavouriteTweetsViewModel
+@{
+    ViewData["Title"] = "Favourite Tweets";
+}
 
 @section Timeline {
     @if (@Model.Tweets.Count == 0)

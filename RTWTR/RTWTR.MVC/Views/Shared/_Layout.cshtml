@@ -59,7 +59,7 @@
             <div class="row">
                 <div class="col-sm-offset-1 col-sm-2 text-left fixed">
                     <div class="panel" id="urltotweet-dashboard">
-                        @await Html.PartialAsync("UrlToTweet")
+                        @await Html.PartialAsync("_UrlToTweetPartial")
 
                     </div>
                     <div class ="panel" id="stats-dashboard">
@@ -74,16 +74,12 @@
                 </div>
                 <div class="col-sm-offset-9 col-sm-2 text-right fixed">
                     <div class="panel" id="footer">
-                        @await Html.PartialAsync("FooterView")
+                        @await Html.PartialAsync("_FooterViewPartial")
                     </div>
                 </div>
             </div>
         </section>
     </div>
-
-
-        @RenderBody()
-
 
     <!-- Scripts -->
 
