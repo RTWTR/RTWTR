@@ -21,7 +21,7 @@ namespace RTWTR.MVC.Controllers
         private ITweetService tweetService;
         private IMappingProvider mapper;
         private UserManager<User> userManager;
- 
+
         public TweetsController(
             ITwitterService twitterService,
             ITweetService tweetService,
@@ -44,7 +44,6 @@ namespace RTWTR.MVC.Controllers
                 var user = await this.userManager.GetUserAsync(User);
 
                 this.tweetService.SaveTweetToFavourites(tweet.Id, user.Id);
-                    
 
                 var model = this.mapper.MapTo<TweetViewModel>(tweet);
                 model.IsFavourite = true;
@@ -79,7 +78,6 @@ namespace RTWTR.MVC.Controllers
             catch (Exception e)
             {
                 throw e;
-
             }
         }
 
