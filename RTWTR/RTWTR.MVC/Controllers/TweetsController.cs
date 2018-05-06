@@ -12,6 +12,7 @@ using RTWTR.Infrastructure.Mapping.Provider;
 using RTWTR.MVC.Models;
 using RTWTR.Service.Data.Contracts;
 using RTWTR.Service.Twitter.Contracts;
+using RTWTR.MVC.Models.TweetsViewModels;
 
 namespace RTWTR.MVC.Controllers
 {
@@ -19,18 +20,21 @@ namespace RTWTR.MVC.Controllers
     public class TweetsController : Controller
     {
         private ITwitterService twitterService;
+        private readonly ITwitterUserService twitterUserService;
         private ITweetService tweetService;
         private IMappingProvider mapper;
         private UserManager<User> userManager;
 
         public TweetsController(
             ITwitterService twitterService,
+            ITwitterUserService twitterUserService,
             ITweetService tweetService,
             IMappingProvider mapper,
             UserManager<User> userManager)
         {
             this.tweetService = tweetService ?? throw new ArgumentNullException(nameof(tweetService));
             this.twitterService = twitterService ?? throw new ArgumentNullException(nameof(twitterService));
+            this.twitterUserService = twitterUserService ?? throw new ArgumentNullException(nameof(twitterUserService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
@@ -52,6 +56,31 @@ namespace RTWTR.MVC.Controllers
             model.Tweets.Select(x => { x.IsFavourite = true; return x; }).ToList();
 
             return View(model);
+        }
+
+        // TODO: cache this
+        public async Task<IActionResult> ShowTwitterUserTimeline(string screenName)
+        {
+            try
+            {
+                var user = await this.GetTwitterUserDtoAsync(screenName);
+                var timeline = await this.twitterService.GetUserTimelineAsync(user.ScreenName, 20);
+
+                var model = new TwitterUserTimelineViewModel
+                {
+                    User = this.mapper.MapTo<TwitterUserViewModel>(user),
+                    Timeline = this.mapper.MapTo<List<TweetViewModel>>(timeline)
+                };
+
+                ViewData["Title"] = model.User.ScreenName;
+
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw e;
+            }
         }
  
         [HttpPost]
@@ -104,12 +133,12 @@ namespace RTWTR.MVC.Controllers
             }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddTweetFromUrl(string tweetUrl)
-        {
-            throw new Exception();
-        }
+        // [HttpPost]
+        // [ValidateAntiForgeryToken]
+        // public async Task<IActionResult> AddTweetFromUrl(string tweetUrl)
+        // {
+        //     throw new Exception();
+        // }
 
         private async Task<TweetDto> GetTweetDtoAsync(string tweetId)
         {
@@ -119,6 +148,19 @@ namespace RTWTR.MVC.Controllers
             {
                 model = await this.twitterService.GetSingleTweetAsync(tweetId);
                 this.tweetService.SaveTweet(model);
+            }
+
+            return model;
+        }
+
+        private async Task<TwitterUserDto> GetTwitterUserDtoAsync(string screenName)
+        {
+            var model = this.twitterUserService.GetTwitterUserByScreenName(screenName);
+
+            if (model.IsNull())
+            {
+                model = await this.twitterService.GetSingleUserAsync(screenName);
+                this.twitterUserService.SaveTwitterUser(model);
             }
 
             return model;

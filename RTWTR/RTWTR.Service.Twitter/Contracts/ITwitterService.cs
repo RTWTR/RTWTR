@@ -16,7 +16,7 @@ namespace RTWTR.Service.Twitter.Contracts
 
         Task<string> GetUserTimelineJSONAsync(string id, int tweetsCount);
 
-        Task<ICollection<TweetDto>> GetUserTimelineAsync(string id, int tweetsCount);
+        Task<ICollection<TweetDto>> GetUserTimelineAsync(string screenName, int tweetsCount);
 
         Task<string> SearchUserJSONAsync(string handle);
 

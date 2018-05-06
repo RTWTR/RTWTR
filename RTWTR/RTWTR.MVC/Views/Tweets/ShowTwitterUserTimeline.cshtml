@@ -1,0 +1,15 @@
+@model TwitterUserTimelineViewModel
+
+@section Timeline{
+    <div>
+        @await Html.PartialAsync("_User", @Model.User)
+    </div>
+    <div id="timeline">
+        @foreach (var tweet in @Model.Timeline)
+        {
+            <div class="tweet">
+                @await Html.PartialAsync("_Tweet", @tweet)
+            </div>
+        }
+    </div>
+}

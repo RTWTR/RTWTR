@@ -14,6 +14,7 @@ namespace RTWTR.MVC.Mapping
             this.CreateMap<TwitterUserDto, TwitterUserViewModel>(MemberList.Source);
             this.CreateMap<UserDTO, User>(MemberList.Source);
             this.CreateMap<TwitterUserDto, TwitterUser>(MemberList.Source);
+            this.CreateMap<TweetDto, TweetViewModel>(MemberList.Source);
         }
     }
 }

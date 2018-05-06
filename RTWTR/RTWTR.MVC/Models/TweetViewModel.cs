@@ -7,7 +7,7 @@ namespace RTWTR.MVC.Models
     {
         public string Id { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public string CreatedAt { get; set; }
 
         public string Text { get; set; }
 
