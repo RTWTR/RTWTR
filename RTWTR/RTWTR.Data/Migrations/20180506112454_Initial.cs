@@ -54,7 +54,7 @@ namespace RTWTR.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TwitterUser",
+                name: "TwitterUsers",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
@@ -70,7 +70,7 @@ namespace RTWTR.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TwitterUser", x => x.Id);
+                    table.PrimaryKey("PK_TwitterUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -228,9 +228,9 @@ namespace RTWTR.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tweets_TwitterUser_TwitterUserId",
+                        name: "FK_Tweets_TwitterUsers_TwitterUserId",
                         column: x => x.TwitterUserId,
-                        principalTable: "TwitterUser",
+                        principalTable: "TwitterUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -250,9 +250,9 @@ namespace RTWTR.Data.Migrations
                 {
                     table.PrimaryKey("PK_UserTwitterUsers", x => new { x.TwitterUserId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_UserTwitterUsers_TwitterUser_TwitterUserId",
+                        name: "FK_UserTwitterUsers_TwitterUsers_TwitterUserId",
                         column: x => x.TwitterUserId,
-                        principalTable: "TwitterUser",
+                        principalTable: "TwitterUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -313,9 +313,9 @@ namespace RTWTR.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TwitterUserTweets_TwitterUser_TwitterUserId",
+                        name: "FK_TwitterUserTweets_TwitterUsers_TwitterUserId",
                         column: x => x.TwitterUserId,
-                        principalTable: "TwitterUser",
+                        principalTable: "TwitterUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -477,7 +477,7 @@ namespace RTWTR.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "TwitterUser");
+                name: "TwitterUsers");
         }
     }
 }

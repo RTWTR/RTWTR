@@ -232,7 +232,7 @@ namespace RTWTR.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TwitterUser");
+                    b.ToTable("TwitterUsers");
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.TwitterUserTweet", b =>

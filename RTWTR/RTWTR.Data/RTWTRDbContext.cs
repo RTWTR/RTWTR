@@ -17,6 +17,8 @@ namespace RTWTR.Data
         
         public DbSet<Tweet> Tweets { get; set; }
 
+        public DbSet<TwitterUser> TwitterUsers { get; set; }
+
         public DbSet<TwitterUserTweet> TwitterUserTweets { get; set; }
 
         public DbSet<Collection> Collections { get; set; }
