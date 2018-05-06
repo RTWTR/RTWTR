@@ -70,11 +70,16 @@
 @media (max-width: 768px) {
     #logo {
         top: 15px;
-        left: 15px;
+        left: 55px;
     }
 
     .container {
         width: auto;
+        text-align: center;
+    }
+
+    .fixed {
+        position: relative;
         text-align: center;
     }
 }

@@ -19,7 +19,6 @@ using RTWTR.Data.Models;
 namespace RTWTR.MVC.Controllers
 {
     [Authorize]
-    [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -47,6 +46,7 @@ namespace RTWTR.MVC.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        [ResponseCache(Duration = 60)]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
             // Clear the existing external cookie to ensure a clean login process
@@ -221,7 +221,7 @@ namespace RTWTR.MVC.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Authorize(Roles="Administrator")]
+        [ResponseCache(Duration = 60)]
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
