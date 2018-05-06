@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RTWTR.Data.Models;
@@ -13,15 +14,14 @@ using RTWTR.Service.Twitter.Contracts;
 
 namespace RTWTR.MVC.Controllers
 {
+    [Authorize]
     public class TweetsController : Controller
     {
         private ITwitterService twitterService;
         private ITweetService tweetService;
         private IMappingProvider mapper;
         private UserManager<User> userManager;
-
-       
-        // TODO: Fill controller
+ 
         public TweetsController(
             ITwitterService twitterService,
             ITweetService tweetService,
@@ -34,9 +34,9 @@ namespace RTWTR.MVC.Controllers
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
-        [HttpPost]
+        [HttpPost("/tweetId")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddToFavourites(string tweetId)
+        public async Task<IActionResult> AddToTweetFavourites(string tweetId)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace RTWTR.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RemoveFromFavourites(string tweetId)
+        public async Task<IActionResult> RemoveFromTweetFavourites(string tweetId)
         {
             try
             {
@@ -82,6 +82,8 @@ namespace RTWTR.MVC.Controllers
 
             }
         }
+
+
         public IActionResult ShowUserFavouriteTweets(string userId)
         {
             if (userId.IsNullOrWhitespace())
@@ -98,6 +100,8 @@ namespace RTWTR.MVC.Controllers
 
             return View(model);
         }
+
+
 
         private async Task<TweetDto> GetTweetDtoAsync(string tweetId)
         {
