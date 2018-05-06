@@ -2,7 +2,7 @@
 @model TwitterUserViewModel
 
 @{
-    var url = $"https://twitter.com/{Model.ScreenName}";
+    var url = $"https://twitter.com/{Model.ScreenName.Replace("_normal", "")}";
 }
 
 @section Timeline {

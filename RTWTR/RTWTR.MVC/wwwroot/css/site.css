@@ -57,6 +57,10 @@
     margin-bottom: 50px;
 }
 
+form#ajax-call {
+    margin-top: 15px;
+}
+
 @media (max-width: 1010px) {
     .offset-cst-left {
         margin-left: 50px;

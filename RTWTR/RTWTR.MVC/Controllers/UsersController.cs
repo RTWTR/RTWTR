@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -156,6 +157,8 @@ namespace RTWTR.MVC.Controllers
             {
                 TwitterUsers = this.mapper.MapTo<List<TwitterUserViewModel>>(favourites)
             };
+
+            model.TwitterUsers.Select(x => { x.IsFavourite = true; return x; }).ToList();
 
             return View(model);
         }
