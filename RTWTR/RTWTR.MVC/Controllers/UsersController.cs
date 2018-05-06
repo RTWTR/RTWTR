@@ -108,8 +108,9 @@ namespace RTWTR.MVC.Controllers
                     twitterUser
                 );
 
-                var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
-                model.IsFavourite = true;
+                // TODO: Maybe delete?
+                // var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
+                // model.IsFavourite = true;
 
                 return Ok();
             }
@@ -133,8 +134,9 @@ namespace RTWTR.MVC.Controllers
                     twitterUser
                 );
 
-                var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
-                model.IsFavourite = false;
+                // TODO: Maybe delete?
+                // var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
+                // model.IsFavourite = false;
 
                 return Ok();
             }

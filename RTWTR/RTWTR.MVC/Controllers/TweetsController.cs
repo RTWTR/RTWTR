@@ -34,25 +34,46 @@ namespace RTWTR.MVC.Controllers
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
+        public IActionResult ShowUserFavouriteTweets(string userId)
+        {
+            if (userId.IsNullOrWhitespace())
+            {
+                userId = this.userManager.GetUserId(User);
+            }
+
+            var favourites = this.tweetService.GetUserFavourites(userId);
+
+            var model = new FavouriteTweetsViewModel()
+            {
+                Tweets = this.mapper.MapTo<List<TweetViewModel>>(favourites)
+            };
+
+            return View(model);
+        }
+ 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToTweetFavourites(string tweetId)
         {
             try
             {
-                var tweet = await this.GetTweetDtoAsync(tweetId);
+                // var tweet = await this.GetTweetDtoAsync(tweetId);
                 var user = await this.userManager.GetUserAsync(User);
 
-                this.tweetService.SaveTweetToFavourites(tweet.Id, user.Id);
+                this.tweetService.SaveTweetToFavourites(
+                    tweetId,
+                    user.Id
+                );
 
-                var model = this.mapper.MapTo<TweetViewModel>(tweet);
-                model.IsFavourite = true;
+                // TODO: Maybe delete?
+                // var model = this.mapper.MapTo<TweetViewModel>(tweet);
+                // model.IsFavourite = true;
 
                 return Ok();
             }
-            catch (Exception e)
+            catch
             {
-                throw e;
+                return StatusCode(400);
             }
         }
 
@@ -75,31 +96,11 @@ namespace RTWTR.MVC.Controllers
 
                 return Ok();
             }
-            catch (Exception e)
+            catch
             {
-                throw e;
+                return StatusCode(400);
             }
         }
-
-
-        public IActionResult ShowUserFavouriteTweets(string userId)
-        {
-            if (userId.IsNullOrWhitespace())
-            {
-                userId = this.userManager.GetUserId(User);
-            }
-
-            var favourites = this.tweetService.GetUserFavourites(userId);
-
-            var model = new FavouriteTweetsViewModel()
-            {
-                Tweets = this.mapper.MapTo<List<TweetViewModel>>(favourites)
-            };
-
-            return View(model);
-        }
-
-
 
         private async Task<TweetDto> GetTweetDtoAsync(string tweetId)
         {

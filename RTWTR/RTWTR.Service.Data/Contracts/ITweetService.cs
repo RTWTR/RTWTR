@@ -8,12 +8,28 @@ namespace RTWTR.Service.Data.Contracts
     {
         TweetDto GetTweetById(string tweetId);
 
-        int AddTweet(TweetDto tweetToSave);
+        ICollection<TweetDto> GetAllTweets();
 
-        int SaveTweetToFavourites(string tweetId,string userId);
-
-        int DeleteTweetFromFavourites(string tweetId, string userId);
+        ICollection<TweetDto> GetAllAndDeletedTweets();
 
         ICollection<TweetDto> GetUserFavourites(string userId);
+
+        int GetAllTweetsCount();
+
+        int GetAllAndDeletedTweetsCount();
+
+        int SaveTweet(TweetDto tweetToSave);
+
+        int AddTweetToFavourites(string tweetId, UserDTO userDto);
+
+        int RemoveTweetFromFavourites(string tweetId, string userId);
+
+        int DeleteTweet(string tweetId);
+
+        int DeleteTweet(Tweet tweet);
+
+        bool IsFavourite(string tweetId, string userId);
+
+        bool IsDeleted(string tweetId, string userId);
     }
 }

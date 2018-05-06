@@ -4,7 +4,7 @@ using RTWTR.Data.Models.Contracts;
 
 namespace RTWTR.Data.Models
 {
-    public class UserTweets : DataModel
+    public class UserTweet : DataModel
     {
         public string UserId { get; set; }
 

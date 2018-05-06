@@ -9,10 +9,10 @@ namespace RTWTR.Service.Data.Contracts
         
         int RemoveTwitterUserFromFavourites(UserDTO userDTO, TwitterUserDto twitterUserDto);
        
-        IEnumerable<TwitterUserDto> GetUserFavourites(string userId);
-
-        bool IsFavourite(string userId, string twitterUserId);
+        ICollection<TwitterUserDto> GetUserFavourites(string userId);
 
         bool IsDeleted(string userId, string twitterUserId);
+
+        bool IsFavourite(string userId, string twitterUserId);
     }
 }

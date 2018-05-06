@@ -16,26 +16,19 @@ namespace RTWTR.Service.Data
         private readonly ISaver saver;
         private readonly IMappingProvider mapper;
         private readonly IRepository<Tweet> tweets;
-        private readonly IRepository<User> users;
-        private readonly IRepository<UserTweets> userTweets;
-        private readonly IRepository<TwitterUser> twitterUsers;
+        private readonly IRepository<UserTweet> userTweets;
 
         public TweetService(
             ISaver saver,
             IMappingProvider mapper, 
-            IRepository<Tweet> tweets, 
-            IRepository<User> users, 
-            IRepository<UserTweets> userTweets,
-            IRepository<TwitterUser> twitterUsers
+            IRepository<Tweet> tweets,
+            IRepository<UserTweet> userTweets
         )
         {
             this.saver = saver ?? throw new ArgumentNullException(nameof(saver));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.tweets = tweets ?? throw new ArgumentNullException(nameof(tweets));
-            this.users = users ?? throw new ArgumentNullException(nameof(users));
             this.userTweets = userTweets ?? throw new ArgumentNullException(nameof(userTweets));
-            this.twitterUsers = twitterUsers ?? throw new ArgumentNullException(nameof(twitterUsers));
-
         }
 
         public TweetDto GetTweetById (string tweetId)
@@ -52,89 +45,146 @@ namespace RTWTR.Service.Data
             return mapper.MapTo<TweetDto>(tweet);
         }
 
-        public int AddTweet(TweetDto tweetToSave)
+        public ICollection<TweetDto> GetAllTweets()
         {
-            if (tweetToSave == null)
+            var tweets = this.tweets.All;
+
+            return this.mapper.MapTo<List<TweetDto>>(tweets);
+        }
+
+        public ICollection<TweetDto> GetAllAndDeletedTweets()
+        {
+            var tweets = this.tweets.AllAndDeleted;
+
+            return this.mapper.MapTo<List<TweetDto>>(tweets);
+        }
+        
+        public int GetAllTweetsCount()
+        {
+            return this.tweets.All.Count();
+        }
+
+        public int GetAllAndDeletedTweetsCount()
+        {
+            return this.tweets.AllAndDeleted.Count();
+        }
+
+        public int SaveTweet(TweetDto tweetDto)
+        {
+            if (tweetDto == null)
             {
                 return -1;
             }
 
-            if (tweets.All.Any(x => x.Id == tweetToSave.Id))
+            if (tweets.All.Any(x => x.Id.Equals(tweetDto.Id)))
             {
                 return 1;
             }
 
-            var user = GetTwitterUserById(tweetToSave.User.Id);
+            var tweet = this.mapper.MapTo<Tweet>(tweetDto);
+            var user = this.mapper.MapTo<TwitterUser>(tweetDto.User);
 
-
-            var tweet = new Tweet
+            var tweetToAdd = new Tweet
             {
-                TwitterId = tweetToSave.Id,
-                Text = tweetToSave.Text,
-                CreatedAt = tweetToSave.CreatedAt,
+                TwitterId = tweet.Id,
+                Text = tweet.Text,
+                CreatedAt = tweet.CreatedAt,
                 TwitterUser = user,
-                TwitterUserId = tweetToSave.User.Id
-
+                TwitterUserId = user.Id
             };
-            this.tweets.Add(tweet);
+
+            this.tweets.Add(tweetToAdd);
 
             return this.saver.SaveChanges();
         }
 
-        public int SaveTweetToFavourites(string tweetId, string userId)
+        public int AddTweetToFavourites(string tweetId, UserDTO userDto)
         {
             if (tweetId.IsNullOrWhitespace())
             {
                 throw new InvalidUserIdException(nameof(tweetId));
             }
 
-            if (userId.IsNullOrWhitespace())
+            if (userDto.IsNull())
             {
-                throw new InvalidTwitterUserIdException(nameof(userId));
+                throw new NullUserException(nameof(userDto));
             }
 
-            var user = GetUserById(userId);
             var tweet = GetSavedTweetById(tweetId);
+            var user = this.mapper.MapTo<User>(userDto);
 
-            var userTweet = new UserTweets()
+            UserTweet userTweet = null;
+
+            if (this.IsActuallyFavourite(tweet.Id, user.Id))
             {
-                User = user,
-                UserId = user.Id,
-                Tweet = tweet,
-                TweetId = tweet.Id
-            };
+                if (!this.IsDeleted(tweet.Id, user.Id))
+                {
+                    // TODO: THrow exception
+                    return -1;
+                }
 
-            userTweets.Add(userTweet);
+                userTweet = this.userTweets
+                    .AllAndDeleted
+                    .SingleOrDefault(x =>
+                        x.TweetId.Equals(tweet.Id)
+                        &&
+                        x.UserId.Equals(user.Id)
+                    );
 
+                userTweet.IsDeleted = false;
+
+                this.userTweets.Update(userTweet);
+            }
+            else
+            {
+                userTweet = new UserTweet
+                {
+                    User = user,
+                    UserId = user.Id,
+                    Tweet = tweet,
+                    TweetId = tweet.Id
+                };
+
+                userTweets.Add(userTweet);
+            }
 
             return this.saver.SaveChanges();
         }
 
-        public int DeleteTweetFromFavourites(string tweetId, string userId)
+        public int RemoveTweetFromFavourites(string tweetId, string userId)
         {
             if (tweetId.IsNullOrWhitespace())
             {
                 throw new InvalidUserIdException(nameof(tweetId));
             }
 
-            if (userId.IsNullOrWhitespace())
+            if (userId.IsNull())
             {
-                throw new InvalidTwitterUserIdException(nameof(userId));
+                throw new NullUserException(nameof(userId));
             }
 
-            var user = GetUserById(userId);
+            if (!IsFavourite(userId, tweetId))
+            {
+                // TODO: Throw exception
+                return -1;
+            }
+
             var tweet = GetSavedTweetById(tweetId);
 
-            var userTweet = new UserTweets()
+            var userTweet = this.userTweets
+                .All
+                .SingleOrDefault(x =>
+                    x.UserId.Equals(userId)
+                    &&
+                    x.TweetId.Equals(tweetId)
+                );
+
+            if (userTweet.IsNull())
             {
-                User = user,
-                UserId = user.Id,
-                Tweet = tweet,
-                TweetId = tweet.Id
-            };
+                throw new NullTweetException();
+            }
 
             userTweets.Delete(userTweet);
-
 
             return this.saver.SaveChanges();
         }
@@ -153,33 +203,60 @@ namespace RTWTR.Service.Data
             return collectionOfFavourites;
         }
 
-
-        private User GetUserById(string userId)
+        public int DeleteTweet(string tweetId)
         {
-            User userToReturn = users
+            var tweet = this.tweets
                 .All
-                .SingleOrDefault(x => x.Id == userId);
+                .SingleOrDefault(x => x.Id.Equals(tweetId));
 
-            if (userToReturn.IsNull())
-            {
-                throw new NullUserException();
-            }
-
-            return userToReturn;
+            return this.DeleteTweet(tweet);
         }
 
-        private TwitterUser GetTwitterUserById(string userId)
+        public int DeleteTweet(Tweet tweet)
         {
-            TwitterUser userToReturn = twitterUsers
-                .All
-                .SingleOrDefault(x => x.Id == userId);
-
-            if (userToReturn.IsNull())
+            if (tweet.IsNull())
             {
-                throw new NullUserException();
+                throw new NullTweetException();
             }
 
-            return userToReturn;
+            this.tweets.Delete(tweet);
+
+            return this.saver.SaveChanges();
+        }
+
+        public bool IsFavourite(string tweetId, string userId)
+        {
+            return this.userTweets
+                .All
+                .Any(x =>
+                    x.TweetId.Equals(tweetId)
+                    &&
+                    x.UserId.Equals(userId)
+                );
+        }
+
+        public bool IsDeleted(string tweetId, string userId)
+        {
+            var entity = this.userTweets
+                .AllAndDeleted
+                .SingleOrDefault(x =>
+                    x.TweetId.Equals(tweetId)
+                    &&
+                    x.UserId.Equals(userId)
+                );
+
+            return entity.IsDeleted;
+        }
+
+        private bool IsActuallyFavourite(string tweetId, string userId)
+        {
+            return this.userTweets
+                .AllAndDeleted
+                .Any(x =>
+                    x.TweetId.Equals(tweetId)
+                    &&
+                    x.UserId.Equals(userId)
+                );
         }
 
         private Tweet GetSavedTweetById(string tweetId)
@@ -195,6 +272,5 @@ namespace RTWTR.Service.Data
 
             return tweetToReturn;
         }
-
     }
 }
