@@ -114,9 +114,9 @@ namespace RTWTR.MVC.Controllers
                 // Will return this when it uses AJAX
                 return Ok();
             }
-            catch (Exception e)
+            catch
             {
-                throw e;
+                return StatusCode(400);
             }
         }
 
@@ -142,9 +142,9 @@ namespace RTWTR.MVC.Controllers
                 // Will return this when it uses AJAX
                 return Ok();
             }
-            catch (Exception e)
+            catch
             {
-                throw e;
+                return StatusCode(400);
             }
         }
 

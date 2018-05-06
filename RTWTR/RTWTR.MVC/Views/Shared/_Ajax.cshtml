@@ -1,7 +1,7 @@
 <script>
-    $("#ajax-save").on("submit", function (event) {
-        event.preventDefault();
-        debugger;
+    $(".ajax-call").on("submit", function (event) {
+        event.preventDefault(); 
+
         var $this = $(this);
         var frmValues = $this.serialize();
         $.ajax({
@@ -10,10 +10,11 @@
             data: frmValues
         })
         .done(function () {
-            $("#para").text("Serialized! Input String is " + frmValues);
+            //TODO: Finish
+            alert("done");
         })
         .fail(function () {
-            $("#para").text("An error occured");
+            alert("Something went wrong bruh")
         });
     });
 </script>

@@ -9,16 +9,12 @@
     <div class="container">
         <br />
         <div>
-            <a asp-area="" asp-action="ShowUser" asp-route-screenName="@Model.ScreenName" class="right">
-                @await Html.PartialAsync("_AddUserToFavouritesPartial")
-            </a>
-
-            <button>View Timeline</button>
+            @await Html.PartialAsync("_AddUserToFavouritesPartial")
         </div>
     </div>
 }
 
 @section Scripts {
     <!-- TODO: Make async and use AJAX -->
-    @await Html.PartialAsync("_AjaxSave")
+    @await Html.PartialAsync("_Ajax")
 }
