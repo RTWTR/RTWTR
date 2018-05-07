@@ -12,8 +12,6 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
     {
         private Mock<ISaver> saverStub;
         private Mock<IMappingProvider> mapperStub;
-        private Mock<IRepository<User>> userRepositoryStub;
-        private Mock<IRepository<TwitterUser>> twitterUserRepositoryStub;
         private Mock<IRepository<UserTwitterUser>> userTwitterUserRepositoryStub;
 
         [TestInitialize]
@@ -21,8 +19,6 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
         {
             this.saverStub = new Mock<ISaver>();
             this.mapperStub = new Mock<IMappingProvider>();
-            this.userRepositoryStub = new Mock<IRepository<User>>();
-            this.twitterUserRepositoryStub = new Mock<IRepository<TwitterUser>>();
             this.userTwitterUserRepositoryStub = new Mock<IRepository<UserTwitterUser>>();
         }
 
@@ -33,8 +29,6 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
                 this.saverStub.Object,
                 this.mapperStub.Object,
-                this.userRepositoryStub.Object,
-                this.twitterUserRepositoryStub.Object,
                 this.userTwitterUserRepositoryStub.Object
             );
 
@@ -50,8 +44,6 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
                 new global::RTWTR.Service.Data.FavouriteUserService(
                     null,
                     this.mapperStub.Object,
-                    this.userRepositoryStub.Object,
-                    this.twitterUserRepositoryStub.Object,
                     this.userTwitterUserRepositoryStub.Object
                 );
             });
@@ -65,40 +57,6 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
             {
                 new global::RTWTR.Service.Data.FavouriteUserService(
                     this.saverStub.Object,
-                    null,
-                    this.userRepositoryStub.Object,
-                    this.twitterUserRepositoryStub.Object,
-                    this.userTwitterUserRepositoryStub.Object
-                );
-            });
-        }
-
-        [TestMethod]
-        public void Throw_ArgumentNullExceptio_When_UserIsNull()
-        {
-            // Arrange & Act & Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
-            {
-                new global::RTWTR.Service.Data.FavouriteUserService(
-                    this.saverStub.Object,
-                    this.mapperStub.Object,
-                    null,
-                    this.twitterUserRepositoryStub.Object,
-                    this.userTwitterUserRepositoryStub.Object
-                );
-            });
-        }
-
-        [TestMethod]
-        public void Throw_ArgumentNullExceptio_When_TwitterUsersIsNull()
-        {
-            // Arrange & Act & Assert
-            Assert.ThrowsException<ArgumentNullException>(() =>
-            {
-                new global::RTWTR.Service.Data.FavouriteUserService(
-                    this.saverStub.Object,
-                    this.mapperStub.Object,
-                    this.userRepositoryStub.Object,
                     null,
                     this.userTwitterUserRepositoryStub.Object
                 );
@@ -114,8 +72,6 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.FavouriteUserService.Tests
                 new global::RTWTR.Service.Data.FavouriteUserService(
                     this.saverStub.Object,
                     this.mapperStub.Object,
-                    this.userRepositoryStub.Object,
-                    this.twitterUserRepositoryStub.Object,
                     null
                 );
             });

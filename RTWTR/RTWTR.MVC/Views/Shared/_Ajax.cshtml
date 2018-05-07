@@ -12,11 +12,11 @@
             data: frmValues
         })
         .done(function () {
-            if ($this.hasClass("ajax-remove")) {
-                var parentClassName = $this.parent().attr("class");
-                var toRemove = $("." + parentClassName);
-                toRemove.remove();
-            }
+            // if ($this.hasClass("ajax-remove")) {
+            //     var parentClassName = $this.parent().attr("class");
+            //     var toRemove = $("." + parentClassName);
+            //     toRemove.remove();
+            // }
         })
         .fail(function () {
             alert("Something went wrong bruh")

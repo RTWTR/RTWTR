@@ -17,15 +17,11 @@ namespace RTWTR.Service.Data
     {
         private readonly ISaver saver;
         private readonly IMappingProvider mapper;
-        private readonly IRepository<User> users;
-        private readonly IRepository<TwitterUser> twitterUsers;
         private readonly IRepository<UserTwitterUser> userTwitterUsers;
 
         public FavouriteUserService(
             ISaver saver,
             IMappingProvider mapper,
-            IRepository<User> users,
-            IRepository<TwitterUser> twitterUsers,
             IRepository<UserTwitterUser> userTwitterUsers
         )
         {
@@ -35,12 +31,6 @@ namespace RTWTR.Service.Data
             this.mapper = mapper
                 ??
                 throw new ArgumentNullException(nameof(mapper));
-            this.users = users
-                ??
-                throw new ArgumentNullException(nameof(users));
-            this.twitterUsers = twitterUsers
-                ??
-                throw new ArgumentNullException(nameof(twitterUsers));
             this.userTwitterUsers = userTwitterUsers
                 ??
                 throw new ArgumentNullException(nameof(userTwitterUsers));
@@ -111,14 +101,14 @@ namespace RTWTR.Service.Data
                 throw new NullTwitterUserException(nameof(twitterUserDto));
             }
 
-            if (!IsFavourite(userDto.Id, twitterUserDto.Id))
+            var user = this.mapper.MapTo<User>(userDto);
+            var twitterUser = this.mapper.MapTo<TwitterUser>(twitterUserDto);
+
+            if (!IsFavourite(user.Id, twitterUser.Id))
             {
                 // TODO: throw adequate exception
                 return -1;
             }
-
-            var user = this.mapper.MapTo<User>(userDto);
-            var twitterUser = this.mapper.MapTo<TwitterUser>(twitterUserDto);
 
             var userTwitterUserToRemove = this.userTwitterUsers
                 .All
@@ -127,11 +117,6 @@ namespace RTWTR.Service.Data
                     &&
                     x.TwitterUserId.Equals(twitterUser.Id)
                 );
-
-            if (userTwitterUserToRemove.IsNull())
-            {
-                throw new NullReferenceException();
-            }
 
             userTwitterUsers.Delete(userTwitterUserToRemove);
 
@@ -159,7 +144,8 @@ namespace RTWTR.Service.Data
                 .All
                 .Any(x =>
                     x.TwitterUserId.Equals(twitterUserId)
-                    && x.UserId.Equals(userId)
+                    && 
+                    x.UserId.Equals(userId)
                 );
         }
 

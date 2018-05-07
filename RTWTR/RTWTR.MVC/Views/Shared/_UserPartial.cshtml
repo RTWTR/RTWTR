@@ -3,7 +3,7 @@
 
 @{
     <!-- Pictures are high-res without "_normal" -->
-    var imageUrl = $"{Model.ProfileImageUrl.Replace("_normal", "")}";
+    var imageUrl = $"{Model.ProfileImageUrl.Replace("_normal", "")}";    
 }
 
 <div class="container">
@@ -17,17 +17,12 @@
         <div class ="text">@Model.Description</div>
     </div>
 
-    @if (@Model.IsFavourite)
-    {
-        <!-- TODO: Make is so it shows Remove from favourites when hovered -->
-        <form class="ajax-call" asp-controller="Users" asp-action="RemoveFromFavourites" asp-route-screenname="@Model.ScreenName" method="POST">
-            <button class="btn btn-primary left" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Already a Favourite</button>
-        </form>
-    }
-    else
-    {
-        <form class="ajax-call" asp-controller="Users" asp-action="AddToFavourites" asp-route-screenname="@Model.ScreenName" method="POST">
-            <button class="btn btn-primary left" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Add to Favourites</button>
-        </form>
-    }
+    <!-- TODO: Make is so it shows Remove from favourites when hovered -->
+    <form class="ajax-call" asp-controller="Users" asp-action="AddToFavourites" asp-route-screenname="@Model.ScreenName" method="POST">
+        <button class="btn btn-primary left" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Add to Favourites</button>
+    </form>
+    
+    <form class="ajax-call" asp-controller="Users" asp-action="RemoveFromFavourites" asp-route-screenname="@Model.ScreenName" method="POST">
+        <button class="btn btn-primary left" type="submit" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Loading" data-name="@Model.ScreenName">Remove from Favourites</button>
+    </form>
 </div>

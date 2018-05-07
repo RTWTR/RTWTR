@@ -13,6 +13,7 @@ using RTWTR.MVC.Models;
 using RTWTR.Service.Data.Contracts;
 using RTWTR.Service.Twitter.Contracts;
 using RTWTR.MVC.Models.TweetsViewModels;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace RTWTR.MVC.Controllers
 {
@@ -25,6 +26,7 @@ namespace RTWTR.MVC.Controllers
         private ITweetService tweetService;
         private IMappingProvider mapper;
         private UserManager<User> userManager;
+        private readonly IMemoryCache memoryCache;
 
         public TweetsController(
             ITwitterService twitterService,
@@ -32,7 +34,8 @@ namespace RTWTR.MVC.Controllers
             IFavouriteUserService favouriteUserService,
             ITweetService tweetService,
             IMappingProvider mapper,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IMemoryCache memoryCache)
         {
             this.tweetService = tweetService ?? throw new ArgumentNullException(nameof(tweetService));
             this.twitterService = twitterService ?? throw new ArgumentNullException(nameof(twitterService));
@@ -40,6 +43,7 @@ namespace RTWTR.MVC.Controllers
             this.favouriteUserService = favouriteUserService ?? throw new ArgumentNullException(nameof(favouriteUserService));
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
         public IActionResult ShowUserFavouriteTweets(string userId)
@@ -61,7 +65,6 @@ namespace RTWTR.MVC.Controllers
             return View(model);
         }
 
-        // TODO: cache this
         public async Task<IActionResult> ShowTwitterUserTimeline(string screenName)
         {
             try
@@ -69,21 +72,21 @@ namespace RTWTR.MVC.Controllers
                 // application user ID
                 var userId = this.userManager.GetUserId(User);
 
-                var user = await this.GetTwitterUserDtoAsync(screenName);
-                var timeline = await this.twitterService.GetUserTimelineAsync(user.ScreenName, 20);
+                var twitterUser = await this.GetTwitterUserDtoAsync(screenName);
+                var timeline = await this.GetTimelineCache(twitterUser.ScreenName);
 
                 var model = new TwitterUserTimelineViewModel
                 {
-                    User = this.mapper.MapTo<TwitterUserViewModel>(user),
+                    User = this.mapper.MapTo<TwitterUserViewModel>(twitterUser),
                     Timeline = this.mapper.MapTo<List<TweetViewModel>>(timeline)
                 };
 
                 model.User.IsFavourite = 
-                    (this.favouriteUserService.IsFavourite(userId, user.Id))
+                    (this.favouriteUserService.IsFavourite(userId, twitterUser.Id))
                     &&
-                    (!this.favouriteUserService.IsDeleted(userId, user.Id));
+                    (!this.favouriteUserService.IsDeleted(userId, twitterUser.Id));
 
-                ViewData["Title"] = model.User.ScreenName;
+                model.Timeline.Select(x => { x.IsFavourite = this.tweetService.IsFavourite(x.Id, userId); return x; });
 
                 return View(model);
             }
@@ -109,10 +112,6 @@ namespace RTWTR.MVC.Controllers
                     mappedUser
                 );
 
-                // TODO: Maybe delete?
-                // var model = this.mapper.MapTo<TweetViewModel>(tweet);
-                // model.IsFavourite = true;
-
                 return Ok();
             }
             catch
@@ -135,9 +134,6 @@ namespace RTWTR.MVC.Controllers
                     userId
                 );
 
-                // var model = this.mapper.MapTo<TweetViewModel>(tweet);
-                // model.IsFavourite = false;
-
                 return Ok();
             }
             catch
@@ -145,13 +141,6 @@ namespace RTWTR.MVC.Controllers
                 return StatusCode(400);
             }
         }
-
-        // [HttpPost]
-        // [ValidateAntiForgeryToken]
-        // public async Task<IActionResult> AddTweetFromUrl(string tweetUrl)
-        // {
-        //     throw new Exception();
-        // }
 
         private async Task<TwitterUserDto> GetTwitterUserDtoAsync(string screenName)
         {
@@ -175,6 +164,27 @@ namespace RTWTR.MVC.Controllers
 
                 this.tweetService.SaveTweet(tweetToSave);
             }
+        }
+
+        private async Task<ICollection<TweetDto>> GetTimelineCache(string screenName)
+        {
+            ICollection<TweetDto> timeline;
+
+            // Look for screenName's timeline.
+            if (!memoryCache.TryGetValue(screenName, out timeline))
+            {
+                // Get the cache data.
+                timeline = await this.twitterService.GetUserTimelineAsync(screenName, 20);
+
+                // Set cache for 60 seconds.
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromSeconds(60));
+
+                // Save data.
+                memoryCache.Set(screenName, timeline, cacheOptions);
+            }
+
+            return timeline;
         }
     }
 }

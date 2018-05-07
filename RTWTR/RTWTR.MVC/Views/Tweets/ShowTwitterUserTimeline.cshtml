@@ -12,18 +12,6 @@
         {
             <div class="tweet">
                 @await Html.PartialAsync("_TweetPartial", @tweet)
-                @if (@tweet.IsFavourite)
-                {
-                    <form class="ajax-call ajax-remove" asp-controller="Tweets" asp-action="RemoveTweetFromFavourites" asp-route-tweetid="@tweet.Id">
-                        <button type="submit">Remove From Favourites</button>
-                    </form>
-                }
-                else
-                {
-                    <form class="ajax-call" asp-controller="Tweets" asp-action="AddTweetToFavourites" asp-route-tweetid="@tweet.Id">
-                        <button type="submit">Add To Favourites</button>
-                    </form>
-                }
             </div>
         }
     </div>
