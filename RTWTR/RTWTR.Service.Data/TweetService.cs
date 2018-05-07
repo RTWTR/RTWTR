@@ -88,14 +88,14 @@ namespace RTWTR.Service.Data
             tweet.TwitterUser = user;
             tweet.TwitterUserId = user.TwitterId;
 
-            // var tweetToAdd = new Tweet
-            // {
-            //     TwitterId = tweet.TwitterId,
-            //     Text = tweet.Text,
-            //     CreatedAt = tweet.CreatedAt,
-            //     TwitterUser = user,
-            //     TwitterUserId = user.Id
-            // };
+            //var tweetToAdd = new Tweet
+            //{
+            //    TwitterId = tweet.TwitterId,
+            //    Text = tweet.Text,
+            //    CreatedAt = tweet.CreatedAt,
+            //    TwitterUser = user,
+            //    TwitterUserId = user.Id
+            //};
 
             this.tweets.Add(tweet);
 
@@ -212,6 +212,11 @@ namespace RTWTR.Service.Data
 
         public int DeleteTweet(string tweetId)
         {
+            if (tweetId.IsNullOrWhitespace())
+            {
+                throw new InvalidTweetIdException(nameof(tweetId));
+            }
+
             var tweet = this.tweets
                 .All
                 .SingleOrDefault(x => x.Id.Equals(tweetId));
@@ -227,6 +232,20 @@ namespace RTWTR.Service.Data
             }
 
             this.tweets.Delete(tweet);
+
+            return this.saver.SaveChanges();
+        }
+
+        public int Retweet(string tweetId)
+        {
+            if (tweetId.IsNullOrWhitespace())
+            {
+                throw new InvalidTweetIdException(nameof(tweetId));
+            }
+
+            var tweet = GetSavedTweetById(tweetId);
+
+            tweet.RetweetCount++;
 
             return this.saver.SaveChanges();
         }

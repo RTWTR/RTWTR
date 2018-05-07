@@ -87,11 +87,11 @@ namespace RTWTR.MVC.Controllers
             }
             catch
             {
-                ViewData ["Error"] = screenName;
+                ViewData["Error"] = screenName;
                 return View("FailedSearch", "Users");
             }
         }
- 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddTweetToFavourites(string tweetId)
@@ -171,7 +171,7 @@ namespace RTWTR.MVC.Controllers
                 // Get the cache data.
                 timeline = await this.twitterService.GetUserTimelineAsync(screenName, 20);
 
-                // Set cache for 60 seconds.
+                // Set cache for 90 seconds.
                 var cacheOptions = new MemoryCacheEntryOptions()
                     .SetAbsoluteExpiration(TimeSpan.FromSeconds(90));
 
@@ -181,5 +181,13 @@ namespace RTWTR.MVC.Controllers
 
             return timeline;
         }
+
+        public IActionResult Retweet(string tweetId)
+        {
+            this.tweetService.Retweet(tweetId);
+
+            return Ok();
+        }
+
     }
 }

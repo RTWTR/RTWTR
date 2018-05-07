@@ -28,6 +28,8 @@ namespace RTWTR.Service.Data.Contracts
 
         int DeleteTweet(Tweet tweet);
 
+        int Retweet(string tweetId);
+
         bool IsFavourite(string tweetId, string userId);
 
         bool IsDeleted(string tweetId, string userId);
