@@ -83,12 +83,6 @@ namespace RTWTR.MVC.Controllers
 
                 model.User.IsFavourite = (this.favouriteUserService.IsFavourite(userId, twitterUser.Id));
 
-                // TODO: Find a faster way to do this
-                foreach (var tweet in model.Timeline)
-                {
-                    tweet.IsFavourite = this.tweetService.IsFavourite(tweet.Id, userId);
-                }
-
                 return View(model);
             }
             catch
