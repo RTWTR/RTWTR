@@ -6,7 +6,7 @@
         <div class="content col-sm-offset-1">
             <div class="name">@Model.TwitterUserName</div>
             <div class="screenName">
-                <a asp-controller="Users" asp-action="ShowUser" asp-route-screenname="@Model.TwitterUserScreenName">@@@Model.TwitterUserScreenName</a>
+                <a asp-controller="Tweets" asp-action="ShowTwitterUserTimeline" asp-route-screenname="@Model.TwitterUserScreenName">@@@Model.TwitterUserScreenName</a>
             </div>
             <div class="text">
                 <p>@Model.Text</p>

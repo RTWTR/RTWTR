@@ -4,7 +4,9 @@
 {
     <h1>@Model.User.Email</h1>
 
-    <button type="button" class="btn btn-dark">Dark</button>
+    <form class="ajax-call ajax-delete" asp-area="Administration" asp-controller="Users" asp-action="DeleteUser" asp-route-userId="@Model.User.Id" method="POST"> 
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
 
     @if (@Model.Tweets.Count() == 0)
     {
@@ -24,4 +26,8 @@
 else
 {
     <div>User <strong>@ViewData["Error"]</strong> not found</div>
+}
+
+@section Scripts {
+    @await Html.PartialAsync("_Ajax")
 }

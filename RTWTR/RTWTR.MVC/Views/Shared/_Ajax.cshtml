@@ -13,7 +13,9 @@
         })
         .done(function () {
             if ($this.hasClass("ajax-remove")) {
-                $this.html(`<button class="btn btn-primary disabled" type="submit">Removed from Favourites</button>`);
+                $this.html(`<button class="btn btn-primary btn-bottom btn-top disabled" type="submit">Removed from Favourites</button>`);
+            } else if ($this.hasClass("ajax-delete")) {
+                $this.html(`<button class="btn btn-primary btn-bottom btn-top disabled" type="submit">Deleted</button>`);
             } else {
                 $this.html(`<button class="btn btn-primary disabled" type="submit">Added to Favourites</button>`);                
             }
