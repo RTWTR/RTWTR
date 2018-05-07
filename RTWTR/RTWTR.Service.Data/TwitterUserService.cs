@@ -52,7 +52,7 @@ namespace RTWTR.Service.Data
                 return -1;
             }
 
-            if (twitterUsers.All.Any(x => x.TwitterId == twitterUser.Id))
+            if (twitterUsers.All.Any(x => x.TwitterId == twitterUser.TwitterId))
             {
                 return 1;
             }

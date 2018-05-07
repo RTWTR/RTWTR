@@ -73,24 +73,24 @@ namespace RTWTR.MVC.Controllers
             }
         }
 
-        public async Task<IActionResult> ShowUser(string screenName)
-        {
-            try
-            {
-                var twitterUser = await this.GetTwitterUserDtoAsync(screenName);
-                var userId = this.userManager.GetUserId(User);
+        // public async Task<IActionResult> ShowUser(string screenName)
+        // {
+        //     try
+        //     {
+        //         var twitterUser = await this.GetTwitterUserDtoAsync(screenName);
+        //         var userId = this.userManager.GetUserId(User);
 
-                var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
-                model.IsFavourite = this.IsFavourite(userId, twitterUser.Id);
+        //         var model = this.mapper.MapTo<TwitterUserViewModel>(twitterUser);
+        //         model.IsFavourite = this.IsFavourite(userId, twitterUser.Id);
 
-                return View(model);
-            }
-            catch
-            {
-                ViewData ["Error"] = screenName;
-                return View("FailedSearch");
-            }
-        }
+        //         return View(model);
+        //     }
+        //     catch
+        //     {
+        //         ViewData ["Error"] = screenName;
+        //         return View("FailedSearch");
+        //     }
+        // }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -87,6 +87,7 @@ namespace RTWTR.Service.Data
 
             tweet.TwitterUser = user;
             tweet.TwitterUserId = user.TwitterId;
+            tweet.RetweetCount = 0;
 
             //var tweetToAdd = new Tweet
             //{
