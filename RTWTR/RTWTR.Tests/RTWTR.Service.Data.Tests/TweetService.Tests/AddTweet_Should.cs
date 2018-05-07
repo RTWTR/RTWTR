@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using RTWTR.Data.Access.Contracts;
@@ -16,7 +18,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TweetService.Tests
         private Mock<ISaver> saverStub;
         private Mock<IMappingProvider> mapperStub;
         private Mock<IRepository<Tweet>> tweetRepositoryStub;
-        private Mock<IRepository<UserTweet>> UserTweetStub;
+        private Mock<IRepository<UserTweet>> userTweetsStub;
 
         [TestInitialize]
         public void TestInitialize()
@@ -24,7 +26,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TweetService.Tests
             this.saverStub = new Mock<ISaver>();
             this.mapperStub = new Mock<IMappingProvider>();
             this.tweetRepositoryStub = new Mock<IRepository<Tweet>>();
-            this.UserTweetStub = new Mock<IRepository<UserTweet>>();
+            this.userTweetsStub = new Mock<IRepository<UserTweet>>();
         }
 
         [TestMethod]
@@ -37,7 +39,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TweetService.Tests
                 this.saverStub.Object,
                 this.mapperStub.Object,
                 this.tweetRepositoryStub.Object,
-                this.UserTweetStub.Object
+                this.userTweetsStub.Object
             );
 
             // Act & Assert
@@ -56,7 +58,7 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TweetService.Tests
                 this.saverStub.Object,
                 this.mapperStub.Object,
                 this.tweetRepositoryStub.Object,
-                this.UserTweetStub.Object
+                this.userTweetsStub.Object
             );
 
             // Act & Assert
@@ -66,24 +68,223 @@ namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TweetService.Tests
         }
 
         [TestMethod]
-        public void ReturnOne_When_TweetSuccessfullySaved()
+        public void Throw_NullUserException_When_UserDtoIsNull()
         {
             // Arrange
-            this.saverStub
-                .Setup(x => x.SaveChanges())
-                .Returns(1);
+            var tweetService = new global::RTWTR.Service.Data.TweetService(
+                this.saverStub.Object,
+                this.mapperStub.Object,
+                this.tweetRepositoryStub.Object,
+                this.userTweetsStub.Object
+            );
+
+            // Act & Assert
+            Assert.ThrowsException<NullUserException>(() =>
+                tweetService.AddTweetToFavourites("tweetId", null)
+            );
+        }
+
+        [TestMethod]
+        public void Throw_NullTweetException_When_TweetIsNotFound()
+        {
+            // Arrange
+            this.tweetRepositoryStub
+                .Setup(x => x.All)
+                .Returns(
+                new List<Tweet>()
+                {
+                }.AsQueryable());
+
+            var userDtoStub = new UserDTO();
 
             var tweetService = new global::RTWTR.Service.Data.TweetService(
                 this.saverStub.Object,
                 this.mapperStub.Object,
                 this.tweetRepositoryStub.Object,
-                this.UserTweetStub.Object
+                this.userTweetsStub.Object
             );
 
-            var tweetToSave = new Tweet() { Id = "tweetId", Text = "text" };
+            Assert.ThrowsException<NullTweetException>(() =>
+            {
+                tweetService.AddTweetToFavourites("tweetId", userDtoStub);
+            });
 
-            // Act & Assert
-            Assert.AreEqual(1, tweetService.AddTweetToFavourites("tweetId", null));
+            this.tweetRepositoryStub.Verify(
+                x => x.All,
+                Times.Once
+            );
+        }
+
+        [TestMethod]
+        public void Return_One_When_TweetSuccessfullyAdded()
+        {
+            // Arrange
+            this.userTweetsStub
+                .Setup(x => x.Add(It.IsAny<UserTweet>()))
+                .Verifiable();
+
+            this.tweetRepositoryStub
+                .Setup(x => x.All)
+                .Returns(
+                new List<Tweet>()
+                {
+                    new Tweet { TwitterId = "tweetId" }
+                }.AsQueryable());
+
+            this.mapperStub
+                .Setup(x => x.MapTo<User>(It.IsAny<UserDTO>()))
+                .Returns(new User { Id = "userId" });
+
+            this.saverStub
+                .Setup(x => x.SaveChanges())
+                .Returns(1);
+
+            var userDtoStub = new UserDTO();
+            
+            var tweetService = new global::RTWTR.Service.Data.TweetService(
+                this.saverStub.Object,
+                this.mapperStub.Object,
+                this.tweetRepositoryStub.Object,
+                this.userTweetsStub.Object
+            );
+
+            var actual = tweetService.AddTweetToFavourites(
+                "tweetId",
+                userDtoStub
+            );
+
+            Assert.AreEqual(
+                1,
+                actual
+            );
+
+            this.userTweetsStub.Verify(
+                x => x.Add(It.IsAny<UserTweet>()),
+                Times.Once
+            );
+        }
+
+        [TestMethod]
+        public void Return_One_When_TweetSuccessfullyReAdded()
+        {
+            // Arrange
+            this.userTweetsStub
+                .Setup(x => x.AllAndDeleted)
+                .Returns(
+                    new List<UserTweet>()
+                    {
+                        new UserTweet { TweetId = "tweetId", UserId = "userId", IsDeleted = true }
+                    }.AsQueryable()
+                )
+                .Verifiable();
+
+            this.userTweetsStub
+                .Setup(x => x.Update(It.IsAny<UserTweet>()))
+                .Verifiable();
+
+            this.tweetRepositoryStub
+                .Setup(x => x.All)
+                .Returns(
+                new List<Tweet>()
+                {
+                    new Tweet { Id = "tweetId", TwitterId = "tweetId" }
+                }.AsQueryable());
+
+            this.tweetRepositoryStub
+                .Setup(x => x.AllAndDeleted)
+                .Returns(
+                new List<Tweet>()
+                {
+                    new Tweet { Id = "tweetId", TwitterId = "tweetId" }
+                }.AsQueryable());
+
+            this.mapperStub
+                .Setup(x => x.MapTo<User>(It.IsAny<UserDTO>()))
+                .Returns(new User { Id = "userId" });
+
+            this.saverStub
+                .Setup(x => x.SaveChanges())
+                .Returns(1);
+
+            var userDtoStub = new UserDTO();
+            
+            var tweetService = new global::RTWTR.Service.Data.TweetService(
+                this.saverStub.Object,
+                this.mapperStub.Object,
+                this.tweetRepositoryStub.Object,
+                this.userTweetsStub.Object
+            );
+
+            var actual = tweetService.AddTweetToFavourites(
+                "tweetId",
+                userDtoStub
+            );
+
+            Assert.AreEqual(
+                1,
+                actual
+            );
+
+            this.userTweetsStub.Verify(
+                x => x.Update(It.IsAny<UserTweet>()),
+                Times.Once
+            );
+        }
+
+        [TestMethod]
+        public void Throw_ArgumentException_When_TweetAlreadyFavourite()
+        {
+            // Arrange
+            this.userTweetsStub
+                .Setup(x => x.AllAndDeleted)
+                .Returns(
+                    new List<UserTweet>()
+                    {
+                        new UserTweet { TweetId = "tweetId", UserId = "userId", IsDeleted = false }
+                    }.AsQueryable()
+                )
+                .Verifiable();
+
+            this.userTweetsStub
+                .Setup(x => x.Update(It.IsAny<UserTweet>()))
+                .Verifiable();
+
+            this.tweetRepositoryStub
+                .Setup(x => x.All)
+                .Returns(
+                new List<Tweet>()
+                {
+                    new Tweet { Id = "tweetId", TwitterId = "tweetId", IsDeleted = false }
+                }.AsQueryable());
+
+            this.tweetRepositoryStub
+                .Setup(x => x.AllAndDeleted)
+                .Returns(
+                new List<Tweet>()
+                {
+                    new Tweet { Id = "tweetId", TwitterId = "tweetId" }
+                }.AsQueryable());
+
+            this.mapperStub
+                .Setup(x => x.MapTo<User>(It.IsAny<UserDTO>()))
+                .Returns(new User { Id = "userId" });
+
+            this.saverStub
+                .Setup(x => x.SaveChanges())
+                .Returns(1);
+
+            var userDtoStub = new UserDTO();
+            
+            var tweetService = new global::RTWTR.Service.Data.TweetService(
+                this.saverStub.Object,
+                this.mapperStub.Object,
+                this.tweetRepositoryStub.Object,
+                this.userTweetsStub.Object
+            );
+
+            Assert.ThrowsException<ArgumentException>(() => {
+                tweetService.AddTweetToFavourites("tweetId", userDtoStub);
+            });
         }
     }
 }

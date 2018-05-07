@@ -123,8 +123,7 @@ namespace RTWTR.Service.Data
             {
                 if (!this.IsDeleted(tweet.Id, user.Id))
                 {
-                    // TODO: THrow exception
-                    return -1;
+                    throw new ArgumentException();
                 }
 
                 userTweet = this.userTweets
@@ -283,7 +282,7 @@ namespace RTWTR.Service.Data
 
             if (tweetToReturn.IsNull())
             {
-                throw new NullUserException();
+                throw new NullTweetException();
             }
 
             return tweetToReturn;
