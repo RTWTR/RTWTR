@@ -42,12 +42,14 @@ namespace RTWTR.Data
             builder.Entity<TwitterUserTweet>()
                 .HasOne(x => x.TwitterUser)
                 .WithMany(x => x.TwitterUserTweets)
-                .HasForeignKey(x => x.TwitterUserId);
+                .HasForeignKey(x => x.TwitterUserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<TwitterUserTweet>()
                 .HasOne(x => x.Tweet)
                 .WithMany(x => x.TwitterUserTweets)
-                .HasForeignKey(x => x.TweetId);
+                .HasForeignKey(x => x.TweetId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<CollectionTweet>()
                 .HasKey(x => new {x.TweetId, x.CollectionId});

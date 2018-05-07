@@ -11,7 +11,7 @@ using System;
 namespace RTWTR.Data.Migrations
 {
     [DbContext(typeof(RTWTRDbContext))]
-    [Migration("20180507160517_Initial")]
+    [Migration("20180507202038_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -140,11 +140,13 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<DateTime?>("UpdatedOn");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -179,7 +181,8 @@ namespace RTWTR.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CreatedAt");
+                    b.Property<string>("CreatedAt")
+                        .IsRequired();
 
                     b.Property<DateTime?>("CreatedOn");
 
@@ -191,13 +194,16 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<int?>("RetweetCount");
 
-                    b.Property<string>("Text");
+                    b.Property<string>("Text")
+                        .IsRequired();
 
                     b.Property<string>("TweetId");
 
-                    b.Property<string>("TwitterId");
+                    b.Property<string>("TwitterId")
+                        .IsRequired();
 
-                    b.Property<string>("TwitterUserId");
+                    b.Property<string>("TwitterUserId")
+                        .IsRequired();
 
                     b.Property<DateTime?>("UpdatedOn");
 
@@ -334,8 +340,6 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<string>("Id");
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<DateTime?>("UpdatedOn");
@@ -417,7 +421,8 @@ namespace RTWTR.Data.Migrations
                 {
                     b.HasOne("RTWTR.Data.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.CollectionTweet", b =>
@@ -441,7 +446,8 @@ namespace RTWTR.Data.Migrations
 
                     b.HasOne("RTWTR.Data.Models.TwitterUser", "TwitterUser")
                         .WithMany()
-                        .HasForeignKey("TwitterUserId");
+                        .HasForeignKey("TwitterUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("RTWTR.Data.Models.TwitterUserTweet", b =>
@@ -449,12 +455,12 @@ namespace RTWTR.Data.Migrations
                     b.HasOne("RTWTR.Data.Models.Tweet", "Tweet")
                         .WithMany("TwitterUserTweets")
                         .HasForeignKey("TweetId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("RTWTR.Data.Models.TwitterUser", "TwitterUser")
                         .WithMany("TwitterUserTweets")
                         .HasForeignKey("TwitterUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("RTWTR.Data.Models.User")
                         .WithMany("TwitterUserTweets")

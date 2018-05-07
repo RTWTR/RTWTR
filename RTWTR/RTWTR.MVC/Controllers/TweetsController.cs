@@ -21,12 +21,12 @@ namespace RTWTR.MVC.Controllers
     public class TweetsController : Controller
     {
         private ITwitterService twitterService;
-        private readonly ITwitterUserService twitterUserService;
-        private readonly IFavouriteUserService favouriteUserService;
+        private ITwitterUserService twitterUserService;
+        private IFavouriteUserService favouriteUserService;
         private ITweetService tweetService;
         private IMappingProvider mapper;
         private UserManager<User> userManager;
-        private readonly IMemoryCache memoryCache;
+        private IMemoryCache memoryCache;
 
         public TweetsController(
             ITwitterService twitterService,

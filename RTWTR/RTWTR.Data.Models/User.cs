@@ -7,6 +7,12 @@ namespace RTWTR.Data.Models
 {
     public class User : IdentityUser, IDeletable, IAuditable
     {
+        public User()
+        {
+            this.TwitterUserTweets = new List<TwitterUserTweet>();
+            this.UserTwitterUsers = new List<UserTwitterUser>();
+            this.UserTweets = new List<UserTweet>();
+        }
         public string TwitterId { get; set; }
   
         public ICollection<TwitterUserTweet> TwitterUserTweets { get; set; }
