@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RTWTR.Data.Models;
+using RTWTR.Infrastructure;
 using RTWTR.Infrastructure.Mapping.Provider;
 using RTWTR.MVC.Areas.Administration.Models;
 using RTWTR.MVC.Models;
@@ -16,14 +19,32 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
         private readonly IMappingProvider mapper;
         private readonly IUserService userService;
         private readonly ITweetService tweetService;
+        private readonly UserManager<User> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
-        public UsersController(IMappingProvider mapper, IUserService userService, ITweetService tweetService)
+        public UsersController(
+            IMappingProvider mapper,
+            IUserService userService,
+            ITweetService tweetService,
+            UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager
+        )
         {
-            this.mapper = mapper ??
+            this.mapper = mapper
+                ??
                 throw new ArgumentNullException(nameof(mapper));
-            this.userService = userService ??
+            this.userService = userService
+                ??
                 throw new ArgumentNullException(nameof(userService));
-            this.tweetService = tweetService ?? throw new ArgumentNullException(nameof(tweetService));
+            this.tweetService = tweetService
+                ??
+                throw new ArgumentNullException(nameof(tweetService));
+            this.userManager = userManager
+                ??
+                throw new ArgumentNullException(nameof(userManager));
+            this.roleManager = roleManager
+                ??
+                throw new ArgumentNullException(nameof(roleManager));
         }
 
         [Route("Administration/Users/All/")]
@@ -59,6 +80,22 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
                 ViewData ["Error"] = email;
 
                 return View();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteUser(string userId)
+        {
+            try
+            {
+                this.userService.DeleteUser(userId);
+
+                return Ok();
+            }
+            catch
+            {
+                return StatusCode(400);
             }
         }
     }
