@@ -2,30 +2,71 @@
 
 @if (@ViewData["Error"].IsNull())
 {
-    <h1>@Model.User.Email</h1>
+    <div class="row">
 
-    <form class="ajax-call ajax-delete" asp-area="Administration" asp-controller="Users" asp-action="DeleteUser" asp-route-userId="@Model.User.Id" method="POST"> 
-        <button type="submit" class="btn btn-danger">Delete</button>
-    </form>
+        <h1>@Model.User.Email</h1>
 
-    @if (@Model.Tweets.Count() == 0)
+        <form class="ajax-call ajax-delete" asp-area="Administration" asp-controller="Users" asp-action="DeleteUser" asp-route-userId="@Model.User.Id" method="POST">
+            <button type="submit" class="btn btn-sm btn-danger">Delete User</button>
+        </form>
+    </div>
+    <ul class="list-unstyled list-inline">
+        <li><a href="#users" data-toggle="collapse">Favourite Users</a></li>
+        <li><a href="#tweets" data-toggle="collapse">Favourite Tweets</a></li>
+
+    </ul>
+    if (@Model.Tweets.Count() == 0)
     {
         <div>This user has no Tweets</div>
     }
     else
     {
-        <div>Tweets: </div>
-        @foreach (var tweet in @Model.Tweets)
-        {
-            <div>
-                <p>tweet.Id</p>
-            </div>
-        }
+        <div id="tweets" class="collapse">
+            Saved Tweets:@Model.Tweets.Count
+            @foreach (var tweet in @Model.Tweets)
+            {
+                <blockquote class="twitter-tweet align-left panel">
+                    <div class="container">
+                        <img class="avatar" src="@tweet.TwitterUserProfileImageUrl" />
+                        <div class="content col-sm-offset-1">
+                            <div class="name">@@@tweet.TwitterUserName</div>
+                        </div>
+                        <div class="text">
+                            <p>@tweet.Text</p>
+                        </div>
+                    </div>
+
+                </blockquote>
+            }
+        </div>
+    }
+    if (!@Model.Favourites.Any())
+    {
+        <div>This user has no Favourites</div>
+    }
+    else
+    {
+        <div id="users" class="collapse">
+            Favourite Accounts:@Model.Favourites.Count
+            @foreach (var user in @Model.Favourites)
+            {
+
+                <div class="col-md-6">
+                    <h3>@user.Name</h3>
+                    <h4>@@@user.ScreenName</h4>
+                    <div class="text">@user.Description</div>
+                </div>
+
+            }
+
+            }
+        </div>
+
     }
 }
 else
 {
-    <div>User <strong>@ViewData["Error"]</strong> not found</div>
+    <div>User<strong>@ViewData["Error"]</strong>not found</div>
 }
 
 @section Scripts {

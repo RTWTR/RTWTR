@@ -19,6 +19,7 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
         private readonly IMappingProvider mapper;
         private readonly IUserService userService;
         private readonly ITweetService tweetService;
+        private IFavouriteUserService favouriteService;
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
@@ -27,12 +28,16 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
             IUserService userService,
             ITweetService tweetService,
             UserManager<User> userManager,
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
+            IFavouriteUserService favouriteService
         )
         {
             this.mapper = mapper
                 ??
                 throw new ArgumentNullException(nameof(mapper));
+            this.favouriteService = favouriteService
+                          ??
+                          throw new ArgumentNullException(nameof(favouriteService));
             this.userService = userService
                 ??
                 throw new ArgumentNullException(nameof(userService));
@@ -67,12 +72,29 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
             {
                 var user = this.userService.GetUserByEmail(email);
                 var tweets = this.tweetService.GetUserFavourites(user.Id);
+                var favourites = this.favouriteService.GetUserFavourites(user.Id);
+                
 
                 var model = new UserViewModel();
 
                 model.User = this.mapper.MapTo<MinifiedUserViewModel>(user);
-                model.Tweets = this.mapper.MapTo<ICollection<TweetViewModel>>(tweets);
+                model.Favourites = this.mapper.MapTo<ICollection<TwitterUserViewModel>>(favourites);
+                model.Tweets = new List<TweetViewModel>();
+                foreach (var tweet in tweets)
+                {
+                    var tweetToAdd = new TweetViewModel()
+                    {
+                        Id = tweet.Id,
+                        TwitterId = tweet.TwitterId,
+                        CreatedAt = tweet.CreatedAt,
+                        Text = tweet.Text,
+                        TwitterUserName = tweet.TwitterUser.ScreenName,
+                        TwitterUserProfileImageUrl = tweet.TwitterUser.ProfileImageUrl,
 
+                    };
+
+                    model.Tweets.Add(tweetToAdd);
+                }
                 return View(model);
             }
             catch
