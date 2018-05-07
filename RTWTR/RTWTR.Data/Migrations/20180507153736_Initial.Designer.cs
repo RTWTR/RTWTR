@@ -11,7 +11,7 @@ using System;
 namespace RTWTR.Data.Migrations
 {
     [DbContext(typeof(RTWTRDbContext))]
-    [Migration("20180507104716_Initial")]
+    [Migration("20180507153736_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -188,6 +188,8 @@ namespace RTWTR.Data.Migrations
                     b.Property<string>("InReplyToScreenName");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<int?>("RetweetCount");
 
                     b.Property<string>("Text");
 

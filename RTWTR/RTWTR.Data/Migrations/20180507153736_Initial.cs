@@ -212,6 +212,7 @@ namespace RTWTR.Data.Migrations
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     InReplyToScreenName = table.Column<string>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
+                    RetweetCount = table.Column<int>(nullable: true),
                     Text = table.Column<string>(nullable: true),
                     TweetId = table.Column<string>(nullable: true),
                     TwitterId = table.Column<string>(nullable: true),

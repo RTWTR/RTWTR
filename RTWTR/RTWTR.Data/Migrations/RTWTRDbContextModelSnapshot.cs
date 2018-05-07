@@ -188,7 +188,7 @@ namespace RTWTR.Data.Migrations
 
                     b.Property<bool>("IsDeleted");
 
-                    b.Property<int>("RetweetCount");
+                    b.Property<int?>("RetweetCount");
 
                     b.Property<string>("Text");
 

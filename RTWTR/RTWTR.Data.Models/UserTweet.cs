@@ -7,16 +7,12 @@ namespace RTWTR.Data.Models
 {
     public class UserTweet : DataModel
     {
-        [Required]
         public string UserId { get; set; }
-
-        [Required]
+        
         public User User { get; set; }
-
-        [Required]
+        
         public string TweetId { get; set; }
-
-        [Required]
+        
         public Tweet Tweet { get; set; }
     }
 }
