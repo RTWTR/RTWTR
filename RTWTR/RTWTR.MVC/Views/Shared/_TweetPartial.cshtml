@@ -14,17 +14,22 @@
 
             @if (@Model.IsFavourite)
             {
-                <form class="ajax-call ajax-remove" asp-controller="Tweets" asp-action="RemoveTweetFromFavourites" asp-route-tweetid="@Model.Id">
+                <form id="@Model.Id" class="ajax-call hidden @Model.Id" asp-controller="Tweets" asp-action="AddTweetToFavourites" asp-route-tweetid="@Model.Id">
+                    <button class="btn btn-primary" type="submit">Add To Favourites</button>
+                </form>
+                <form id="@Model.Id" class="ajax-call active @Model.Id" asp-controller="Tweets" asp-action="RemoveTweetFromFavourites" asp-route-tweetid="@Model.Id">
                     <button class="btn btn-danger" type="submit">Remove From Favourites</button>
                 </form>
             }
             else
             {
-                <form class="ajax-call ajax-add" asp-controller="Tweets" asp-action="AddTweetToFavourites" asp-route-tweetid="@Model.Id">
+                <form id="@Model.Id" class="ajax-call active @Model.Id" asp-controller="Tweets" asp-action="AddTweetToFavourites" asp-route-tweetid="@Model.Id">
                     <button class="btn btn-primary" type="submit">Add To Favourites</button>
                 </form>
+                <form id="@Model.Id" class="ajax-call hidden @Model.Id" asp-controller="Tweets" asp-action="RemoveTweetFromFavourites" asp-route-tweetid="@Model.Id">
+                    <button class="btn btn-danger" type="submit">Remove From Favourites</button>
+                </form>
             }
-            
 
             <a class="btn btn-sm btn-default" href="@Url.Action("Retweet","Tweets", new{ tweetId = @Model.Id})" target="https://twitter.com/intent/retweet?tweet_id=@Model.Id">Retweet</a>
         </div>

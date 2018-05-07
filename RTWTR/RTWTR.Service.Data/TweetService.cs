@@ -77,7 +77,7 @@ namespace RTWTR.Service.Data
                 return -1;
             }
 
-            if (tweets.All.Any(x => x.TwitterId.Equals(tweetDto.Id)))
+            if (tweets.All.Any(x => x.TwitterId.Equals(tweetDto.TwitterId)))
             {
                 return 1;
             }
