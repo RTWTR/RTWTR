@@ -115,7 +115,7 @@ namespace RTWTR.MVC.Controllers
 
                 return Ok();
             }
-            catch (Exception e)
+            catch
             {
                 return StatusCode(400);
             }
