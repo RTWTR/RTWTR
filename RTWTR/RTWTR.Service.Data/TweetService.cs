@@ -158,20 +158,19 @@ namespace RTWTR.Service.Data
         {
             if (tweetId.IsNullOrWhitespace())
             {
-                throw new InvalidUserIdException(nameof(tweetId));
+                throw new InvalidTweetIdException(nameof(tweetId));
             }
 
-            if (userId.IsNull())
+            if (userId.IsNullOrWhitespace())
             {
-                throw new NullUserException(nameof(userId));
+                throw new InvalidUserIdException(nameof(userId));
             }
 
             var tweet = GetSavedTweetById(tweetId);
 
             if (!IsFavourite(tweet.Id, userId))
             {
-                // TODO: Throw exception
-                return -1;
+                throw new ArgumentException();
             }
 
             var userTweet = this.userTweets

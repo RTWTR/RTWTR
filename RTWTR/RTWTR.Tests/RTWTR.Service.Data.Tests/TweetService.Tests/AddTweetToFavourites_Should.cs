@@ -11,9 +11,8 @@ using RTWTR.Infrastructure.Mapping.Provider;
 
 namespace RTWTR.Tests.RTWTR.Service.Data.Tests.TweetService.Tests
 {
-    // TODO: Finish tests
     [TestClass]
-    public class AddTweet_Should
+    public class AddTweetToFavourites_Should
     {
         private Mock<ISaver> saverStub;
         private Mock<IMappingProvider> mapperStub;
