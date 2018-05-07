@@ -187,9 +187,9 @@ namespace RTWTR.Data.Migrations
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     UpdatedOn = table.Column<DateTime>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,7 +199,7 @@ namespace RTWTR.Data.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -207,16 +207,16 @@ namespace RTWTR.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    CreatedAt = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<string>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     InReplyToScreenName = table.Column<string>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     RetweetCount = table.Column<int>(nullable: true),
-                    Text = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: false),
                     TweetId = table.Column<string>(nullable: true),
-                    TwitterId = table.Column<string>(nullable: true),
-                    TwitterUserId = table.Column<string>(nullable: true),
+                    TwitterId = table.Column<string>(nullable: false),
+                    TwitterUserId = table.Column<string>(nullable: false),
                     UpdatedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
@@ -233,7 +233,7 @@ namespace RTWTR.Data.Migrations
                         column: x => x.TwitterUserId,
                         principalTable: "TwitterUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -312,13 +312,13 @@ namespace RTWTR.Data.Migrations
                         column: x => x.TweetId,
                         principalTable: "Tweets",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TwitterUserTweets_TwitterUsers_TwitterUserId",
                         column: x => x.TwitterUserId,
                         principalTable: "TwitterUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TwitterUserTweets_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -335,7 +335,6 @@ namespace RTWTR.Data.Migrations
                     TweetId = table.Column<string>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Id = table.Column<string>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     UpdatedOn = table.Column<DateTime>(nullable: true)
                 },

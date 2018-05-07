@@ -102,8 +102,8 @@ namespace RTWTR.MVC
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddScoped<IVariableProvider, EnvironmentVariableProvider>();
             services.AddScoped<IHeaderGenerator, HeaderGenerator>();
-            services.AddScoped<IEncoder, TokenEncoder>();
-            services.AddScoped<IApiProvider, TwitterApiProvider>();
+            services.AddSingleton<IEncoder, TokenEncoder>();
+            services.AddSingleton<IApiProvider, TwitterApiProvider>();
             services.AddScoped<ITwitterService, TwitterService>();
             services.AddScoped<IJsonProvider, JsonProvider>();
             services.AddScoped<IUserService, UserService>();
