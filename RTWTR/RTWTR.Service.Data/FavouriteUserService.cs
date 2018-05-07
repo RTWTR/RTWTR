@@ -65,8 +65,7 @@ namespace RTWTR.Service.Data
                     .AllAndDeleted
                     .SingleOrDefault(x =>
                         x.UserId.Equals(user.Id)
-                        &&
-                        x.TwitterUserId.Equals(twitterUser.Id)
+                        && x.TwitterUserId.Equals(twitterUser.Id)
                     );
 
                 userTwitterUser.IsDeleted = false;
@@ -114,8 +113,7 @@ namespace RTWTR.Service.Data
                 .All
                 .SingleOrDefault(x =>
                     x.UserId.Equals(user.Id)
-                    &&
-                    x.TwitterUserId.Equals(twitterUser.Id)
+                    && x.TwitterUserId.Equals(twitterUser.Id)
                 );
 
             userTwitterUsers.Delete(userTwitterUserToRemove);
@@ -144,8 +142,7 @@ namespace RTWTR.Service.Data
                 .All
                 .Any(x =>
                     x.TwitterUserId.Equals(twitterUserId)
-                    && 
-                    x.UserId.Equals(userId)
+                    && x.UserId.Equals(userId)
                 );
         }
 
@@ -155,8 +152,7 @@ namespace RTWTR.Service.Data
                 .AllAndDeleted
                 .SingleOrDefault(x =>
                     x.TwitterUserId.Equals(twitterUserId)
-                    &&
-                    x.UserId.Equals(userId)
+                    && x.UserId.Equals(userId)
                 );
 
             return entity.IsDeleted;
@@ -168,8 +164,7 @@ namespace RTWTR.Service.Data
                 .AllAndDeleted
                 .Any(x =>
                     x.TwitterUserId.Equals(twitterUserId)
-                    &&
-                    x.UserId.Equals(userId)
+                    && x.UserId.Equals(userId)
                 );
         }
     }

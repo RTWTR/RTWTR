@@ -11,9 +11,7 @@
         })
         .done(function () {
             debugger;
-            var id = $(".ajax-call.active").attr("id");
-
-            console.log(id);
+            var id = $this.attr("id");
 
             var active = $(".ajax-call.active." + id);
             var hidden = $(".ajax-call.hidden." + id);

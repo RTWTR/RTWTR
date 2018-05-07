@@ -5,6 +5,7 @@
 // using Moq;
 // using RTWTR.Data.Access.Contracts;
 // using RTWTR.Data.Models;
+// using RTWTR.DTO;
 // using RTWTR.Infrastructure.Exceptions;
 // using RTWTR.Infrastructure.Mapping.Provider;
 
@@ -15,158 +16,69 @@
 //     {
 //         private Mock<ISaver> saverStub;
 //         private Mock<IMappingProvider> mapperStub;
-//         private Mock<IRepository<User>> userRepositoryStub;
-//         private Mock<IRepository<TwitterUser>> twitterUserRepositoryStub;
 //         private Mock<IRepository<UserTwitterUser>> userTwitterUserRepositoryStub;
+//         private UserDTO userDtoStub;
+//         private TwitterUserDto twitterUserDtoStub;
 
 //         [TestInitialize]
 //         public void TestInitialize()
 //         {
 //             this.saverStub = new Mock<ISaver>();
 //             this.mapperStub = new Mock<IMappingProvider>();
-//             this.userRepositoryStub = new Mock<IRepository<User>>();
-//             this.twitterUserRepositoryStub = new Mock<IRepository<TwitterUser>>();
 //             this.userTwitterUserRepositoryStub = new Mock<IRepository<UserTwitterUser>>();
+//             this.userDtoStub = new UserDTO();
+//             this.twitterUserDtoStub = new TwitterUserDto();
 //         }
 
 //         [TestMethod]
-//         public void Throw_InvalidUserIdException_When_UserIdIsNull()
+//         public void Throw_NullUserException_When_UserIdIsNull()
 //         {
 //             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
 //                 this.saverStub.Object,
 //                 this.mapperStub.Object,
-//                 this.userRepositoryStub.Object,
-//                 this.twitterUserRepositoryStub.Object,
-//                 this.userTwitterUserRepositoryStub.Object
-//             );
-
-//             Assert.ThrowsException<InvalidUserIdException>(() =>
-//             {
-//                 favouriteUserService.AddTwitterUserToFavourites(null, "twitterUserId");
-//             });
-//         }
-
-//         [TestMethod]
-//         public void Throw_InvalidUserIdException_When_UserIdIsEmpty()
-//         {
-//             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
-//                 this.saverStub.Object,
-//                 this.mapperStub.Object,
-//                 this.userRepositoryStub.Object,
-//                 this.twitterUserRepositoryStub.Object,
-//                 this.userTwitterUserRepositoryStub.Object
-//             );
-
-//             Assert.ThrowsException<InvalidUserIdException>(() =>
-//             {
-//                 favouriteUserService.AddTwitterUserToFavourites(" ", "twitterUserId");
-//             });
-//         }
-
-//         [TestMethod]
-//         public void Throw_InvalidTwitterUserIdException_When_TwitterUserIdIsNull()
-//         {
-//             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
-//                 this.saverStub.Object,
-//                 this.mapperStub.Object,
-//                 this.userRepositoryStub.Object,
-//                 this.twitterUserRepositoryStub.Object,
-//                 this.userTwitterUserRepositoryStub.Object
-//             );
-
-//             Assert.ThrowsException<InvalidTwitterUserIdException>(() =>
-//             {
-//                 favouriteUserService.AddTwitterUserToFavourites("userId", null);
-//             });
-//         }
-
-//         [TestMethod]
-//         public void Throw_InvalidTwitterUserIdException_When_TwitterUserIdIsEmpty()
-//         {
-//             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
-//                 this.saverStub.Object,
-//                 this.mapperStub.Object,
-//                 this.userRepositoryStub.Object,
-//                 this.twitterUserRepositoryStub.Object,
-//                 this.userTwitterUserRepositoryStub.Object
-//             );
-
-//             Assert.ThrowsException<InvalidTwitterUserIdException>(() =>
-//             {
-//                 favouriteUserService.AddTwitterUserToFavourites("userId", " ");
-//             });
-//         }
-
-//         [TestMethod]
-//         public void Throw_NullUserException_When_UserIsNotFound()
-//         {
-//             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
-//                 this.saverStub.Object,
-//                 this.mapperStub.Object,
-//                 this.userRepositoryStub.Object,
-//                 this.twitterUserRepositoryStub.Object,
 //                 this.userTwitterUserRepositoryStub.Object
 //             );
 
 //             Assert.ThrowsException<NullUserException>(() =>
 //             {
-//                 favouriteUserService.AddTwitterUserToFavourites("userId", "twitterId");
+//                 favouriteUserService.AddTwitterUserToFavourites(null, this.twitterUserDtoStub);
 //             });
 //         }
 
 //         [TestMethod]
-//         public void Throw_NullTwitterUserException_When_TwitterUserIsNotFound()
+//         public void Throw_NullTwitterUserException_When_TwitterUserIdIsNull()
 //         {
-//             this.userRepositoryStub
-//                 .Setup(x => x.All)
-//                 .Returns(
-//                     new List<User>()
-//                     {
-//                         new User() { Id = "userId" }
-//                     }.AsQueryable()
-//                 );
-
 //             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
 //                 this.saverStub.Object,
 //                 this.mapperStub.Object,
-//                 this.userRepositoryStub.Object,
-//                 this.twitterUserRepositoryStub.Object,
 //                 this.userTwitterUserRepositoryStub.Object
 //             );
 
 //             Assert.ThrowsException<NullTwitterUserException>(() =>
 //             {
-//                 favouriteUserService.AddTwitterUserToFavourites("userId", "twitterId");
+//                 favouriteUserService.AddTwitterUserToFavourites(this.userDtoStub, null);
 //             });
 //         }
 
 //         [TestMethod]
 //         public void Call_UserRepository_All_Once()
 //         {
-//             this.userRepositoryStub
+//             this.userTwitterUserRepositoryStub
 //                 .Setup(x => x.All)
 //                 .Returns(
-//                     new List<User>()
+//                     new List<UserTwitterUser>()
 //                     {
-//                         new User() { Id = "userId" }
+//                         new UserTwitterUser() { UserId = "userId", TwitterUserId = "twitterUserId" }
 //                     }.AsQueryable()
 //                 )
 //                 .Verifiable();
-            
-//             this.twitterUserRepositoryStub
-//                 .Setup(x => x.All)
-//                 .Returns(
-//                     new List<TwitterUser>()
-//                     {
-//                         new TwitterUser() { Id = "twitterUserId" }
-//                     }.AsQueryable()
-//                 );
+
+//             this.mapperStub
+//                 .Setup(x => x.MapTo)
 
 //             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
 //                 this.saverStub.Object,
 //                 this.mapperStub.Object,
-//                 this.userRepositoryStub.Object,
-//                 this.twitterUserRepositoryStub.Object,
 //                 this.userTwitterUserRepositoryStub.Object
 //             );
 
@@ -203,8 +115,6 @@
 //             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
 //                 this.saverStub.Object,
 //                 this.mapperStub.Object,
-//                 this.userRepositoryStub.Object,
-//                 this.twitterUserRepositoryStub.Object,
 //                 this.userTwitterUserRepositoryStub.Object
 //             );
 
@@ -244,8 +154,6 @@
 //             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
 //                 this.saverStub.Object,
 //                 this.mapperStub.Object,
-//                 this.userRepositoryStub.Object,
-//                 this.twitterUserRepositoryStub.Object,
 //                 this.userTwitterUserRepositoryStub.Object
 //             );
 
@@ -286,8 +194,6 @@
 //             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
 //                 this.saverStub.Object,
 //                 this.mapperStub.Object,
-//                 this.userRepositoryStub.Object,
-//                 this.twitterUserRepositoryStub.Object,
 //                 this.userTwitterUserRepositoryStub.Object
 //             );
 
@@ -327,8 +233,6 @@
 //             var favouriteUserService = new global::RTWTR.Service.Data.FavouriteUserService(
 //                 this.saverStub.Object,
 //                 this.mapperStub.Object,
-//                 this.userRepositoryStub.Object,
-//                 this.twitterUserRepositoryStub.Object,
 //                 this.userTwitterUserRepositoryStub.Object
 //             );
 
