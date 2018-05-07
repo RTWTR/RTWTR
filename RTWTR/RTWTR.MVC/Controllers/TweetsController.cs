@@ -85,7 +85,7 @@ namespace RTWTR.MVC.Controllers
 
                 return View(model);
             }
-            catch (Exception e)
+            catch
             {
                 ViewData ["Error"] = screenName;
                 return View("FailedSearch", "Users");
