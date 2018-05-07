@@ -1,6 +1,6 @@
 ﻿@model TweetViewModel
 
-<div class="container">
+<!-- <div class="container">
     <div id="avatar">
         <img src="@Model.TwitterUserProfileImageUrl" />
     </div>
@@ -37,4 +37,34 @@
         <a class="btn btn-sm btn-default" href="https://twitter.com/intent/retweet?tweet_id=@Model.Id">Retweet</a>
         
     </div>
-</div>
+</div> -->
+
+<blockquote class="twitter-tweet align-left">
+    <div class="container">
+        <img class="avatar" src="@Model.TwitterUserProfileImageUrl" />
+        <div class="content col-sm-offset-1">
+            <div class="name">@Model.TwitterUserName</div>
+            <div class="screenName">
+                <a asp-controller="Users" asp-action="ShowUser" asp-route-screenname="@Model.TwitterUserScreenName">@@@Model.TwitterUserScreenName</a>
+            </div>
+            <div class="text">
+                <p>@Model.Text</p>
+            </div>
+
+            @if (@Model.IsFavourite)
+            {
+                <form class="ajax-call ajax-remove" asp-controller="Tweets" asp-action="RemoveTweetFromFavourites" asp-route-tweetid="@Model.Id">
+                    <button class="btn btn-danger" type="submit">Remove From Favourites</button>
+                </form>
+            }
+            else
+            {
+                <form class="ajax-call ajax-add" asp-controller="Tweets" asp-action="AddTweetToFavourites" asp-route-tweetid="@Model.Id">
+                    <button class="btn btn-primary" type="submit">Add To Favourites</button>
+                </form>
+            }
+
+            <a class="btn btn-sm btn-default" href="https://twitter.com/intent/retweet?tweet_id=@Model.Id">Retweet</a>
+        </div>
+    </div>
+</blockquote>

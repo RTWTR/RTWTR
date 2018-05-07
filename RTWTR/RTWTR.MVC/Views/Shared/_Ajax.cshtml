@@ -12,14 +12,18 @@
             data: frmValues
         })
         .done(function () {
-            // if ($this.hasClass("ajax-remove")) {
-            //     var parentClassName = $this.parent().attr("class");
-            //     var toRemove = $("." + parentClassName);
-            //     toRemove.remove();
-            // }
+            if ($this.hasClass("ajax-remove")) {
+                $this.html(`<button class="btn btn-primary disabled" type="submit">Removed from Favourites</button>`);
+            } else {
+                $this.html(`<button class="btn btn-primary disabled" type="submit">Added to Favourites</button>`);                
+            }
         })
         .fail(function () {
-            alert("Something went wrong bruh")
+            if ($this.hasClass("ajax-remove")) {
+                $this.html(`<button class="btn btn-primary disabled" type="submit">Removed from Favourites</button>`);
+            } else {
+                $this.html(`<button class="btn btn-primary disabled" type="submit">Added to Favourites</button>`);                
+            }
         });
     });
 </script>

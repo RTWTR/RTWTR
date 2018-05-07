@@ -28,6 +28,8 @@ namespace RTWTR.Service.Twitter
 
             this.encoder = encoder ??
                 throw new ArgumentNullException(nameof(encoder));
+
+            this.SetBearerToken().Wait();
         }
 
         public async Task<string> GetJSON(string url)

@@ -81,19 +81,14 @@ namespace RTWTR.MVC.Controllers
                     Timeline = this.mapper.MapTo<List<TweetViewModel>>(timeline)
                 };
 
-                model.User.IsFavourite = 
-                    (this.favouriteUserService.IsFavourite(userId, twitterUser.Id))
-                    &&
-                    (!this.favouriteUserService.IsDeleted(userId, twitterUser.Id));
-
-                model.Timeline.Select(x => { x.IsFavourite = this.tweetService.IsFavourite(x.Id, userId); return x; });
+                model.User.IsFavourite = (this.favouriteUserService.IsFavourite(userId, twitterUser.Id));
 
                 return View(model);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw e;
+                ViewData ["Error"] = screenName;
+                return View("FailedSearch", "Users");
             }
         }
  
@@ -178,7 +173,7 @@ namespace RTWTR.MVC.Controllers
 
                 // Set cache for 60 seconds.
                 var cacheOptions = new MemoryCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromSeconds(60));
+                    .SetAbsoluteExpiration(TimeSpan.FromSeconds(90));
 
                 // Save data.
                 memoryCache.Set(screenName, timeline, cacheOptions);
