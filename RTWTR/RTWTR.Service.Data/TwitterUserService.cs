@@ -28,7 +28,7 @@ namespace RTWTR.Service.Data
             }
 
             // TODO: Maybe switch TwitterId to Id?
-            var twitterUser = twitterUsers.All.FirstOrDefault(x => x.TwitterId == twitterUserId);
+            var twitterUser = twitterUsers.All.SingleOrDefault(x => x.TwitterId == twitterUserId);
 
             return mapper.MapTo<TwitterUserDto>(twitterUser);
         }
@@ -40,7 +40,7 @@ namespace RTWTR.Service.Data
                 return null;
             }
 
-            var twitterUser = twitterUsers.All.FirstOrDefault(x => x.ScreenName == screenName);
+            var twitterUser = twitterUsers.All.SingleOrDefault(x => x.ScreenName == screenName);
 
             return mapper.MapTo<TwitterUserDto>(twitterUser);
         }

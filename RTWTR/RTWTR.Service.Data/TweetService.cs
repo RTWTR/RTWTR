@@ -70,7 +70,7 @@ namespace RTWTR.Service.Data
             return this.tweets.AllAndDeleted.Count();
         }
 
-        public int SaveTweet(TweetDto tweetDto)
+        public int SaveTweet(TweetDto tweetDto, TwitterUserDto twitterUser)
         {
             if (tweetDto == null)
             {
@@ -83,10 +83,10 @@ namespace RTWTR.Service.Data
             }
 
             var tweet = this.mappingProvider.MapTo<Tweet>(tweetDto);
-            var user = this.mappingProvider.MapTo<TwitterUser>(tweetDto.TwitterUser);
+            var user = this.mappingProvider.MapTo<TwitterUser>(twitterUser);
 
             tweet.TwitterUser = user;
-            tweet.TwitterUserId = user.TwitterId;
+            tweet.TwitterUserId = user.Id;
             tweet.RetweetCount = 0;
 
             //var tweetToAdd = new Tweet

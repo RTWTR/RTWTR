@@ -18,7 +18,7 @@ namespace RTWTR.Service.Data.Contracts
 
         int GetAllAndDeletedTweetsCount();
 
-        int SaveTweet(TweetDto tweetToSave);
+        int SaveTweet(TweetDto tweetToSave, TwitterUserDto twitterUser);
 
         int AddTweetToFavourites(string tweetId, UserDTO userDto);
 

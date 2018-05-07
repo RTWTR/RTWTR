@@ -83,6 +83,12 @@ namespace RTWTR.MVC.Controllers
 
                 model.User.IsFavourite = (this.favouriteUserService.IsFavourite(userId, twitterUser.Id));
 
+                // TODO: Find a faster way to do this
+                foreach (var tweet in model.Timeline)
+                {
+                    tweet.IsFavourite = this.tweetService.IsFavourite(tweet.Id, userId);
+                }
+
                 return View(model);
             }
             catch
@@ -109,7 +115,7 @@ namespace RTWTR.MVC.Controllers
 
                 return Ok();
             }
-            catch
+            catch (Exception e)
             {
                 return StatusCode(400);
             }
@@ -157,7 +163,10 @@ namespace RTWTR.MVC.Controllers
                 var tweetToSave = await this.twitterService
                     .GetSingleTweetAsync(tweetId);
 
-                this.tweetService.SaveTweet(tweetToSave);
+                var twitterUser = this.twitterUserService
+                    .GetTwitterUserByScreenName(tweetToSave.TwitterUser.ScreenName);
+
+                this.tweetService.SaveTweet(tweetToSave, twitterUser);
             }
         }
 

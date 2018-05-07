@@ -10,7 +10,10 @@
             data: frmValues
         })
         .done(function () {
-            var id = $this.attr("id");
+            debugger;
+            var id = $(".ajax-call.active").attr("id");
+
+            console.log(id);
 
             var active = $(".ajax-call.active." + id);
             var hidden = $(".ajax-call.hidden." + id);
