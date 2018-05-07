@@ -1,23 +1,31 @@
 ﻿using RTWTR.Data.Models.Abstractions;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RTWTR.Data.Models
 {
     public class Tweet : DataModel
     {
+        [Required]
         public string TwitterId { get; set; }
 
+        [Required]
         public string Text { get; set; }
 
+        [Required]
         public string TwitterUserId { get; set; }
 
+        [Required]
         public TwitterUser TwitterUser { get; set; }
 
         // Comes from the Twitter JSON
         // NOT the same as CreatedOn from DataModel
+        [Required]
         public string CreatedAt { get; set; }
 
-        public string InReplyToScreenName { get; set; } 
+        public string InReplyToScreenName { get; set; }
+
+        public int? RetweetCount { get; set; }
 
         public ICollection<Tweet> Retweets { get; set; }
 
