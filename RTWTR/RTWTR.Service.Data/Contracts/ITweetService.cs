@@ -30,6 +30,8 @@ namespace RTWTR.Service.Data.Contracts
 
         int Retweet(string tweetId);
 
+        int RetweetCount();
+
         bool IsFavourite(string tweetId, string userId);
 
         bool IsDeleted(string tweetId, string userId);

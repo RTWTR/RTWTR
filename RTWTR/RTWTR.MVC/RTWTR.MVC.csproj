@@ -29,8 +29,4 @@
     <ProjectReference Include="..\RTWTR.Data.Access\RTWTR.Data.Access.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Administration\Models\" />
-  </ItemGroup>
-
 </Project>

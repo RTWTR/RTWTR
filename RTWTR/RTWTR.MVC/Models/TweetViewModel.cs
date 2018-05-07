@@ -9,7 +9,7 @@ namespace RTWTR.MVC.Models
         public string Id { get; set; }
 
         // ID for RTWTR
-        public string AppId { get; set; }
+        public string TwitterId { get; set; }
 
         public string CreatedAt { get; set; }
 

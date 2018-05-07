@@ -1,0 +1,29 @@
+﻿@model ShowAllTweetsModel
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="col-sm-4 text-center">TweetId</th> 
+            <th scope="col" class="col-sm-2 text-center">Created At</th>
+            <th scope="col" class="col-sm-2 text-center">By User</th>
+            <th scope="col" class="col-sm-2 text-center">Details</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var tweet in @Model.Tweets)
+    {
+        <tr>
+                <td class="text-center">@tweet.Id</td>
+                <td class="text-center">@tweet.CreatedAt</td>
+                <td class="text-center">@tweet.TwitterUserScreenName</td>
+
+                <td class="text-center">
+                    <a asp-area="Administration" asp-controller="Tweets" asp-action="ShowTweetDetails" asp-route-tweetId=@tweet.Id>View</a>
+                </td>
+            
+        </tr>
+    }
+    </tbody>
+</table>

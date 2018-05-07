@@ -251,6 +251,20 @@ namespace RTWTR.Service.Data
             return this.saver.SaveChanges();
         }
 
+        public int RetweetCount()
+        {
+            var listOfTweets = this.tweets.All;
+
+            int sum = 0;
+
+            foreach (var retweets in listOfTweets)
+            {
+                sum += retweets.RetweetCount ?? 0;
+            }
+
+            return sum;
+        }
+
         public bool IsFavourite(string tweetId, string userId)
         {
             return this.userTweets

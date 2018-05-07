@@ -25,7 +25,7 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-fixed-top">
         <div class="container-fluid container-fluid-admin-cst">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -39,20 +39,17 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="Administration" asp-controller="Users" asp-action="ShowAllUsers">Users</a></li>
-                    <li><a asp-area="Administration" asp-controller="Users" asp-action="ShowAllTweets">Tweets</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">RTWTR</a></li>
+                    <li><a asp-area="Administration" asp-controller="Tweets" asp-action="ShowAllTweets">Tweets</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Back to RTWTR</a></li>
                 </ul>
-                @await Html.PartialAsync("_LoginPartial")
+                
             </div>
         </div>
     </nav>
     <div class="container-fluid body-content container-fluid-admin-cst">
         @RenderBody()
         <hr />
-        
-        <footer>
-            <p>&copy; 2018 - RTWTR</p>
-        </footer>
+       
     </div>
 
     <!-- Development -->
