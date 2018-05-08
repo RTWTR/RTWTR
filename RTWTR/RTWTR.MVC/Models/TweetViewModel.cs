@@ -5,7 +5,6 @@ namespace RTWTR.MVC.Models
 {
     public class TweetViewModel
     {
-        // TODO: Check later
         public string Id { get; set; }
 
         public string TwitterId { get; set; }

@@ -58,7 +58,8 @@ namespace RTWTR.Service.Data
                 if (!this.IsDeleted(user.Id, twitterUser.Id))
                 {
                     // TODO: throw adequate exception
-                    return -1;
+                    throw new ArgumentException();
+                    // return -1;
                 }
 
                 userTwitterUser = this.userTwitterUsers
@@ -106,7 +107,8 @@ namespace RTWTR.Service.Data
             if (!IsFavourite(user.Id, twitterUser.Id))
             {
                 // TODO: throw adequate exception
-                return -1;
+                throw new ArgumentException();
+                // return -1;
             }
 
             var userTwitterUserToRemove = this.userTwitterUsers

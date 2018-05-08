@@ -17,7 +17,6 @@
         <div class ="text">@Model.Description</div>
     </div>
 
-    <!-- TODO: Make is so it shows Remove from favourites when hovered -->
     @if (@Model.IsFavourite)
     {
         <form id="@Model.Id" class="ajax-call hidden @Model.Id" asp-controller="Users" asp-action="AddToFavourites" asp-route-screenname="@Model.ScreenName" method="POST">

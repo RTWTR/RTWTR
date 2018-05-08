@@ -155,12 +155,6 @@ namespace RTWTR.MVC.Controllers
             return View(model);
         }
 
-        // TODO: Maybe remove?
-        public async Task<string> GetHTMLASync(string id)
-        {
-            return await this.twitterService.GetHTMLAsync(id);
-        }
-
         private async Task<TwitterUserDto> GetTwitterUserDtoAsync(string screenName)
         {
             var model = this.twitterUserService.GetTwitterUserByScreenName(screenName);

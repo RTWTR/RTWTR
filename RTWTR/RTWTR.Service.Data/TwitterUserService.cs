@@ -27,7 +27,6 @@ namespace RTWTR.Service.Data
                 return null;
             }
 
-            // TODO: Maybe switch TwitterId to Id?
             var twitterUser = twitterUsers.All.SingleOrDefault(x => x.TwitterId == twitterUserId);
 
             return mapper.MapTo<TwitterUserDto>(twitterUser);

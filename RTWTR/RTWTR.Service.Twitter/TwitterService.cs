@@ -132,13 +132,12 @@ namespace RTWTR.Service.Twitter
             return this.jsonProvider.DeserializeObject<List<TweetDto>>(response);
         }
 
-        // TODO: Check this later
-        public async Task<string> SearchUserJSONAsync(string handle)
+        public async Task<string> SearchUserJSONAsync(string screenName)
         {
             string url = string.Concat(
                 this.baseUrl,
                 $"users/lookup.json?screen_name=",
-                handle
+                screenName
             );
 
             var response = await this.GetRequestJsonAsync(url);
@@ -151,9 +150,9 @@ namespace RTWTR.Service.Twitter
             return response;
         }
 
-        public async Task<TwitterUserDto> SearchUserAsync(string handle)
+        public async Task<TwitterUserDto> SearchUserAsync(string screenName)
         {
-            var response = await this.SearchUserJSONAsync(handle);
+            var response = await this.SearchUserJSONAsync(screenName);
 
             if (response == string.Empty)
             {

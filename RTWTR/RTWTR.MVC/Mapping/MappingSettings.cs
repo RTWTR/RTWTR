@@ -10,7 +10,6 @@ namespace RTWTR.MVC.Mapping
     {
         public MappingSettings()
         {
-            // TODO: Maybe fill this?
             this.CreateMap<TwitterUserDto, TwitterUserViewModel>(MemberList.Source).ReverseMap();
 
             this.CreateMap<UserDTO, User>(MemberList.Source).ReverseMap();
