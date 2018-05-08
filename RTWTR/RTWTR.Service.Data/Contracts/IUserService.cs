@@ -22,5 +22,7 @@ namespace RTWTR.Service.Data.Contracts
         int DeleteUser(string userId);
 
         int DeleteUser(User user);
+
+        bool IsDeleted(string userId);
     }
 }

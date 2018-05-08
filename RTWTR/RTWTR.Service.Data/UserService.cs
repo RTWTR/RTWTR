@@ -110,5 +110,18 @@ namespace RTWTR.Service.Data
 
             return this.saver.SaveChanges();
         }
+
+        public bool IsDeleted(string userId)
+        {
+            if (!this.users.Exists(userId))
+            {
+                throw new NullUserException();
+            }
+
+            return this.users
+                .AllAndDeleted
+                .SingleOrDefault(x => x.Id.Equals(userId))
+                .IsDeleted;
+        }
     }
 }

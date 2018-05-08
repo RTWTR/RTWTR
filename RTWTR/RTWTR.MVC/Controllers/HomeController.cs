@@ -4,9 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RTWTR.Data.Models;
 using RTWTR.Infrastructure.Mapping.Provider;
 using RTWTR.MVC.Models;
+using RTWTR.Service.Data.Contracts;
 using RTWTR.Service.Twitter;
 using RTWTR.Service.Twitter.Contracts;
 
@@ -15,37 +18,51 @@ namespace RTWTR.MVC.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly ITwitterService twitterService;
-        private readonly IMappingProvider mapper;
+        private ITwitterService twitterService;
+        private IUserService userService;
+        private UserManager<User> userManager;
+        private IMappingProvider mapper;
 
-        public HomeController(ITwitterService twitterService, IMappingProvider mapper)
+        public HomeController(
+            ITwitterService twitterService,
+            IUserService userService,
+            UserManager<User> userManager,
+            IMappingProvider mapper)
         {
-            this.twitterService = twitterService;
-            this.mapper = mapper;
+            this.twitterService = twitterService ?? throw new ArgumentNullException(nameof(twitterService));
+            this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
         
         public IActionResult Index()
         {
+            var userId = this.userManager.GetUserId(User);
+
+            if (this.userService.IsDeleted(userId))
+            {
+                return RedirectToAction("Error");
+            }
             return RedirectToAction("ShowUserFavouriteTweets", "Tweets");
         }
 
-        public async Task<IActionResult> Timeline(string twitterUserId)
-        {
-            int tweetsCount = 30;
+        // public async Task<IActionResult> Timeline(string twitterUserId)
+        // {
+        //     int tweetsCount = 30;
 
-            var tweets =  await twitterService.GetUserTimelineAsync(twitterUserId, tweetsCount);
+        //     var tweets =  await twitterService.GetUserTimelineAsync(twitterUserId, tweetsCount);
 
-            var model = new TimelineViewModel
-            {
-                Tweets = tweets.Select(t=> this.mapper.MapTo<TweetViewModel>(t)).ToList()
-            };
+        //     var model = new TimelineViewModel
+        //     {
+        //         Tweets = tweets.Select(t=> this.mapper.MapTo<TweetViewModel>(t)).ToList()
+        //     };
 
-            return View(model);
-        }
+        //     return View(model);
+        // }
 
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
 
         // private bool IsLoggedIn()
