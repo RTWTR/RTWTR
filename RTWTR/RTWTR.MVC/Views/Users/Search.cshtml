@@ -1,0 +1,19 @@
+﻿@using RTWTR.MVC.Models
+@model TwitterUserViewModel
+
+@{
+    var url = $"https://twitter.com/{Model.ScreenName.Replace("_normal", "")}";
+}
+
+@section Timeline {
+    <div class="container">
+        <br />
+        <div>
+            @await Html.PartialAsync("_UserPartial")
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @await Html.PartialAsync("_Ajax")
+}

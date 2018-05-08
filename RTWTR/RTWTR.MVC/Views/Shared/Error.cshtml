@@ -1,0 +1,22 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+@section Timeline{
+    <div class="modal show" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-body">
+            <h2>Your account has been Suspended or Deleted!</h2>
+            <h3>Please, contact the Administrator to find out more</h3>
+        </div>
+        <div class="modal-footer">
+            <form asp-controller="Account" asp-action="Logout" method="POST">
+                <button class="btn btn-primary" type="submit">Log Out</button>
+            </form>
+        </div>
+        </div>
+    </div>
+    </div>
+}

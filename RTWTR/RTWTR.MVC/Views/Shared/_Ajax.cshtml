@@ -1,0 +1,29 @@
+<script>
+    $(".ajax-call").on("submit", function (event) {
+        event.preventDefault();
+
+        var $this = $(this);
+        var frmValues = $this.serialize();
+        $.ajax({
+            type: $this.attr("method"),
+            url: $this.attr("action"),
+            data: frmValues
+        })
+        .done(function () {
+            
+            var id = $this.attr("id");
+
+            var active = $(".ajax-call.active." + id);
+            var hidden = $(".ajax-call.hidden." + id);
+
+            active.removeClass("active");
+            active.addClass("hidden");
+
+            hidden.removeClass("hidden");
+            hidden.addClass("active");
+        })
+        .fail(function () {
+            alert("You do not have the permission to do that!");
+        });
+    });
+</script>

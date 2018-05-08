@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>aspnet-RTWTR.MVC-A10607DE-F23A-40CC-8C25-405C04734F71</UserSecretsId>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.2" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.1" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RTWTR.Data\RTWTR.Data.csproj" />
+    <ProjectReference Include="..\RTWTR.Infrastructure\RTWTR.Infrastructure.csproj" />
+    <ProjectReference Include="..\RTWTR.Service.Data\RTWTR.Service.Data.csproj" />
+    <ProjectReference Include="..\RTWTR.Service.External\RTWTR.Service.External.csproj" />
+    <ProjectReference Include="..\RTWTR.Service.Twitter\RTWTR.Service.Twitter.csproj" />
+    <ProjectReference Include="..\RTWTR.Infrastructure\RTWTR.Infrastructure.csproj" />
+    <ProjectReference Include="..\RTWTR.Data.Access\RTWTR.Data.Access.csproj" />
+  </ItemGroup>
+
+</Project>

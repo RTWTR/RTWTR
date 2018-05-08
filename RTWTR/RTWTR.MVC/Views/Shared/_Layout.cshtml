@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+    <title>@ViewData["Title"]</title>
+</head>
+
+<body>
+    <div id="page">
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+
+            <div class="navbar-header ">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".collapsable">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse collapsable col-sm-offset-1">
+
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a asp-controller="Manage" asp-action="Index" class="btn btn-lg">
+                            <span class="glyphicon glyphicon-user"></span>
+                        </a>
+                    </li>  
+                </ul>
+                <div class="col-sm-3 col-sm-3 pull-right"> 
+                    <form asp-controller="Users" asp-action="Search" role="search" method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search" name="screenName" id="srch-term">
+                            <div class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            </div>
+                            <div class="suggestions hidden">
+                                <ul class="suggest-list list-unstyled"></ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class=" col-sm-offset-5">
+                <a asp-controller="Home" asp-action="Index"><img id="logo" src="~/images/logo.png" alt="RTWTR" /></a>
+            </div>
+        </div>
+
+        <section id="container-main" class="container">
+            <div class="row">
+                <div class="col-sm-offset-1 col-sm-2 text-left fixed">
+                    <div class="panel" id="urltotweet-dashboard">
+                        @await Html.PartialAsync("_UrlToTweetPartial")
+
+                    </div>
+                    <div class ="panel" id="stats-dashboard">
+                        @RenderSection("StatsDashboard",false)
+                    </div>
+
+                </div>
+                <div class="col-sm-offset-3 col-sm-6 centered">
+                    <div class="panel" id="timeline">
+                        @RenderSection("Timeline", false)
+                    </div>
+                </div>
+                <div class="col-sm-offset-9 col-sm-2 text-right fixed">
+                    <div class="panel" id="footer">
+                        @await Html.PartialAsync("_FooterViewPartial")
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+
+    <!-- Development -->
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+    <!-- Production -->
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>
