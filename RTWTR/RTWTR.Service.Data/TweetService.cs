@@ -203,6 +203,7 @@ namespace RTWTR.Service.Data
                 .All
                 .Where(x => x.UserId.Equals(userId))
                 .Select(x => x.Tweet)
+                .OrderByDescending(x => x.CreatedOn)
                 .Include(x => x.TwitterUser)
                 .ToList();
 

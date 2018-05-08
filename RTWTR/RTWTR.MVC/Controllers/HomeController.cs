@@ -26,7 +26,7 @@ namespace RTWTR.MVC.Controllers
         
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("ShowUserFavouriteTweets", "Tweets");
         }
 
         public async Task<IActionResult> Timeline(string twitterUserId)
@@ -48,19 +48,19 @@ namespace RTWTR.MVC.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private bool IsLoggedIn()
-        {
-            return HttpContext.User.Identity.IsAuthenticated;
-        }
+        // private bool IsLoggedIn()
+        // {
+        //     return HttpContext.User.Identity.IsAuthenticated;
+        // }
 
-        private IActionResult Validate()
-        {
-            if (!this.IsLoggedIn())
-            {
-               return RedirectToAction("Login", "Account");
-            }
+        // private IActionResult Validate()
+        // {
+        //     if (!this.IsLoggedIn())
+        //     {
+        //        return RedirectToAction("Login", "Account");
+        //     }
 
-            return View();
-        }
+        //     return View();
+        // }
     }
 }

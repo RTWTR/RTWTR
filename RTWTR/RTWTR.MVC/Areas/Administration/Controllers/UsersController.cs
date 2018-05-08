@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RTWTR.Data.Models;
 using RTWTR.Infrastructure;
+using RTWTR.Infrastructure.Exceptions;
 using RTWTR.Infrastructure.Mapping.Provider;
 using RTWTR.MVC.Areas.Administration.Models;
 using RTWTR.MVC.Models;
@@ -111,6 +112,13 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
         {
             try
             {
+                var currentUserId = this.userManager.GetUserId(User);
+
+                if (userId.Equals(currentUserId))
+                {
+                    throw new InvalidUserIdException();
+                }
+
                 this.userService.DeleteUser(userId);
 
                 return Ok();

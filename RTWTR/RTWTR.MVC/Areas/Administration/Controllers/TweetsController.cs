@@ -18,7 +18,6 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
         private ITweetService tweetService;
         private IMappingProvider mapper;
 
-
         public TweetsController(ITweetService tweetService, IMappingProvider mapper)
         {
             this.tweetService = tweetService ?? throw new ArgumentNullException(nameof(tweetService));
@@ -26,11 +25,10 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
 
         }
 
-
         [Route("Administration/Tweets/All/")]
         public IActionResult ShowAllTweets()
         {
-            var tweets = this.tweetService.GetAllTweets();
+            var tweets = this.tweetService.GetAllAndDeletedTweets();
 
             var model = new ShowAllTweetsModel()
             {
@@ -47,17 +45,16 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
                     Text = tweet.Text,
                     TwitterUserName = tweet.TwitterUser.ScreenName,
                     TwitterUserProfileImageUrl = tweet.TwitterUser.ProfileImageUrl,
-                    
+
                 };
 
                 model.Tweets.Add(tweetToAdd);
             }
-            
 
             return View(model);
         }
 
-        [Route("Administration/Tweets/")]
+        [Route("Administration/Tweets/Details/")]
         public IActionResult ShowTweetDetails(string tweetId)
         {
             var tweet = this.tweetService.GetTweetById(tweetId);
@@ -74,7 +71,5 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
 
             return View(model);
         }
-
-
     }
 }

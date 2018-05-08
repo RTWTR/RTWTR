@@ -94,7 +94,7 @@ namespace RTWTR.Service.Data
         {
             var user = this.users
                 .All
-                .FirstOrDefault(x => x.Id == userId);
+                .SingleOrDefault(x => x.Id == userId);
 
             return this.DeleteUser(user);
         }
