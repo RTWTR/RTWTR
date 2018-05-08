@@ -24,7 +24,7 @@ namespace RTWTR.MVC.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly RTWTR.Service.External.IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
 
@@ -34,7 +34,7 @@ namespace RTWTR.MVC.Controllers
         public ManageController(
           UserManager<User> userManager,
           SignInManager<User> signInManager,
-          IEmailSender emailSender,
+          RTWTR.Service.External.IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder)
         {
@@ -126,7 +126,7 @@ namespace RTWTR.MVC.Controllers
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
             var email = user.Email;
-            await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
+            // await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 
             StatusMessage = "Verification email sent. Please check your email.";
             return RedirectToAction(nameof(Index));

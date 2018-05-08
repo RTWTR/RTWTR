@@ -187,12 +187,12 @@ namespace RTWTR.MVC.Controllers
 
             return timeline;
         }
-
+        
         public IActionResult Retweet(string tweetId)
         {
             this.tweetService.Retweet(tweetId);
 
-            return Ok();
+           return Redirect($"https://twitter.com/intent/retweet?tweet_id={tweetId}");
         }
 
     }

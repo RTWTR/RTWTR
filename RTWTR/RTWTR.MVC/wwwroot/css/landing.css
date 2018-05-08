@@ -6,8 +6,7 @@ body {
 
 /* General */
 
-ol,
-ul {
+ol, ul {
   /* margin-left: -40px;
   margin-bottom: 20px; */
   list-style-type: none;
@@ -37,7 +36,7 @@ ul {
 #inner-form {
   position: relative;
   top: 50%;
-  transform: translateY(-55%);
+  transform:  translateY(-55%);
 }
 
 h1 .title {
@@ -85,17 +84,17 @@ li a {
   padding-left: 32px;
 }
 
-.nav-pills>li.active>a,
-.nav-pills>li.active>a:focus {
+.nav-pills > li.active > a, 
+.nav-pills > li.active > a:focus {
   background-color: #1da1f2;
 }
 
-.nav>li>a:hover {
+.nav > li > a:hover {
   color: #1da1f2;
   background-color: #ffffff;
 }
 
-.nav-pills>li.active>a:hover {
+.nav-pills > li.active > a:hover {
   background: #1da1f2;
 }
 
@@ -186,46 +185,38 @@ li a {
   margin-top: 20px;
 }
 
-.info-landing {
-  margin-top: 200px;
-  margin-left: 60px;
-  font-size: 20px;
-  font-family: "Helvetica Neue", Helvetica, sans-serif; 
-}
-
-.info-bottom {
-  text-decoration: none;
-  bottom: 20px;
-  right: 20px; 
-  position: absolute;
-}
-
 /* Media queries */
 
 @media screen and (max-width: 990px) {
   .top {
-    top: 0;
+    top: 0;    
   }
+
   .bottom {
-    bottom: 0;
+    bottom:0;
   }
+
   .info {
     height: 0;
   }
+
   .partial {
     position: absolute;
     margin-left: 50%;
     margin-top: 80px;
     transform: translateX(-50%);
-  }
+}
+
   .validation {
     margin-top: -70px;
   }
+
   .responsive {
     width: 100%;
     position: absolute;
     height: 50vh;
   }
+
   #inner-form {
     transform: translateY(-60%);
   }
@@ -233,13 +224,15 @@ li a {
 
 @media screen and (max-width: 720px) {
   .top {
-    top: 0;
-    height: 55vh;
+    top: 0; 
+    height: 55vh;   
   }
+
   .bottom {
-    bottom: 0;
+    bottom:0;
     height: 45vh;
   }
+  
   .partial {
     margin-top: 100px;
   }
@@ -247,11 +240,12 @@ li a {
 
 @media screen and (max-width: 480px) {
   .top {
-    top: 0;
-    height: 60vh;
+    top: 0; 
+    height: 60vh;   
   }
+
   .bottom {
-    bottom: 0;
+    bottom:0;
     height: 40vh;
   }
 }

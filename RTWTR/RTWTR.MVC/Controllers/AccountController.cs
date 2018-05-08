@@ -24,14 +24,14 @@ namespace RTWTR.MVC.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IEmailSender _emailSender;
+        private readonly RTWTR.Service.External.IEmailSender _emailSender;
         private readonly ILogger _logger;
 
         public AccountController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             RoleManager<IdentityRole> roleManager,
-            IEmailSender emailSender,
+            RTWTR.Service.External.IEmailSender emailSender,
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
@@ -252,7 +252,7 @@ namespace RTWTR.MVC.Controllers
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
