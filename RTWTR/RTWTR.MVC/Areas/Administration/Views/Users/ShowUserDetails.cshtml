@@ -6,9 +6,21 @@
 
         <h1>@Model.User.Email</h1>
 
-        <form class="ajax-call ajax-delete" asp-area="Administration" asp-controller="Users" asp-action="DeleteUser" asp-route-userId="@Model.User.Id" method="POST">
-            <button type="submit" class="btn btn-sm btn-danger">Delete User</button>
-        </form>
+        @if (!@Model.User.IsDeleted)
+        {
+            <form id="@Model.User.Id" class="ajax-call active @Model.User.Id" asp-area="Administration" asp-controller="Users" asp-action="DeleteUser" asp-route-userId="@Model.User.Id" method="POST">
+                <button type="submit" class="btn btn-sm btn-danger">Delete User</button>
+            </form>
+        }
+        else
+        {
+            <form id="@Model.User.Id" class="ajax-call @Model.User.Id" asp-area="Administration" asp-controller="Users" asp-action="ActivateUser" asp-route-userId="@Model.User.Id" method="POST">
+                <button type="submit" class="btn btn-sm btn-danger disabled">Activate User</button>
+            </form>
+            <form id="@Model.User.Id" class="ajax-call hidden @Model.User.Id" asp-area="Administration" asp-controller="Users" asp-action="DeleteUser" asp-route-userId="@Model.User.Id" method="POST">
+                <button type="submit" class="btn btn-sm btn-danger">Delete User</button>
+            </form>
+        }
     </div>
     <ul class="list-unstyled list-inline">
         <li><a href="#users" data-toggle="collapse">Favourite Users</a></li>
@@ -50,14 +62,11 @@
             Favourite Accounts:@Model.Favourites.Count
             @foreach (var user in @Model.Favourites)
             {
-
                 <div class="col-md-6">
                     <h3>@user.Name</h3>
                     <h4>@@@user.ScreenName</h4>
                     <div class="text">@user.Description</div>
                 </div>
-
-            }
 
             }
         </div>

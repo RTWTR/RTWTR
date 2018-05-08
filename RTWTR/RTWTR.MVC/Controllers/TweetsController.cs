@@ -35,7 +35,8 @@ namespace RTWTR.MVC.Controllers
             ITweetService tweetService,
             IMappingProvider mapper,
             UserManager<User> userManager,
-            IMemoryCache memoryCache)
+            IMemoryCache memoryCache
+        )
         {
             this.tweetService = tweetService ?? throw new ArgumentNullException(nameof(tweetService));
             this.twitterService = twitterService ?? throw new ArgumentNullException(nameof(twitterService));
@@ -46,6 +47,7 @@ namespace RTWTR.MVC.Controllers
             this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
+        [Route("Tweets/Favourites/")]
         public IActionResult ShowUserFavouriteTweets(string userId)
         {
             if (userId.IsNullOrWhitespace())
@@ -65,6 +67,7 @@ namespace RTWTR.MVC.Controllers
             return View(model);
         }
 
+        [Route("Tweets/Timeline/")]
         public async Task<IActionResult> ShowTwitterUserTimeline(string screenName)
         {
             try

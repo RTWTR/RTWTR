@@ -81,6 +81,7 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
                 model.User = this.mapper.MapTo<MinifiedUserViewModel>(user);
                 model.Favourites = this.mapper.MapTo<ICollection<TwitterUserViewModel>>(favourites);
                 model.Tweets = new List<TweetViewModel>();
+                model.User.IsDeleted = this.userService.IsDeleted(model.User.Id);
                 foreach (var tweet in tweets)
                 {
                     var tweetToAdd = new TweetViewModel()
@@ -91,7 +92,6 @@ namespace RTWTR.MVC.Areas.Administration.Controllers
                         Text = tweet.Text,
                         TwitterUserName = tweet.TwitterUser.ScreenName,
                         TwitterUserProfileImageUrl = tweet.TwitterUser.ProfileImageUrl,
-
                     };
 
                     model.Tweets.Add(tweetToAdd);
